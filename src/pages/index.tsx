@@ -1,13 +1,8 @@
-import { type NextPage } from "next";
-import Layout from "~/layout";
-import { Container } from "@chakra-ui/react";
+import { type NextPage } from 'next';
+import Layout from '~/layout';
 
 const Home: NextPage = () => {
-  return (
-    <Layout title="Home">
-      <Container>Hello world</Container>
-    </Layout>
-  );
+  return <Layout title='Home'>Ini Home</Layout>;
 };
 
 export default Home;

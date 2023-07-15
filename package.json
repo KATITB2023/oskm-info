@@ -1,5 +1,5 @@
 {
-  "name": "t3-template",
+  "name": "@katitb2023/oskm-info",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -50,7 +50,7 @@
     "@trpc/server": "^10.26.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
-    "framer-motion": "^10.12.18",
+    "framer-motion": "^10.12.21",
     "next": "^13.4.2",
     "next-auth": "^4.22.1",
     "node-cron": "^3.0.2",
