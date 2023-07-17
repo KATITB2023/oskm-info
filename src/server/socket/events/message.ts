@@ -8,17 +8,18 @@ export const messageEvent = createEvent(
     name: "message",
     input: z.object({
       message: z.string().min(1),
-      receiverId: z.string().uuid(),
+      receiverId: z.string().uuid()
     }),
-    authRequired: true,
+    authRequired: true
   },
   async ({ ctx, input }) => {
+    console.log("NEW MESSAGE EVENT");
     const message = await ctx.prisma.message.create({
       data: {
         senderId: ctx.client.data.session.user.id,
         receiverId: input.receiverId,
-        message: input.message,
-      },
+        message: input.message
+      }
     });
     ctx.client.emit("add", message);
 
@@ -39,14 +40,15 @@ export const isTypingEvent = createEvent(
   {
     name: "isTyping",
     input: z.object({ typing: z.boolean() }),
-    authRequired: true,
+    authRequired: true
   },
   ({ ctx, input }) => {
+    console.log("IS CURRENTLY TYPING");
     if (!input.typing) {
       delete currentlyTyping[ctx.client.data.session.user.id];
     } else {
       currentlyTyping[ctx.client.data.session.user.id] = {
-        lastTyped: new Date(),
+        lastTyped: new Date()
       };
     }
 

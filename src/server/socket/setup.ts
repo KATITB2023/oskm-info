@@ -119,6 +119,7 @@ export type SocketClientInServer<AuthRequired = false> = Socket<
 >;
 
 export function setupSocket(io: SocketServer) {
+  console.log("setup socket");
   setupScheduleSocket(io);
   io.use((socket, next) => {
     getSession({ req: socket.request })
@@ -131,6 +132,7 @@ export function setupSocket(io: SocketServer) {
 
   // Setup all socket events here
   io.on("connection", (socket) => {
+    console.log("connection triggered");
     if (socket.data.session) {
       serverEvents.forEach((event) => event(io, socket));
       const socketId = socket.id;

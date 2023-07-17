@@ -67,6 +67,7 @@ exports.env = createEnv({
     ),
     // IF REDIS_URL is not set, will not using redis (memory cache)
     REDIS_URL: z.string().url(),
+    OPENAPI_KEY: z.string()
   },
 
   /**
@@ -76,7 +77,7 @@ exports.env = createEnv({
    */
   client: {
     NEXT_PUBLIC_API_URL: z.string().url(),
-    NEXT_PUBLIC_WS_URL: z.string().url(),
+    NEXT_PUBLIC_WS_URL: z.string(),
   },
 
   /**
@@ -100,6 +101,7 @@ exports.env = createEnv({
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
     REDIS_URL: process.env.REDIS_URL,
+    OPENAPI_KEY: process.env.OPENAPI_KEY
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
