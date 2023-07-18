@@ -13,7 +13,6 @@ export const messageEvent = createEvent(
     authRequired: true
   },
   async ({ ctx, input }) => {
-    console.log("NEW MESSAGE EVENT");
     const message = await ctx.prisma.message.create({
       data: {
         senderId: ctx.client.data.session.user.id,
@@ -43,7 +42,6 @@ export const isTypingEvent = createEvent(
     authRequired: true
   },
   ({ ctx, input }) => {
-    console.log("IS CURRENTLY TYPING");
     if (!input.typing) {
       delete currentlyTyping[ctx.client.data.session.user.id];
     } else {

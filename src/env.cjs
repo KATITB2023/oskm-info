@@ -77,7 +77,7 @@ exports.env = createEnv({
    */
   client: {
     NEXT_PUBLIC_API_URL: z.string().url(),
-    NEXT_PUBLIC_WS_URL: z.string(),
+    NEXT_PUBLIC_WS_URL: z.string().url()
   },
 
   /**
@@ -107,5 +107,5 @@ exports.env = createEnv({
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
    * This is especially useful for Docker builds.
    */
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  skipValidation: !!process.env.SKIP_ENV_VALIDATION
 });

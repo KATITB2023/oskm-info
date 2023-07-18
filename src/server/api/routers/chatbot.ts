@@ -73,7 +73,7 @@ export const chatbotRouter = createTRPCRouter({
 
       const similarities: similarityList[] = [];
       sourceEmbeddings.forEach((embedding) => {
-        const similarity = 1 - cosine(embedding.embeddings, questionEmbedding);
+        const similarity = cosine(embedding.embeddings, questionEmbedding);
         const similarityItems = {
           id: embedding.id,
           similarity: similarity
@@ -81,7 +81,7 @@ export const chatbotRouter = createTRPCRouter({
         similarities.push(similarityItems);
       });
 
-      similarities.sort((item1, item2) => item1.similarity - item2.similarity);
+      similarities.sort((item1, item2) => item2.similarity - item1.similarity);
 
       const correctArticle = similarities[0];
 
@@ -93,7 +93,21 @@ export const chatbotRouter = createTRPCRouter({
       }
       let completionParameters: CreateChatCompletionRequest;
 
-      if (correctArticle.similarity < 0.2) {
+      let articlesFound = false;
+      if (similarities.length > 1) {
+        if (
+          similarities[1] &&
+          correctArticle.similarity - similarities[1].similarity > 0.05
+        ) {
+          articlesFound = true;
+        }
+      } else {
+        if (correctArticle.similarity < 0.2) {
+          articlesFound = true;
+        }
+      }
+
+      if (articlesFound) {
         const article = await ctx.prisma.articles.findFirst({
           where: {
             id: correctArticle.id
@@ -142,6 +156,13 @@ export const chatbotRouter = createTRPCRouter({
       const response = await openai.createChatCompletion(completionParameters, {
         responseType: "stream"
       });
+
+      // const response = await openai.createChatCompletion(completionParameters);
+
+      // return {
+      //   similarity: similarities,
+      //   completion: response.data
+      // };
 
       const stream = response.data as unknown as IncomingMessage;
       stream.on("data", (chunk: Buffer) => {

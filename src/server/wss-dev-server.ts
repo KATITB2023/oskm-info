@@ -11,11 +11,11 @@ void (async () => {
   const io: SocketServer = new Server(port, {
     cors: {
       origin: env.NEXT_PUBLIC_API_URL,
-      credentials: true,
+      credentials: true
     },
     parser,
     adapter: await getAdapter(),
-    transports: ["websocket"],
+    transports: ["websocket"]
   });
 
   io.on("connection", (socket) => {
