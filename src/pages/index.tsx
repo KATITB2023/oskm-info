@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Image } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { type NextPage } from 'next';
 import Head from 'next/head';
 
@@ -69,19 +69,34 @@ const Home: NextPage = () => {
           zIndex='10'
           draggable='false'
         />
-        <Heading
-          fontSize={{ base: '2xl', lg: '6xl' }}
-          textAlign='center'
-          px={4}
-          textShadow={{ base: '0px 1px #E77A23', lg: '0px 3px #E77A23' }}
-        >
-          <Box as='span' color='#8D47E5'>
-            PREPARE TO {` `}
-          </Box>
-          <Box as='span' color='#4A58F6'>
-            launch
-          </Box>
-        </Heading>
+        <Flex flexDir={'column'}>
+          <Heading
+            fontSize={{ base: '2xl', lg: '6xl' }}
+            textAlign='center'
+            px={4}
+            textShadow={{ base: '0px 1px #E77A23', lg: '0px 3px #E77A23' }}
+          >
+            <Box as='span' color='#8D47E5'>
+              PREPARE TO {` `}
+            </Box>
+            <Box as='span' color='#4A58F6'>
+              launch
+            </Box>
+          </Heading>
+          <Center marginTop={'2'}>
+            <Text fontSize={{ base: 'md', lg: 'xl' }} color='#FFBE3B'>
+              Sponsor inquiries:&nbsp;
+              <a href='https://wa.me/087875257932'>{'087875257932'}</a>{' '}
+              (Sarayesa)
+            </Text>
+          </Center>
+          <Center>
+            <Text fontSize={{ base: 'md', lg: 'xl' }} color='#FFBE3B'>
+              Media partner inquiries:&nbsp;
+              <a href='https://wa.me/081281856144'>081281856144</a> (Stevani)
+            </Text>
+          </Center>
+        </Flex>
       </Center>
     </>
   );
