@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow yarn",
+    "prepare": "husky install",
     "prebuild": "yarn generate && yarn migrate-deploy",
     "build:1-next": "cross-env NODE_ENV=production next build",
     "build:2-server": "rm -rf build && tsc --project tsconfig.server.json && tsc-alias -p tsconfig.server.json",
