@@ -20,7 +20,8 @@ const theme = extendTheme({
           h: '1.5'
         },
         '&::-webkit-scrollbar-track': {
-          backgroundColor: 'transparent'
+          backgroundColor: 'navy.1',
+          boxShadow: 'inset 0 0 7px black'
         },
         '&::-webkit-scrollbar-thumb': {
           backgroundColor: 'purple.1',
