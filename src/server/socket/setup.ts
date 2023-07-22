@@ -6,7 +6,7 @@ import { type Message } from "@prisma/client";
 import type { ServerEventsResolver } from "~/server/socket/helper";
 import { setupScheduleSocket } from "~/server/socket/schedule";
 import { Redis } from "~/server/redis";
-import { isTypingEvent, messageEvent } from "~/server/socket/events/message";
+import { messageEvent } from "~/server/socket/events/message";
 import { addUserSockets, removeUserSockets } from "~/server/socket/room";
 
 /**
@@ -17,7 +17,7 @@ import { addUserSockets, removeUserSockets } from "~/server/socket/room";
  * @summary
  * DONT FORGET TO ADD THE EVENT TO THIS ARRAY
  */
-const serverEvents = [messageEvent, isTypingEvent] as const;
+const serverEvents = [messageEvent] as const;
 
 /**
  * @description
@@ -26,6 +26,12 @@ const serverEvents = [messageEvent, isTypingEvent] as const;
  * From backend, all of the events are created by using `createEvent` function.
  */
 export type ClientToServerEvents = ServerEventsResolver<typeof serverEvents>;
+
+interface QuestionData {
+  questionId: string;
+  message: string;
+  chatHistory: string;
+}
 
 /**
  * @description
@@ -53,6 +59,7 @@ export type ServerToClientEvents = {
   hello: (name: string) => void;
   whoIsTyping: (data: string[]) => void;
   add: (post: Message) => void;
+  question: (data: QuestionData) => void;
 };
 
 interface InterServerEvents {
@@ -119,7 +126,6 @@ export type SocketClientInServer<AuthRequired = false> = Socket<
 >;
 
 export function setupSocket(io: SocketServer) {
-  console.log("setup socket");
   setupScheduleSocket(io);
   io.use((socket, next) => {
     getSession({ req: socket.request })
@@ -132,17 +138,8 @@ export function setupSocket(io: SocketServer) {
 
   // Setup all socket events here
   io.on("connection", (socket) => {
-    console.log("connection triggered");
     if (socket.data.session) {
       serverEvents.forEach((event) => event(io, socket));
-      const socketId = socket.id;
-      const userId = socket.data.session.user.id;
-
-      void addUserSockets(userId, socketId);
-
-      socket.on("disconnect", () => {
-        void removeUserSockets(userId, socketId);
-      });
     }
   });
 }

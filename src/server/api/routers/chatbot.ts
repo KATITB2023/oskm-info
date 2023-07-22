@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Prisma } from "@prisma/client";
-import axios from "axios";
 import { z } from "zod";
 import { env } from "~/env.cjs";
 import {
@@ -17,32 +15,64 @@ import {
 import { cosine } from "ml-distance/lib/similarities";
 import { TRPCError } from "@trpc/server";
 import { IncomingMessage } from "http";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { HNSWLib } from "langchain/vectorstores/hnswlib";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 
-const configuration = new Configuration({
-  apiKey: env.OPENAPI_KEY
-});
-const openai = new OpenAIApi(configuration);
+// const configuration = new Configuration({
+//   apiKey: env.OPENAPI_KEY
+// });
+// const openai = new OpenAIApi(configuration);
 
 export const chatbotRouter = createTRPCRouter({
   addArticles: publicProcedure
-    .input(z.object({ text: z.string() }))
+    .input(z.object({ text: z.string(), keywords: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const embeddingParameters = {
-        model: "text-embedding-ada-002",
-        input: input.text
-      };
-      const sourceEmbedding = await openai.createEmbedding(embeddingParameters);
-
-      const create = await ctx.prisma.articles.create({
+      await ctx.prisma.articles.create({
         data: {
           text: input.text,
-
-          embeddings: sourceEmbedding.data.data[0]?.embedding
+          keywords: [input.keywords]
         }
       });
+      const textSplitter = new RecursiveCharacterTextSplitter();
+
+      const [articlesText] = await Promise.all([
+        ctx.prisma.articles.findMany({
+          select: {
+            text: true
+          }
+        })
+      ]);
+
+      const docs = await textSplitter.createDocuments(
+        articlesText.map((article) => {
+          return article.text;
+        })
+      );
+
+      const vectorStore = await HNSWLib.fromDocuments(
+        docs,
+        new OpenAIEmbeddings({ modelName: "text-embedding-ada-002" })
+      );
+
+      const directory = "src/server/chatbot/vector";
+      await vectorStore.save(directory);
+      // const embeddingParameters = {
+      //   model: "text-embedding-ada-002",
+      //   input: input.text
+      // };
+      // const sourceEmbedding = await openai.createEmbedding(embeddingParameters);
+
+      // await ctx.prisma.articles.create({
+      //   data: {
+      //     text: input.text,
+      //     keywords: input.keywords.split(","),
+      //     embeddings: sourceEmbedding.data.data[0]?.embedding
+      //   }
+      // });
 
       return {
-        message: "Successfully created new article"
+        message: "Articles successfully added"
       };
     }),
 

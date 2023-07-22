@@ -2,8 +2,8 @@
 import { Button, Flex, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   Controller,
   useForm,
@@ -14,27 +14,30 @@ import { P, match } from "ts-pattern";
 import { z } from "zod";
 import useEmit from "~/hooks/useEmit";
 
+interface ChatMessage {
+  id: string;
+  sender: string;
+  message: string;
+}
+
 const schema = z.object({
   text: z.string().min(1)
 });
 
 type FormValues = z.infer<typeof schema>;
 
-const AddMessageForm: React.FC<{ onMessagePost: () => void }> = ({
-  onMessagePost
-}) => {
-  const router = useRouter();
+const AddMessageForm: React.FC<{
+  onMessagePost: () => void;
+  chatHistory: ChatMessage[];
+}> = ({ onMessagePost, chatHistory }) => {
   const { data: session } = useSession({ required: true });
-  const pairId = router.query.pairId as string;
-
-  const isTyping = useEmit("isTyping");
 
   const messageEmit = useEmit("message", {
     onSuccess: () => {
       reset();
       onMessagePost();
       return;
-    }
+    },
   });
 
   // Form hooks
@@ -57,7 +60,15 @@ const AddMessageForm: React.FC<{ onMessagePost: () => void }> = ({
   const onSubmit: SubmitHandler<FormValues> = (data, event) => {
     event?.preventDefault();
     console.log("Submitting");
-    messageEmit.mutate({ message: data.text, receiverId: pairId });
+    const history = "";
+    chatHistory.forEach((chat) => {
+      history.concat(chat.message, "\n");
+    });
+    messageEmit.mutate({
+      questionId: uuidv4(),
+      message: data.text,
+      chatHistory: history
+    });
   };
 
   const onKeyDownCustom: React.KeyboardEventHandler<HTMLTextAreaElement> = (
@@ -67,8 +78,6 @@ const AddMessageForm: React.FC<{ onMessagePost: () => void }> = ({
 
     if (event.key === "Enter" && enterToPostMessage)
       void handleSubmit(onSubmit)(event);
-
-    isTyping.mutate({ typing: true });
   };
 
   const onKeyUpCustom: React.KeyboardEventHandler<HTMLTextAreaElement> = (
@@ -79,7 +88,6 @@ const AddMessageForm: React.FC<{ onMessagePost: () => void }> = ({
 
   const onBlurCustom: React.FocusEventHandler<HTMLTextAreaElement> = () => {
     setEnterToPostMessage(true);
-    isTyping.mutate({ typing: false });
   };
 
   const handleFormErrors = (errors: FieldErrors<FormValues>) =>
