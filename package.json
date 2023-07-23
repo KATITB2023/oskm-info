@@ -31,7 +31,7 @@
     "@emotion/styled": "^11.11.0",
     "@google-cloud/storage": "^6.11.0",
     "@hookform/resolvers": "^3.1.1",
-    "@katitb2023/database": "https://github.com/KATITB2023/database.git#43a388bb77c4feaac8f88eae941e8aab88c9da96",
+    "@katitb2023/database": "https://github.com/KATITB2023/database.git#e38875617ff2d138ab659a519d9785be9bcf3dc9",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@opentelemetry/api": "^1.4.1",
     "@opentelemetry/exporter-trace-otlp-http": "^0.40.0",

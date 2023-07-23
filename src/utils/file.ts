@@ -1,14 +1,21 @@
-import axios, { type AxiosProgressEvent } from "axios";
+import axios, { type AxiosProgressEvent } from 'axios';
 
 export enum FolderEnum {
-  PROFILE = "profile",
-  ASSIGNMENT = "assignment",
+  PROFILE = 'profile',
+  ASSIGNMENT = 'assignment'
 }
 
 export enum AllowableFileTypeEnum {
-  PDF = "application/pdf",
-  PNG = "image/png",
-  JPEG = "image/jpeg",
+  PDF = 'application/pdf',
+  PNG = 'image/png',
+  JPEG = 'image/jpeg'
+}
+
+export enum Lembaga {
+  HMJ = 'HMJ',
+  UKM = 'UKM',
+  PENGMAS = 'PENGMAS',
+  DLL = 'DLL'
 }
 
 export const uploadFile = async (
@@ -21,9 +28,9 @@ export const uploadFile = async (
 
   await axiosInstance.put<null>(url, file, {
     headers: {
-      "Content-Type": type,
+      'Content-Type': type
     },
-    onUploadProgress,
+    onUploadProgress
   });
 };
 
@@ -34,8 +41,8 @@ export const downloadFile = async (
   const axiosInstance = axios.create();
 
   const response = await axiosInstance.get<Blob>(url, {
-    responseType: "blob",
-    onDownloadProgress,
+    responseType: 'blob',
+    onDownloadProgress
   });
 
   return response.data;
