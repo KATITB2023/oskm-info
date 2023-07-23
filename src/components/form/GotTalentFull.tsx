@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 
-export const BookingFull = () => (
+export const GotTalentFull = () => (
   <Flex
     flexDir='column'
     alignItems='center'

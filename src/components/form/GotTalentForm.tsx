@@ -18,9 +18,9 @@ import { type BaseSyntheticEvent, useEffect, useState } from 'react';
 import { Controller, useForm, useFieldArray } from 'react-hook-form';
 import { type RouterInputs, api } from '~/utils/api';
 import { FaInfoCircle, FaMinus, FaPlus } from 'react-icons/fa';
-import { BookingFull } from './BookingFull';
+import { GotTalentFull } from './GotTalentFull';
 import _ from 'lodash';
-import { BookingSubmitted } from './BookingSubmitted';
+import { GotTalentSubmitted } from './GotTalentSubmitted';
 
 interface FormValue {
   name: string;
@@ -42,7 +42,7 @@ interface Date {
 }
 
 // TODO: handle kalau dah submit
-export const BookingShowcaseForm = () => {
+export const GotTalentForm = () => {
   const { control, register, formState, setValue, getValues, watch } = useForm({
     mode: 'onSubmit',
     defaultValues: {
@@ -107,7 +107,10 @@ export const BookingShowcaseForm = () => {
     });
   };
 
-  const submitBooking = async (data: FormValue, event: BaseSyntheticEvent) => {
+  const submitGotTalent = async (
+    data: FormValue,
+    event: BaseSyntheticEvent
+  ) => {
     event.preventDefault();
     setLoading(true);
 
@@ -167,7 +170,7 @@ export const BookingShowcaseForm = () => {
   }, [dateData, setValue]);
 
   if (_.isEmpty(dateList) && !dateQuery.isLoading) {
-    return <BookingFull />;
+    return <GotTalentFull />;
   }
 
   if (formState.isSubmitSuccessful) {
@@ -178,7 +181,7 @@ export const BookingShowcaseForm = () => {
         ?.time ?? '';
     console.log(time);
     console.log(dateList[date]);
-    return <BookingSubmitted date={date} time={time} />;
+    return <GotTalentSubmitted date={date} time={time} />;
   }
 
   return (
@@ -202,7 +205,9 @@ export const BookingShowcaseForm = () => {
         ITB GOT TALENT
       </Heading>
       <form
-        onSubmit={(e: BaseSyntheticEvent) => void submitBooking(getValues(), e)}
+        onSubmit={(e: BaseSyntheticEvent) =>
+          void submitGotTalent(getValues(), e)
+        }
       >
         <VStack spacing={4} mt={5} color='white'>
           <FormControl isInvalid={!!formState.errors.name}>

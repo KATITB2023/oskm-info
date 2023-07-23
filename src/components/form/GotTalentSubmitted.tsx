@@ -5,7 +5,7 @@ interface Props {
   time: string;
 }
 
-export const BookingSubmitted = ({ date, time }: Props) => (
+export const GotTalentSubmitted = ({ date, time }: Props) => (
   <Flex
     flexDir='column'
     alignItems='center'

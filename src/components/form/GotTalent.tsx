@@ -1,7 +1,7 @@
 import { Flex, Image } from '@chakra-ui/react';
-import { BookingShowcaseForm } from './BookingShowcaseForm';
+import { GotTalentForm } from './GotTalentForm';
 
-export const BookingShowcase = () => (
+export const GotTalent = () => (
   <Flex
     backgroundImage='/images/bg-coming-soon.png'
     backgroundSize='cover'
@@ -46,6 +46,6 @@ export const BookingShowcase = () => (
       draggable='false'
       loading='lazy'
     />
-    <BookingShowcaseForm />
+    <GotTalentForm />
   </Flex>
 );
