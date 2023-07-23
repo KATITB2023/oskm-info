@@ -1,6 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 import { colors } from './component/colors';
 import { Button } from './component/button';
+import { Input } from './component/input';
 
 const theme = extendTheme({
   fonts: {
@@ -11,7 +12,7 @@ const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: 'black',
+        bg: 'navy.1',
         color: 'oranye'
       },
       '*': {
@@ -20,18 +21,20 @@ const theme = extendTheme({
           h: '1.5'
         },
         '&::-webkit-scrollbar-track': {
-          backgroundColor: 'navy.1',
+          backgroundColor: 'oranye',
           boxShadow: 'inset 0 0 7px black'
         },
         '&::-webkit-scrollbar-thumb': {
-          backgroundColor: 'purple.1',
+          backgroundColor: 'green.1',
+          boxShadow: 'inset 0 0 2px black',
           borderRadius: '4'
         }
       }
     }
   },
   components: {
-    Button
+    Button,
+    Input
   }
 });
 
