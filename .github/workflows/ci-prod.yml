@@ -58,6 +58,6 @@ jobs:
           key: ${{ secrets.SSH_KEY_PROD }}
           script: |
             cd /var/www/html
-            docker-compose pull
-            docker-compose up -d --remove-orphans
+            docker compose pull
+            docker compose up -d --remove-orphans
             docker image prune -f
