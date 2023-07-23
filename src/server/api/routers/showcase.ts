@@ -23,7 +23,7 @@ export const showcaseRouter = createTRPCRouter({
         teamMember: z.string().array(),
         ktmPath: z.string(),
         musicPath: z.string().optional(),
-        property: z.string().optional(),
+        property: z.string().array().optional(),
         scheduleId: z.string()
       })
     )

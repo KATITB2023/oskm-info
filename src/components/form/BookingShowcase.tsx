@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
+import { Flex, Image } from '@chakra-ui/react';
 import { BookingShowcaseForm } from './BookingShowcaseForm';
 
 export const BookingShowcase = () => (
