@@ -80,7 +80,7 @@ const Home: NextPage = () => {
               PREPARE TO {` `}
             </Box>
             <Box as='span' color='#4A58F6'>
-              launch
+              launch!
             </Box>
           </Heading>
           <Center marginTop={'2'}>
