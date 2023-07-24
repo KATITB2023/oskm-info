@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Text, Textarea } from "@chakra-ui/react";
 import { type Message } from "@prisma/client";
 import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
@@ -8,25 +8,35 @@ import AddMessageForm from "~/components/AddMessageForm";
 import useSubscription from "~/hooks/useSubscription";
 import Layout from "~/layout";
 import { v4 as uuidv4 } from "uuid";
+import useEmit from "~/hooks/useEmit";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+import { type QuestionData } from "~/server/socket/setup";
+
+enum QuestionRole {
+  USER = "User",
+  CHATBOT = "OSKM GPT"
+}
 
 interface ChatMessage {
   id: string;
-  sender: string;
+  sender: QuestionRole;
   message: string;
 }
 
-interface QuestionData {
-  questionId: string;
-  message: string;
-  chatHistory: string;
-}
+const schema = z.object({
+  text: z.string().min(1)
+});
+
+type FormValues = z.infer<typeof schema>;
 
 const Chat: NextPage = () => {
   const { data: session } = useSession({ required: true });
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [questionAdded, setQuestionAdded] = useState(false);
-  const [messageAdded, setMessageAdded] = useState<QuestionData>();
+  const [socketMessage, setSocketMessage] = useState<QuestionData>();
+
+  const { register, handleSubmit, reset } = useForm<FormValues>();
 
   // HTML element that is scrolled to when new messages are added
   const scrollTargetRef = useRef<HTMLDivElement>(null);
@@ -45,44 +55,69 @@ const Chat: NextPage = () => {
   }, [scrollToBottomOfList]);
 
   useEffect(() => {
-    if (messageAdded) {
+    if (socketMessage) {
       // Find the gpt message in the array
       const gptMessage = messages.find(
-        (item) => item.id === messageAdded.questionId
+        (item) => item.id === socketMessage.questionId
       );
       // If found, continously append that message
       if (gptMessage) {
-        gptMessage.message = gptMessage.message.concat(messageAdded.message);
+        gptMessage.message = gptMessage.message.concat(socketMessage.message);
       } else {
-        if (!questionAdded) {
-          setQuestionAdded(true);
-          setMessages([
-            ...messages,
-            {
-              id: uuidv4(),
-              sender: "Me",
-              message: messageAdded.message
-            }
-          ]);
-        } else {
-          setMessages([
-            ...messages,
-            {
-              id: messageAdded.questionId,
-              sender: "OSKM GPT",
-              message: messageAdded.message
-            }
-          ]);
-          setQuestionAdded(false);
-        }
+        setMessages([
+          ...messages,
+          {
+            id: socketMessage.questionId,
+            sender: QuestionRole.CHATBOT,
+            message: socketMessage.message
+          }
+        ]);
       }
     }
-  }, [messageAdded]);
+  }, [socketMessage]);
 
   useSubscription("question", (data) => {
     // console.log(data, "receiving data from socket");
-    setMessageAdded(data);
+    setSocketMessage(data);
   });
+
+  const messageEmit = useEmit("message");
+
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    setMessages([
+      ...messages,
+      { id: uuidv4(), sender: QuestionRole.USER, message: data.text }
+    ]);
+
+    let history = "";
+    messages.slice(-10).forEach((chat, index) => {
+      if (chat.sender === QuestionRole.USER) {
+        history += `Human: ${chat.message}`;
+      } else {
+        history += `AI: ${chat.message}`;
+      }
+
+      if (index !== messages.length - 1) {
+        history += "\n";
+      }
+    });
+
+    messageEmit.mutate({
+      questionId: uuidv4(),
+      role: QuestionRole.USER,
+      message: data.text,
+      chatHistory: history
+    });
+
+    reset();
+    scrollToBottomOfList();
+  };
+
+  const onKeyDownCustom: React.KeyboardEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
+    if (event.key === "Enter") void handleSubmit(onSubmit)(event);
+  };
 
   return (
     <Layout title='Chat'>
@@ -102,20 +137,24 @@ const Chat: NextPage = () => {
                   direction={"column"}
                   rowGap={"0.25rem"}
                   bgColor={
-                    item.sender === "Me"
+                    item.sender === QuestionRole.USER
                       ? "rgba(255, 255, 255, 0.50)"
                       : "rgba(17, 117, 132, 0.50)"
                   }
-                  color={item.sender === "Me" ? "black" : "white"}
+                  color={item.sender === QuestionRole.USER ? "black" : "white"}
                   padding={"10px"}
                   borderRadius={
-                    item.sender === "Me"
+                    item.sender === QuestionRole.USER
                       ? "10px 10px 0px 10px"
                       : "10px 10px 10px 0px"
                   }
                   width={"75%"}
-                  placeSelf={item.sender === "Me" ? "end" : "start"}
-                  alignItems={item.sender === "Me" ? "end" : "start"}
+                  placeSelf={
+                    item.sender === QuestionRole.USER ? "end" : "start"
+                  }
+                  alignItems={
+                    item.sender === QuestionRole.USER ? "end" : "start"
+                  }
                 >
                   <Flex as={"header"} columnGap={"2px"}>
                     <h3>{item.sender}</h3>
@@ -128,11 +167,29 @@ const Chat: NextPage = () => {
               <Flex ref={scrollTargetRef}></Flex>
             </Flex>
           </Flex>
-          <Flex w={"full"} direction={"column"}>
-            <AddMessageForm
-              onMessagePost={() => scrollToBottomOfList()}
-              chatHistory={messages}
+          <Flex
+            as={"form"}
+            w={"full"}
+            columnGap={"1rem"}
+            onSubmit={void handleSubmit(onSubmit)}
+          >
+            <Textarea
+              rows={1}
+              bg={"white"}
+              color={"black"}
+              autoFocus
+              onKeyDown={onKeyDownCustom}
+              {...register("text")}
             />
+            <Button
+              type='submit'
+              rounded={"lg"}
+              px={"1rem"}
+              py={"0.25rem"}
+              bg={"#6366f1"}
+            >
+              Submit
+            </Button>
           </Flex>
         </Flex>
       </Flex>

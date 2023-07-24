@@ -16,7 +16,6 @@ import { ZodError } from "zod";
 import { bucket } from "~/server/bucket";
 import { prisma } from "~/server/db";
 import { tracer } from "~/server/tracer";
-import { chatbot } from "~/server/chatbot";
 import { getServerAuthSession } from "~/server/auth";
 
 /**
@@ -46,8 +45,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
     session: opts.session,
     prisma,
     tracer,
-    bucket,
-    chatbot
+    bucket
   };
 };
 

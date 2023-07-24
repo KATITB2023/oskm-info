@@ -2,7 +2,7 @@
 import { Button, Flex, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   Controller,
@@ -37,7 +37,7 @@ const AddMessageForm: React.FC<{
       reset();
       onMessagePost();
       return;
-    },
+    }
   });
 
   // Form hooks
@@ -64,11 +64,16 @@ const AddMessageForm: React.FC<{
     chatHistory.forEach((chat) => {
       history.concat(chat.message, "\n");
     });
+
+    console.log(chatHistory);
     messageEmit.mutate({
       questionId: uuidv4(),
       message: data.text,
       chatHistory: history
     });
+
+    reset();
+    onMessagePost();
   };
 
   const onKeyDownCustom: React.KeyboardEventHandler<HTMLTextAreaElement> = (
@@ -126,7 +131,7 @@ const AddMessageForm: React.FC<{
       onSubmit={(event) => void handleSubmit(onSubmit)(event)}
       w={"full"}
     >
-      <Flex as={"fieldset"} disabled={messageEmit.isLoading} w={"full"}>
+      <Flex as={"fieldset"} w={"full"}>
         <Flex w={"full"} grow={"1"} columnGap={"1rem"}>
           <Controller
             name='text'

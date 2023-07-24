@@ -27,8 +27,14 @@ const serverEvents = [messageEvent] as const;
  */
 export type ClientToServerEvents = ServerEventsResolver<typeof serverEvents>;
 
-interface QuestionData {
+enum QuestionRole {
+  USER = "User",
+  CHATBOT = "OSKM GPT"
+}
+
+export interface QuestionData {
   questionId: string;
+  role: QuestionRole;
   message: string;
   chatHistory: string;
 }
