@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { type NextPage } from 'next';
 import Head from 'next/head';
 
@@ -13,76 +13,91 @@ const Home: NextPage = () => {
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Center minH='100vh' position='relative'>
+      <Flex
+        minH='100vh'
+        backgroundImage='/images/bg-coming-soon.png'
+        backgroundSize='cover'
+        backgroundPosition='center'
+        backgroundRepeat='no-repeat'
+        alignItems='center'
+        justifyContent='center'
+        flexDirection='column'
+        gap={5}
+        px={6}
+      >
         <Image
-          src='/images/background.png'
-          alt=''
-          position='absolute'
-          zIndex='-1'
-          w='100%'
-          h='100%'
-          objectFit='cover'
-          objectPosition='center'
+          src='/images/coming-soon.png'
+          alt='coming-soon'
+          w={{ base: '200px', md: '350px' }}
           draggable='false'
         />
         <Image
-          src='/images/shooting-star-left.png'
+          src='/images/komet.png'
           display={{ base: 'none', md: 'block' }}
           alt=''
           position='absolute'
-          w='35%'
+          w='20%'
           top='0'
           left='0'
           zIndex='10'
           draggable='false'
         />
         <Image
-          src='/images/shooting-star-right.png'
+          src='/images/bulan.png'
           display={{ base: 'none', md: 'block' }}
           alt=''
           position='absolute'
-          w='35%'
-          top='0'
+          w='15%'
+          bottom='0'
+          left='-3%'
+          zIndex='10'
+          draggable='false'
+        />
+        <Image
+          src='/images/munaroh.png'
+          display={{ base: 'none', md: 'block' }}
+          alt=''
+          position='absolute'
+          w='10%'
+          top='10%'
           right='0'
           zIndex='10'
           draggable='false'
         />
         <Image
-          src='/images/mini-star-right.png'
+          src='/images/spark.png'
           display={{ base: 'none', md: 'block' }}
           alt=''
           position='absolute'
-          w='35%'
-          bottom='0'
-          right='0'
+          w='20%'
+          bottom='5%'
+          left='12%'
           zIndex='10'
           draggable='false'
         />
-        <Image
-          src='/images/mini-star-left.png'
-          display={{ base: 'none', md: 'block' }}
-          alt=''
-          position='absolute'
-          w='35%'
-          bottom='0'
-          left='0'
-          zIndex='10'
-          draggable='false'
-        />
-        <Flex flexDir={'column'}>
-          <Heading
-            fontSize={{ base: '2xl', lg: '6xl' }}
-            textAlign='center'
-            px={4}
-            textShadow={{ base: '0px 1px #E77A23', lg: '0px 3px #E77A23' }}
-          >
-            <Box as='span' color='#8D47E5'>
-              PREPARE TO {` `}
-            </Box>
-            <Box as='span' color='#4A58F6'>
-              launch
-            </Box>
-          </Heading>
+        <Heading
+          fontSize={{ base: '2xl', md: '5xl' }}
+          textAlign='center'
+          px={4}
+          textShadow={{ base: '0px 2px orange', md: '0px 3px orange' }}
+        >
+          <Box as='span' color='purple.5'>
+            COMING{' '}
+          </Box>
+          <Box as='span' color='navy.5'>
+            SOON!
+          </Box>
+        </Heading>
+        <Box
+          fontSize={{ base: 'sm', md: 'lg' }}
+          textAlign='center'
+          fontFamily='Bodwars'
+          color='green.4'
+        >
+          <Text>BERSIAPLAH VOYAGERS!</Text>
+          <Text>SESUATU YANG MENAKJUBKAN AKAN SEGERA DATANG!</Text>
+        </Box>
+        {/* <Flex flexDir={'column'}>
           <Center marginTop={'2'}>
             <Text fontSize={{ base: 'md', lg: 'xl' }} color='#FFBE3B'>
               Sponsor inquiries:&nbsp;
@@ -96,8 +111,8 @@ const Home: NextPage = () => {
               <a href='https://wa.me/081281856144'>081281856144</a> (Stevani)
             </Text>
           </Center>
-        </Flex>
-      </Center>
+        </Flex> */}
+      </Flex>
     </>
   );
 };
