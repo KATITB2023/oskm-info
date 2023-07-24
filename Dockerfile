@@ -1,12 +1,12 @@
 ##### DEPENDENCIES
 
 FROM --platform=linux/amd64 node:18-alpine3.17 AS deps
-RUN apk add --no-cache libc6-compat openssl1.1-compat
+RUN apk add --no-cache libc6-compat openssl1.1-compat git openssh
+# RUN mkdir -p /root/.ssh
+# RUN chmod 0700 /root/.ssh
+# RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 WORKDIR /app
 
-# Install Prisma Client - remove if not using Prisma
-
-COPY prisma ./
 
 # Install dependencies based on the preferred package manager
 
@@ -25,6 +25,9 @@ FROM --platform=linux/amd64 node:18-alpine3.17 AS builder
 ARG DATABASE_URL
 ARG NEXT_PUBLIC_API_URL
 ARG NEXT_PUBLIC_WS_URL
+ENV DATABASE_URL=$DATABASE_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_WS_URL=$NEXT_PUBLIC_WS_URL
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -55,10 +58,10 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 EXPOSE 3000
 ENV PORT 3000
 
-CMD ["node", "dist/server/prod-server.js"]
+CMD ["node", "server.js"]
