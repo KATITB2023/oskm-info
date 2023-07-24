@@ -1,11 +1,10 @@
 import { Server } from "socket.io";
 import { env } from "~/env.cjs";
-import { currentlyTypingSchedule } from "~/server/socket/schedule";
 import parser from "~/server/socket/parser";
 import type { SocketServer } from "~/server/socket/setup";
-import { getAdapter, setupSocket } from "~/server/socket/setup";
+import { setupSocket } from "~/server/socket/setup";
 
-void (async () => {
+void (() => {
   const port = parseInt(process.env.PORT || "3001", 10);
 
   const io: SocketServer = new Server(port, {
@@ -14,7 +13,6 @@ void (async () => {
       credentials: true
     },
     parser,
-    adapter: await getAdapter(),
     transports: ["websocket"]
   });
 
@@ -29,15 +27,9 @@ void (async () => {
 
   console.log(`WebSocket Server listening on ws://localhost:${port}`);
 
-  // Start Schedule
-  currentlyTypingSchedule.start();
-
   // On SIGTERM
   process.on("SIGTERM", () => {
     console.log("SIGTERM");
-
-    // Stop Schedule
-    currentlyTypingSchedule.stop();
 
     // Close WebSocket Server
     io.close();

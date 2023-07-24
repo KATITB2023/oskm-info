@@ -59,14 +59,6 @@ exports.env = createEnv({
       // BUCKET_CORS_EXPIRATION_TIME must be a positive integer
       z.number().int().positive().min(1)
     ),
-    TYPING_TIMEOUT: z.preprocess(
-      // If TYPING_TIMEOUT is not set, set it to 1000 ms
-      (str) => (str ? +str : 1000),
-      // TYPING_TIMEOUT must be a positive integer
-      z.number().int().positive().min(1)
-    ),
-    // IF REDIS_URL is not set, will not using redis (memory cache)
-    REDIS_URL: z.string().url(),
     OPENAI_API_KEY: z.string()
   },
 
@@ -97,10 +89,8 @@ exports.env = createEnv({
     BUCKET_NAME: process.env.BUCKET_NAME,
     URL_EXPIRATION_TIME: process.env.URL_EXPIRATION_TIME,
     BUCKET_CORS_EXPIRATION_TIME: process.env.BUCKET_CORS_EXPIRATION_TIME,
-    TYPING_TIMEOUT: process.env.TYPING_TIMEOUT,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
-    REDIS_URL: process.env.REDIS_URL,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY
   },
   /**

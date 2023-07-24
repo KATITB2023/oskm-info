@@ -7,14 +7,11 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { BufferWindowMemory } from "langchain/memory";
 
 enum QuestionRole {
   USER = "User",
   CHATBOT = "OSKM GPT"
 }
-
-const memory = new BufferWindowMemory({ k: 5, memoryKey: "chat_history" });
 
 export const messageEvent = createEvent(
   {
@@ -35,7 +32,6 @@ export const messageEvent = createEvent(
       callbacks: [
         {
           handleLLMNewToken(token) {
-            console.log(token);
             ctx.io.emit("question", {
               questionId: input.questionId,
               role: QuestionRole.CHATBOT,
@@ -54,19 +50,17 @@ export const messageEvent = createEvent(
       new OpenAIEmbeddings({ modelName: "text-embedding-ada-002" })
     );
 
-    console.log();
-
     const chain = ConversationalRetrievalQAChain.fromLLM(
       model,
       vectorStore.asRetriever(3),
       {
-        memory: memory,
         verbose: true
       }
     );
 
     await chain.call({
-      question: input.message
+      question: input.message,
+      chat_history: input.chatHistory
     });
   }
 );

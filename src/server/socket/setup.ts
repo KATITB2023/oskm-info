@@ -4,10 +4,7 @@ import { getSession } from "next-auth/react";
 import type { Server, Socket } from "socket.io";
 import { type Message } from "@prisma/client";
 import type { ServerEventsResolver } from "~/server/socket/helper";
-import { setupScheduleSocket } from "~/server/socket/schedule";
-import { Redis } from "~/server/redis";
 import { messageEvent } from "~/server/socket/events/message";
-import { addUserSockets, removeUserSockets } from "~/server/socket/room";
 
 /**
  * @description server events are events that are emmited from the client to the server.
@@ -132,7 +129,6 @@ export type SocketClientInServer<AuthRequired = false> = Socket<
 >;
 
 export function setupSocket(io: SocketServer) {
-  setupScheduleSocket(io);
   io.use((socket, next) => {
     getSession({ req: socket.request })
       .then((session) => {
@@ -148,9 +144,4 @@ export function setupSocket(io: SocketServer) {
       serverEvents.forEach((event) => event(io, socket));
     }
   });
-}
-
-export async function getAdapter() {
-  const redisClient = await Redis.getClient();
-  return createAdapter(redisClient);
 }

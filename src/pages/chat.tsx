@@ -24,6 +24,12 @@ interface ChatMessage {
   message: string;
 }
 
+interface Tries {
+  id: string;
+  tries: number;
+  startTime: Date;
+}
+
 const schema = z.object({
   text: z.string().min(1)
 });
@@ -31,10 +37,11 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const Chat: NextPage = () => {
-  const { data: session } = useSession({ required: true });
+  const session = useSession({ required: true });
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [socketMessage, setSocketMessage] = useState<QuestionData>();
+  const [canAsk, setCanAsk] = useState(true);
 
   const { register, handleSubmit, reset } = useForm<FormValues>();
 
@@ -54,13 +61,12 @@ const Chat: NextPage = () => {
     scrollToBottomOfList();
   }, [scrollToBottomOfList]);
 
+  // Appending GPT Message
   useEffect(() => {
     if (socketMessage) {
-      // Find the gpt message in the array
       const gptMessage = messages.find(
         (item) => item.id === socketMessage.questionId
       );
-      // If found, continously append that message
       if (gptMessage) {
         gptMessage.message = gptMessage.message.concat(socketMessage.message);
       } else {
@@ -77,40 +83,131 @@ const Chat: NextPage = () => {
   }, [socketMessage]);
 
   useSubscription("question", (data) => {
-    // console.log(data, "receiving data from socket");
     setSocketMessage(data);
   });
+
+  useEffect(() => {
+    if (session.data?.user.id) {
+      const request = indexedDB.open("ChatbotTries");
+      request.onupgradeneeded = (event) => {
+        const db = (event.target as IDBOpenDBRequest).result;
+
+        if (!db.objectStoreNames.contains("triesStore")) {
+          db.createObjectStore("triesStore", { keyPath: "id" });
+        }
+      };
+
+      request.onsuccess = (event) => {
+        const db = (event.target as IDBOpenDBRequest).result;
+
+        const transaction = db.transaction("triesStore", "readwrite");
+        const store = transaction.objectStore("triesStore");
+
+        const getRequest = store.get(session.data.user.id);
+
+        getRequest.onsuccess = () => {
+          const data = getRequest.result as Tries;
+
+          if (data) {
+            const curDate = new Date();
+            if (curDate.getDate() != data.startTime.getDate()) {
+              setCanAsk(true);
+              const putRequest = store.put({
+                id: session.data.user.id,
+                tries: 1,
+                startTime: new Date()
+              });
+              putRequest.onsuccess = () => {
+                console.log("Reset success");
+              };
+            } else {
+              if (data.tries > 2) {
+                setCanAsk(false);
+              }
+            }
+          }
+        };
+      };
+    }
+  }, [session.data?.user.id]);
 
   const messageEmit = useEmit("message");
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    setMessages([
-      ...messages,
-      { id: uuidv4(), sender: QuestionRole.USER, message: data.text }
-    ]);
+    const request = indexedDB.open("ChatbotTries");
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result;
 
-    let history = "";
-    messages.slice(-10).forEach((chat, index) => {
-      if (chat.sender === QuestionRole.USER) {
-        history += `Human: ${chat.message}`;
-      } else {
-        history += `AI: ${chat.message}`;
+      if (!db.objectStoreNames.contains("triesStore")) {
+        db.createObjectStore("triesStore", { keyPath: "id" });
       }
+    };
 
-      if (index !== messages.length - 1) {
-        history += "\n";
-      }
-    });
+    request.onsuccess = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result;
 
-    messageEmit.mutate({
-      questionId: uuidv4(),
-      role: QuestionRole.USER,
-      message: data.text,
-      chatHistory: history
-    });
+      const transaction = db.transaction("triesStore", "readwrite");
+      const store = transaction.objectStore("triesStore");
 
-    reset();
-    scrollToBottomOfList();
+      const getRequest = store.get(session.data?.user.id as string);
+
+      getRequest.onsuccess = () => {
+        const data = getRequest.result as Tries;
+
+        if (data) {
+          console.log(data.tries, "tries");
+          if (data.tries > 1) {
+            setCanAsk(false);
+          } else {
+            data.tries = data.tries + 1;
+
+            const putRequest = store.put(data);
+            putRequest.onsuccess = () => {
+              console.log("Put success");
+            };
+          }
+        } else {
+          const addRequest = store.add({
+            id: session.data?.user.id as string,
+            tries: 1,
+            startTime: new Date()
+          });
+          addRequest.onsuccess = () => {
+            console.log("Add success");
+          };
+        }
+      };
+    };
+
+    if (canAsk) {
+      setMessages([
+        ...messages,
+        { id: uuidv4(), sender: QuestionRole.USER, message: data.text }
+      ]);
+
+      let history = "";
+      messages.slice(-10).forEach((chat, index) => {
+        if (chat.sender === QuestionRole.USER) {
+          history += `Human: ${chat.message}`;
+        } else {
+          history += `AI: ${chat.message}`;
+        }
+
+        if (index !== messages.length - 1) {
+          history += "\n";
+        }
+      });
+
+      messageEmit.mutate({
+        questionId: uuidv4(),
+        role: QuestionRole.USER,
+        message: data.text,
+        chatHistory: history
+      });
+
+      reset();
+      scrollToBottomOfList();
+    }
   };
 
   const onKeyDownCustom: React.KeyboardEventHandler<HTMLTextAreaElement> = (
@@ -122,7 +219,14 @@ const Chat: NextPage = () => {
   return (
     <Layout title='Chat'>
       <Flex h={"92vh"} direction={"column"}>
-        <Flex h={"full"} w={"full"} direction={"column"} bg={"gray"} p={"1rem"}>
+        <Flex
+          h={"full"}
+          w={"full"}
+          direction={"column"}
+          bg={"gray"}
+          p={"1rem"}
+          rowGap={"1rem"}
+        >
           <Flex overflowY={"auto"} direction={"column"} h={"full"}>
             <Flex
               rowGap={"28px"}
@@ -179,6 +283,7 @@ const Chat: NextPage = () => {
               color={"black"}
               autoFocus
               onKeyDown={onKeyDownCustom}
+              disabled={!canAsk}
               {...register("text")}
             />
             <Button
@@ -191,6 +296,11 @@ const Chat: NextPage = () => {
               Submit
             </Button>
           </Flex>
+          {!canAsk ? (
+            <Text color={"black"} fontWeight={700}>
+              You have reached your daily limit
+            </Text>
+          ) : null}
         </Flex>
       </Flex>
     </Layout>
