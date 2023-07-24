@@ -52,10 +52,89 @@ const outlineButton: SystemStyleFunction = () => {
   };
 };
 
+const monoBlackButton: SystemStyleFunction = () => {
+  return {
+    color: 'white',
+    bg: 'black',
+    borderRadius: '12',
+    _hover: {
+      bg: 'yellow.5',
+      shadow: '0 0 24px rgba(255,200,4,0.6)',
+      _disabled: {
+        bg: 'gray.400',
+        shadow: 'none'
+      }
+    },
+    _active: {
+      bg: 'yellow.4',
+      shadow: 'none'
+    },
+    _disabled: {
+      color: 'white',
+      bg: 'gray.400'
+    }
+  };
+};
+
+const monoGrayButton: SystemStyleFunction = () => {
+  return {
+    color: 'white',
+    bg: 'gray.600',
+    borderRadius: '12',
+    _hover: {
+      bg: 'yellow.5',
+      shadow: '0 0 24px rgba(255,200,4,0.6)',
+      _disabled: {
+        bg: 'gray.400',
+        shadow: 'none'
+      }
+    },
+    _active: {
+      bg: 'yellow.4',
+      shadow: 'none'
+    },
+    _disabled: {
+      color: 'white',
+      bg: 'gray.400'
+    }
+  };
+};
+
+const monoOutlineButton: SystemStyleFunction = () => {
+  return {
+    color: 'gray.500',
+    borderWidth: '2px',
+    borderColor: 'gray.500',
+    bg: `transparent`,
+    borderRadius: '12',
+    _hover: {
+      bg: 'gray.600',
+      shadow: '0 0 24px rgba(255,200,4,0.6)',
+      color: 'white',
+      _disabled: {
+        bg: 'transparent',
+        shadow: 'none'
+      }
+    },
+    _active: {
+      bg: 'rgba(47, 46, 46, 0.6)',
+      shadow: 'none'
+    },
+    _disabled: {
+      color: 'gray.500',
+      bg: 'transparent',
+      borderColor: 'gray.400'
+    }
+  };
+};
+
 export const Button: ComponentStyleConfig = {
   variants: {
     solid: defaultButton,
-    outline: outlineButton
+    outline: outlineButton,
+    'mono-black': monoBlackButton,
+    'mono-gray': monoGrayButton,
+    'mono-outline': monoOutlineButton
   },
   defaultProps: {
     variant: 'solid'
