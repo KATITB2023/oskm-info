@@ -93,5 +93,41 @@ export const showcaseRouter = createTRPCRouter({
       return {
         message: 'Register success'
       };
+    }),
+
+  addLocation: publicProcedure
+    .input(
+      z.object({
+        token: z.string(),
+        locations: z.string().array()
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.locationBooking.create({
+        data: {
+          token: input.token,
+          locations: input.locations
+        }
+      });
+
+      return {
+        message: 'Added new location'
+      };
+    }),
+
+  getLocation: publicProcedure
+    .input(
+      z.object({
+        token: z.string()
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const location = await ctx.prisma.locationBooking.findFirst({
+        where: {
+          token: input.token
+        }
+      });
+
+      return location;
     })
 });
