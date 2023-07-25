@@ -1,26 +1,24 @@
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Layout from '~/layout';
 import { Card, Flex, Grid, Text, Image } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
+import MerchCard from './merchcard';
 
 export default function Merch() {
   return (
     <>
       <Layout title='Merch'>
         <Flex
-          minH='150vh'
+          minH='200vh'
           position='absolute'
           w='100%'
-          top='0'
-          left='0'
-          bottom='0'
+          inset='0'
           flexDirection='column'
           gap='5rem'
           backgroundImage='/images/merch-blur.png'
           backgroundSize='cover'
-          backgroundRepeat='no-repeat'
           alignItems='center'
+          backgroundPosition='center center'
+          overflowX='hidden'
         >
           <Text
             fontSize={'100px'}
@@ -61,74 +59,62 @@ export default function Merch() {
             </Flex>
           </Flex>
 
-          <Grid>
-            <Card
-              borderRadius='144px'
-              width='333px'
-              height='427px'
-              backgroundImage='/images/merch-card.png'
-              alignItems='center'
-            >
-              <Flex
-                flexDirection='column'
-                alignItems='center'
-                gap='0.5rem'
-                padding='5rem 0 1rem 1rem'
-                justifyContent='center'
-              >
-                <Text
-                  color='#FF93D1;'
-                  fontFamily='Bodwars'
-                  fontSize='40px'
-                  textShadow='0px 4px 30px #8D47E5'
-                  marginBottom='1rem'
-                >
-                  Mug
-                </Text>
-
-                <Text
-                  color='#FFF'
-                  fontFamily='SomarRounded-Regular'
-                  fontSize='16px'
-                >
-                  Rp.20.000/pcs
-                </Text>
-                <Button
-                  padding='1.5rem 1.5rem'
-                  fontFamily='SomarRounded-Regular'
-                >
-                  Buy Now
-                </Button>
-
-                <Flex>
-                  <Image
-                    src='/images/merch-mug.png'
-                    alt='merch-mug'
-                    w='180px'
-                    zIndex='3'
-                  />
-
-                  <Image
-                    src='/images/merch-asteroid-1.png'
-                    alt='asteroid-1'
-                    w='281px'
-                    position='absolute'
-                    zIndex='2'
-                    bottom='-155'
-                    left='8'
-                  />
-                </Flex>
-
-                <Image
-                  src='/images/merch-vector.svg'
-                  alt='merch-vector'
-                  position='absolute'
-                  zIndex='1'
-                  bottom='0'
-                  w='10000px'
-                />
-              </Flex>
-            </Card>
+          <Grid
+            templateColumns={{
+              base: 'repeat(1, 1fr)',
+              md: 'repeat(2, 1fr)',
+              lg: 'repeat(3, 1fr)'
+            }}
+            gap='10rem'
+          >
+            <MerchCard
+              title='Mug'
+              price={20000}
+              productImage='/images/merch-mug.png'
+              spaceImage='/images/merch-asteroid-1.png'
+              productWidth='180px'
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Lanyard'
+              price={30000}
+              productImage='/images/merch-lanyard-1.png'
+              spaceImage='/images/merch-asteroid-2.png'
+              productWidth=''
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Korek Api'
+              price={10000}
+              productImage='/images/merch-korek-api.png'
+              spaceImage='/images/merch-asteroid-3.png'
+              productWidth='46px'
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Gantungan Kunci'
+              price={15000}
+              productImage='/images/merch-ganci.png'
+              spaceImage='/images/merch-bulan-1.png'
+              productWidth='176px'
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Stiker'
+              price={5000}
+              productImage='/images/merch-sticker.png'
+              spaceImage='/images/merch-bulan-2.png'
+              productWidth='135px'
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Kipas'
+              price={10000}
+              productImage='/images/merch-kipas.png'
+              spaceImage='/images/merch-bulan-3.png'
+              productWidth='162px'
+              spaceWidth=''
+            />
           </Grid>
         </Flex>
       </Layout>
