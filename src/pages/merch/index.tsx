@@ -8,31 +8,32 @@ export default function Merch() {
     <>
       <Layout title='Merch'>
         <Flex
-          minH='200vh'
+          height='100vh'
           position='absolute'
           w='100%'
           inset='0'
           flexDirection='column'
           gap='5rem'
           backgroundImage='/images/merch-blur.png'
-          backgroundSize='cover'
+          backgroundRepeat='no-repeat'
           alignItems='center'
           backgroundPosition='center center'
-          overflowX='hidden'
+          overflowY='scroll'
+          backgroundSize={{ base: 'initial', lg: 'cover' }}
         >
           <Text
-            fontSize={'100px'}
+            fontSize={{ base: '24px', md: '100px' }}
             fontWeight='bold'
             color='#FFFC83'
             fontFamily='Bodwars'
-            margin='10rem 0 0 0'
+            margin={{ base: '5rem 0 0 0', md: '10rem 0 0 0' }}
             textShadow='0px 4px 30px #72D8BA'
             lineHeight='30px'
           >
             Merch
           </Text>
 
-          <Flex gap='2rem'>
+          <Flex gap='2rem' display={{ base: 'none', md: 'flex' }}>
             <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
               <Text color='#FFF' fontFamily='SomarRounded-Regular'>
                 Tokopedia
@@ -65,7 +66,7 @@ export default function Merch() {
               md: 'repeat(2, 1fr)',
               lg: 'repeat(3, 1fr)'
             }}
-            gap='10rem'
+            gap='5rem'
           >
             <MerchCard
               title='Mug'
