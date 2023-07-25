@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Button, Flex, Text, Textarea } from "@chakra-ui/react";
-import { type Message } from "@prisma/client";
 import { type NextPage } from "next";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import AddMessageForm from "~/components/AddMessageForm";
 import useSubscription from "~/hooks/useSubscription";
 import Layout from "~/layout";
 import { v4 as uuidv4 } from "uuid";
@@ -24,12 +22,6 @@ interface ChatMessage {
   message: string;
 }
 
-interface Tries {
-  id: string;
-  tries: number;
-  startTime: Date;
-}
-
 const schema = z.object({
   text: z.string().min(1)
 });
@@ -42,6 +34,12 @@ const Chat: NextPage = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [socketMessage, setSocketMessage] = useState<QuestionData>();
   const [canAsk, setCanAsk] = useState(true);
+
+  const messageEmit = useEmit("message", {
+    onError: () => {
+      setCanAsk(false);
+    }
+  });
 
   const { register, handleSubmit, reset } = useForm<FormValues>();
 
@@ -86,128 +84,36 @@ const Chat: NextPage = () => {
     setSocketMessage(data);
   });
 
-  useEffect(() => {
-    if (session.data?.user.id) {
-      const request = indexedDB.open("ChatbotTries");
-      request.onupgradeneeded = (event) => {
-        const db = (event.target as IDBOpenDBRequest).result;
-
-        if (!db.objectStoreNames.contains("triesStore")) {
-          db.createObjectStore("triesStore", { keyPath: "id" });
-        }
-      };
-
-      request.onsuccess = (event) => {
-        const db = (event.target as IDBOpenDBRequest).result;
-
-        const transaction = db.transaction("triesStore", "readwrite");
-        const store = transaction.objectStore("triesStore");
-
-        const getRequest = store.get(session.data.user.id);
-
-        getRequest.onsuccess = () => {
-          const data = getRequest.result as Tries;
-
-          if (data) {
-            const curDate = new Date();
-            if (curDate.getDate() != data.startTime.getDate()) {
-              setCanAsk(true);
-              const putRequest = store.put({
-                id: session.data.user.id,
-                tries: 1,
-                startTime: new Date()
-              });
-              putRequest.onsuccess = () => {
-                console.log("Reset success");
-              };
-            } else {
-              if (data.tries > 2) {
-                setCanAsk(false);
-              }
-            }
-          }
-        };
-      };
-    }
-  }, [session.data?.user.id]);
-
-  const messageEmit = useEmit("message");
-
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    const request = indexedDB.open("ChatbotTries");
-    request.onupgradeneeded = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
+    setMessages([
+      ...messages,
+      { id: uuidv4(), sender: QuestionRole.USER, message: data.text }
+    ]);
 
-      if (!db.objectStoreNames.contains("triesStore")) {
-        db.createObjectStore("triesStore", { keyPath: "id" });
+    let history = "";
+    messages.slice(-10).forEach((chat, index) => {
+      if (chat.sender === QuestionRole.USER) {
+        history += `Human: ${chat.message}`;
+      } else {
+        history += `AI: ${chat.message}`;
       }
-    };
 
-    request.onsuccess = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
+      if (index !== messages.length - 1) {
+        history += "\n";
+      }
+    });
 
-      const transaction = db.transaction("triesStore", "readwrite");
-      const store = transaction.objectStore("triesStore");
-
-      const getRequest = store.get(session.data?.user.id as string);
-
-      getRequest.onsuccess = () => {
-        const data = getRequest.result as Tries;
-
-        if (data) {
-          console.log(data.tries, "tries");
-          if (data.tries > 1) {
-            setCanAsk(false);
-          } else {
-            data.tries = data.tries + 1;
-
-            const putRequest = store.put(data);
-            putRequest.onsuccess = () => {
-              console.log("Put success");
-            };
-          }
-        } else {
-          const addRequest = store.add({
-            id: session.data?.user.id as string,
-            tries: 1,
-            startTime: new Date()
-          });
-          addRequest.onsuccess = () => {
-            console.log("Add success");
-          };
-        }
-      };
-    };
-
-    if (canAsk) {
-      setMessages([
-        ...messages,
-        { id: uuidv4(), sender: QuestionRole.USER, message: data.text }
-      ]);
-
-      let history = "";
-      messages.slice(-10).forEach((chat, index) => {
-        if (chat.sender === QuestionRole.USER) {
-          history += `Human: ${chat.message}`;
-        } else {
-          history += `AI: ${chat.message}`;
-        }
-
-        if (index !== messages.length - 1) {
-          history += "\n";
-        }
-      });
-
+    if (session.data) {
       messageEmit.mutate({
         questionId: uuidv4(),
         role: QuestionRole.USER,
         message: data.text,
         chatHistory: history
       });
-
-      reset();
-      scrollToBottomOfList();
     }
+
+    reset();
+    scrollToBottomOfList();
   };
 
   const onKeyDownCustom: React.KeyboardEventHandler<HTMLTextAreaElement> = (
@@ -295,6 +201,7 @@ const Chat: NextPage = () => {
             >
               Submit
             </Button>
+            <Button onClick={() => void signOut()}>Sign Out</Button>
           </Flex>
           {!canAsk ? (
             <Text color={"black"} fontWeight={700}>

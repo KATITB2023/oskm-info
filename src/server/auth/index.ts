@@ -118,6 +118,17 @@ export const authOptions: NextAuthOptions = {
         const isValid = await compare(password, user.passwordHash);
         if (!isValid) throw new Error("Password is incorrect");
 
+        console.log("DISCONNECTING SOCKET");
+
+        socket.disconnect();
+        socket.connect();
+
+        socket.on("connect", () => {
+          console.log("Connected", socket.id);
+        });
+
+        console.log("SOCKET CONNECTED");
+
         return {
           id: user.id,
           role: user.role

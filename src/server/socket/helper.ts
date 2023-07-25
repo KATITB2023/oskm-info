@@ -73,7 +73,7 @@ export function createEvent<
   {
     name,
     input,
-    authRequired,
+    authRequired
   }: {
     name: EventName;
     input?: InputSchema;
@@ -81,7 +81,7 @@ export function createEvent<
   },
   handler: ({
     ctx,
-    input,
+    input
   }: {
     ctx: {
       io: SocketServer;
@@ -104,7 +104,7 @@ export function createEvent<
         const validation: z.SafeParseReturnType<unknown, unknown> =
           input?.safeParse(data) ?? {
             success: true,
-            data: undefined,
+            data: undefined
           };
 
         if (!validation.success) {
@@ -117,9 +117,9 @@ export function createEvent<
             ctx: {
               io,
               client: socket,
-              prisma,
+              prisma
             },
-            input: validation.data,
+            input: validation.data
           });
           callback?.({ success: true, data: result });
           return;

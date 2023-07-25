@@ -17,7 +17,7 @@ void (() => {
   });
 
   io.on("connection", (socket) => {
-    console.log(`Connection (${io.engine.clientsCount})`);
+    console.log(`Connection (${io.engine.clientsCount}) with id ${socket.id}`);
     socket.once("disconnect", () => {
       console.log(`Connection (${io.engine.clientsCount})`);
     });

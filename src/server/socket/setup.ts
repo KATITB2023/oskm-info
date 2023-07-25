@@ -59,9 +59,6 @@ export interface QuestionData {
  * ```
  */
 export type ServerToClientEvents = {
-  hello: (name: string) => void;
-  whoIsTyping: (data: string[]) => void;
-  add: (post: Message) => void;
   question: (data: QuestionData) => void;
 };
 
