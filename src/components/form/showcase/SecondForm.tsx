@@ -12,17 +12,10 @@ import {
   Select
 } from '@chakra-ui/react';
 import { TRPCClientError } from '@trpc/client';
-import {
-  type BaseSyntheticEvent,
-  useEffect,
-  useState,
-  SyntheticEvent
-} from 'react';
-import { Controller, useForm, useFieldArray } from 'react-hook-form';
-import { type RouterInputs, api } from '~/utils/api';
+import { type BaseSyntheticEvent, useState, type SyntheticEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import { api } from '~/utils/api';
 import _ from 'lodash';
-import { Lembaga } from '~/utils/file';
-import { getQueryKey } from '@trpc/react-query';
 
 interface FormValues {
   token: string;
@@ -53,7 +46,7 @@ export const SecondForm = () => {
     setToken((e.target as HTMLInputElement).value);
   };
 
-  const submitFirstShowcase = async (
+  const submitSecondShowCase = async (
     data: FormValues,
     event: BaseSyntheticEvent
   ) => {
@@ -72,6 +65,7 @@ export const SecondForm = () => {
         position: 'top'
       });
       reset();
+      setToken('');
     } catch (error: unknown) {
       if (!(error instanceof TRPCClientError)) throw error;
 
@@ -108,7 +102,7 @@ export const SecondForm = () => {
       >
         AMBIL LOKASI
       </Heading>
-      <form onSubmit={(event) => void submitFirstShowcase(getValues(), event)}>
+      <form onSubmit={(event) => void submitSecondShowCase(getValues(), event)}>
         <VStack spacing={4} mt={5} color='white'>
           <FormControl isRequired isInvalid={!!formState.errors.token}>
             <FormLabel>Token</FormLabel>
@@ -135,12 +129,7 @@ export const SecondForm = () => {
               color='white'
               w='full'
               borderColor='gray.400'
-              onChange={(e) =>
-                setValue(
-                  'location',
-                  Lembaga[e.target.value as keyof typeof Lembaga]
-                )
-              }
+              onChange={(e) => setValue('location', e.target.value)}
               transition='all 0.2s ease-in-out'
               _hover={{
                 opacity: 0.8

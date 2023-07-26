@@ -12,10 +12,9 @@ import {
   Select
 } from '@chakra-ui/react';
 import { TRPCClientError } from '@trpc/client';
-import { type BaseSyntheticEvent, useEffect, useState } from 'react';
-import { Controller, useForm, useFieldArray } from 'react-hook-form';
-import { type RouterInputs, api } from '~/utils/api';
-import _ from 'lodash';
+import { type BaseSyntheticEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { api } from '~/utils/api';
 import { Lembaga } from '~/utils/file';
 
 interface FormValues {
