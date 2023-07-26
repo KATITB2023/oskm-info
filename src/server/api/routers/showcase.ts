@@ -128,6 +128,40 @@ export const showcaseRouter = createTRPCRouter({
         }
       });
 
+      if (!location) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Token does not exist'
+        })
+      }
+
       return location;
+    }),
+
+  bookLocation: publicProcedure
+    .input(
+      z.object({
+        showcaseId: z.string().uuid(),
+        location: z.string()
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.bookedLocation.create({
+          data: {
+            showcaseId: input.showcaseId,
+            location: input.location
+          }
+        })
+  
+        return {
+          message: "Location successfully booked"
+        }
+      } catch (e) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Location have been booked, please select different location'
+        })
+      }
     })
 });
