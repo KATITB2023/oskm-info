@@ -63,6 +63,28 @@ export const showcaseRouter = createTRPCRouter({
       };
     }),
 
+  addTokenToShowcase: publicProcedure
+    .input(
+      z.object({
+        showcaseId: z.string().uuid(),
+        token: z.string()
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.showcaseBooking.update({
+        where: {
+          id: input.showcaseId
+        },
+        data: {
+          token: input.token
+        }
+      });
+
+      return {
+        message: 'Added token'
+      }
+    }),
+
   registerUnit: publicProcedure
     .input(
       z.object({
