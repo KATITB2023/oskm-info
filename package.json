@@ -49,6 +49,7 @@
     "@trpc/next": "^10.26.0",
     "@trpc/react-query": "^10.26.0",
     "@trpc/server": "^10.26.0",
+    "@types/react-icons": "^3.0.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "framer-motion": "^10.12.21",
