@@ -145,6 +145,19 @@ export const showcaseRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const bookedLocation = await ctx.prisma.bookedLocation.findFirst({
+        where: {
+          token: input.token
+        }
+      })
+
+      if (bookedLocation) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Token has been used'
+        })
+      }
+
       try {
         await ctx.prisma.bookedLocation.create({
           data: {
