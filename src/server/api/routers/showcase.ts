@@ -95,26 +95,6 @@ export const showcaseRouter = createTRPCRouter({
       };
     }),
 
-  addLocation: publicProcedure
-    .input(
-      z.object({
-        token: z.string(),
-        locations: z.string().array()
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.locationBooking.create({
-        data: {
-          token: input.token,
-          locations: input.locations
-        }
-      });
-
-      return {
-        message: 'Added new location'
-      };
-    }),
-
   getLocation: publicProcedure
     .input(
       z.object({
@@ -141,7 +121,7 @@ export const showcaseRouter = createTRPCRouter({
   bookLocation: publicProcedure
     .input(
       z.object({
-        showcaseId: z.string().uuid(),
+        token: z.string(),
         location: z.string()
       })
     )
@@ -149,11 +129,11 @@ export const showcaseRouter = createTRPCRouter({
       try {
         await ctx.prisma.bookedLocation.create({
           data: {
-            showcaseId: input.showcaseId,
+            token: input.token,
             location: input.location
           }
         })
-  
+
         return {
           message: "Location successfully booked"
         }
