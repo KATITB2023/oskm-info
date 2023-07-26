@@ -1,6 +1,6 @@
 import { type NextPage } from 'next';
 import Head from 'next/head';
-import { GotTalent } from '~/components/form/GotTalent';
+import { GotTalent } from '~/components/form/got-talent/GotTalent';
 
 const GotTalentPage: NextPage = () => {
   return (
