@@ -22,6 +22,7 @@ import { Controller, useForm, useFieldArray } from 'react-hook-form';
 import { type RouterInputs, api } from '~/utils/api';
 import _ from 'lodash';
 import { Lembaga } from '~/utils/file';
+import { getQueryKey } from '@trpc/react-query';
 
 interface FormValues {
   token: string;
@@ -39,24 +40,18 @@ export const SecondForm = () => {
       }
     });
 
-  const [token, setToken] = useState<RouterInputs['showcase']['getLocation']>();
-  if (token) {
-    const data = api.showcase.getLocation.useQuery(token);
-  }
+  const [token, setToken] = useState('');
+  const locationsQuery = api.showcase.getLocation.useQuery({ token: token });
   const registerLocation = api.showcase.bookLocation.useMutation();
   const [loading, setLoading] = useState<boolean>(false);
+
+  const locationsList = locationsQuery.data;
 
   const toast = useToast();
 
   const fetchLocations = (e: SyntheticEvent) => {
-    // const test = (e.target as HTMLInputElement).value;
-    setToken({ token: (e.target as HTMLInputElement).value });
-    // void refetch();
+    setToken((e.target as HTMLInputElement).value);
   };
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const submitFirstShowcase = async (
     data: FormValues,
@@ -65,30 +60,30 @@ export const SecondForm = () => {
     event.preventDefault();
     setLoading(true);
 
-    // try {
-    //   const result = await registerLocation.mutateAsync(data);
+    try {
+      const result = await registerLocation.mutateAsync(data);
 
-    //   toast({
-    //     title: 'Success',
-    //     description: result.message,
-    //     status: 'success',
-    //     duration: 3000,
-    //     isClosable: true,
-    //     position: 'top'
-    //   });
-    //   reset();
-    // } catch (error: unknown) {
-    //   if (!(error instanceof TRPCClientError)) throw error;
+      toast({
+        title: 'Success',
+        description: result.message,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top'
+      });
+      reset();
+    } catch (error: unknown) {
+      if (!(error instanceof TRPCClientError)) throw error;
 
-    //   toast({
-    //     title: 'Error',
-    //     description: error.message,
-    //     status: 'error',
-    //     duration: 3000,
-    //     isClosable: true,
-    //     position: 'top'
-    //   });
-    // }
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top'
+      });
+    }
 
     setLoading(false);
   };
@@ -161,18 +156,31 @@ export const SecondForm = () => {
                 }
               }}
             >
-              {Object.values(Lembaga).map((lembaga, index) => (
+              {locationsList ? (
+                locationsList.locations.map((location, index) => (
+                  <option
+                    style={{
+                      background: 'gray.600',
+                      color: 'white'
+                    }}
+                    key={index}
+                    value={location}
+                  >
+                    {location}
+                  </option>
+                ))
+              ) : (
                 <option
                   style={{
                     background: 'gray.600',
                     color: 'white'
                   }}
-                  key={index}
-                  value={lembaga}
+                  selected
+                  disabled
                 >
-                  {lembaga}
+                  Invalid token
                 </option>
-              ))}
+              )}
             </Select>
             {formState.errors.location && (
               <FormErrorMessage>
@@ -189,7 +197,7 @@ export const SecondForm = () => {
             type='submit'
             isDisabled={Object.values(formState.errors).length > 0}
           >
-            Daftar
+            Ambil
           </Button>
         </Flex>
       </form>

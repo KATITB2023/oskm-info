@@ -82,7 +82,7 @@ export const showcaseRouter = createTRPCRouter({
 
       return {
         message: 'Added token'
-      }
+      };
     }),
 
   registerUnit: publicProcedure
@@ -131,10 +131,7 @@ export const showcaseRouter = createTRPCRouter({
       });
 
       if (!location) {
-        throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Token does not exist'
-        })
+        return undefined;
       }
 
       return location;
@@ -154,16 +151,16 @@ export const showcaseRouter = createTRPCRouter({
             token: input.token,
             location: input.location
           }
-        })
+        });
 
         return {
-          message: "Location successfully booked"
-        }
+          message: 'Location successfully booked'
+        };
       } catch (e) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'Location have been booked, please select different location'
-        })
+        });
       }
     })
 });
