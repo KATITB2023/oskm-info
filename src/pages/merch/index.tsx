@@ -80,8 +80,9 @@ export default function Merch() {
               title='Lanyard'
               price={30000}
               productImage='/images/merch-lanyard-1.png'
+              secondImage='/images/merch-lanyard-2.png'
               spaceImage='/images/merch-asteroid-2.png'
-              productWidth=''
+              productWidth='39px'
               spaceWidth=''
             />
             <MerchCard

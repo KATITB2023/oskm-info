@@ -24,3 +24,12 @@ a {
   font-family: 'SomarRounded-Regular';
   src: url('/fonts/SomarRounded-Regular.ttf');
 }
+
+@keyframes hoverEffect {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
