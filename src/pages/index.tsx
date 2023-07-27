@@ -94,7 +94,7 @@ const Home: NextPage = () => {
           fontFamily='Bodwars'
           color='green.4'
         >
-          <Text>BERSIAPLAH VOYAGERS!</Text>
+          <Text>BERSIAPLAH SPACEFARERS!</Text>
           <Text>SESUATU YANG MENAKJUBKAN AKAN SEGERA DATANG!</Text>
         </Box>
         {/* <Flex flexDir={'column'}>
