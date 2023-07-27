@@ -107,6 +107,8 @@ const LoginForm = ({
     reset({}, { keepErrors: true, keepValues: !!errors });
   };
 
+  if (session) handleRedirect();
+
   return (
     <Flex
       color='white'
