@@ -24,7 +24,7 @@ interface FormValues {
 }
 
 export const SecondForm = () => {
-  const { register, formState, setValue, getValues, reset } =
+  const { register, formState, setValue, getValues } =
     useForm<FormValues>({
       mode: 'onChange',
       delayError: 1000,

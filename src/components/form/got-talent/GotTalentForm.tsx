@@ -21,12 +21,13 @@ import { FaInfoCircle, FaMinus, FaPlus } from 'react-icons/fa';
 import { GotTalentFull } from './GotTalentFull';
 import _ from 'lodash';
 import { GotTalentSubmitted } from './GotTalentSubmitted';
+import { uploadFile } from '~/utils/file';
 
 interface FormValue {
   name: string;
   contestant: { name: string }[];
-  ktm: FileList | null;
-  musik: FileList | null;
+  ktm: FileList;
+  musik: FileList;
   property: { name: string }[];
   date: string;
   id: string;
@@ -43,18 +44,19 @@ interface Date {
 
 // TODO: handle kalau dah submit
 export const GotTalentForm = () => {
-  const { control, register, formState, setValue, getValues, watch } = useForm({
-    mode: 'onSubmit',
-    defaultValues: {
-      name: '',
-      contestant: [{ name: '' }],
-      ktm: null,
-      musik: null,
-      property: [{ name: '' }],
-      date: '',
-      id: ''
-    }
-  });
+  const { control, register, formState, setValue, getValues, watch } =
+    useForm<FormValue>({
+      mode: 'onSubmit',
+      defaultValues: {
+        name: '',
+        contestant: [{ name: '' }],
+        ktm: undefined,
+        musik: undefined,
+        property: [{ name: '' }],
+        date: '',
+        id: ''
+      }
+    });
   const {
     fields: contestantField,
     append: contestantAppend,
@@ -115,12 +117,29 @@ export const GotTalentForm = () => {
     setLoading(true);
 
     try {
+      let ktmPath = '';
+      let musikPath = '';
+
+      if (data.ktm[0]) {
+        const fileName = `got-talent-ktm-${data.name}`;
+        const extension = data.ktm[0]?.name.split('.').pop() as string;
+        ktmPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
+        await uploadFile(ktmPath, data.ktm[0]);
+      }
+
+      if (data.musik[0]) {
+        const fileName = `got-talent-musik-${data.name}`;
+        const extension = data.musik[0]?.name.split('.').pop() as string;
+        musikPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
+        await uploadFile(musikPath, data.musik[0]);
+      }
+
       // TODO: ktm sama musik belum dihandle
       const payload: RouterInputs['showcase']['registerGotTalent'] = {
         teamName: data.name,
         teamMember: data.contestant.map((item) => item.name),
-        ktmPath: '',
-        musicPath: '',
+        ktmPath: ktmPath,
+        musicPath: musikPath,
         property: data.property.map((item) => item.name),
         scheduleId: data.id
       };
@@ -353,8 +372,8 @@ export const GotTalentForm = () => {
                   value: true,
                   message: 'KTM tidak boleh kosong'
                 },
-                validate: (value: FileList | null) => {
-                  if (value && value[0]?.type !== 'application/zip') {
+                validate: (value) => {
+                  if (value[0] && value[0].type !== 'application/zip') {
                     return 'KTM harus berupa file .zip';
                   }
                   return true;
@@ -381,8 +400,8 @@ export const GotTalentForm = () => {
               accept='audio/mp3'
               variant='unstyled'
               {...register('musik', {
-                validate: (value: FileList | null) => {
-                  if (value && value[0]?.type !== 'audio/mp3') {
+                validate: (value) => {
+                  if (value[0] && value[0].type !== 'audio/mp3') {
                     return 'Musik harus berupa file .mp3';
                   }
                   return true;

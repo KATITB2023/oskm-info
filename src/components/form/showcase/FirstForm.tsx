@@ -60,15 +60,15 @@ export const FirstForm = () => {
     event.preventDefault();
     setLoading(true);
 
-    let fullPath = '';
-    if (data.mouPath[0]) {
-      const fileName = `showcase-mou-${data.nim}-${data.lembagaName}`;
-      const extension = data.mouPath[0]?.name.split('.').pop() as string;
-      fullPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
-      await uploadFile(fullPath, data.mouPath[0]);
-    }
-
     try {
+      let fullPath = '';
+      if (data.mouPath[0]) {
+        const fileName = `showcase-mou-${data.nim}-${data.lembagaName}`;
+        const extension = data.mouPath[0]?.name.split('.').pop() as string;
+        fullPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
+        await uploadFile(fullPath, data.mouPath[0]);
+      }
+
       const result = await registerUnitMutation.mutateAsync({
         ...data,
         mouPath: fullPath
