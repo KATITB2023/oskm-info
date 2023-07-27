@@ -15,7 +15,12 @@ import {
 } from '@chakra-ui/react';
 import { TRPCClientError } from '@trpc/client';
 import { type BaseSyntheticEvent, useEffect, useState } from 'react';
-import { Controller, useForm, useFieldArray } from 'react-hook-form';
+import {
+  Controller,
+  useForm,
+  useFieldArray,
+  type SubmitHandler
+} from 'react-hook-form';
 import { type RouterInputs, api } from '~/utils/api';
 import { FaInfoCircle, FaMinus, FaPlus } from 'react-icons/fa';
 import { GotTalentFull } from './GotTalentFull';
@@ -44,19 +49,26 @@ interface Date {
 
 // TODO: handle kalau dah submit
 export const GotTalentForm = () => {
-  const { control, register, formState, setValue, getValues, watch } =
-    useForm<FormValue>({
-      mode: 'onSubmit',
-      defaultValues: {
-        name: '',
-        contestant: [{ name: '' }],
-        ktm: undefined,
-        musik: undefined,
-        property: [{ name: '' }],
-        date: '',
-        id: ''
-      }
-    });
+  const {
+    control,
+    register,
+    formState,
+    setValue,
+    getValues,
+    watch,
+    handleSubmit
+  } = useForm<FormValue>({
+    mode: 'onSubmit',
+    defaultValues: {
+      name: '',
+      contestant: [{ name: '' }],
+      ktm: undefined,
+      musik: undefined,
+      property: [{ name: '' }],
+      date: '',
+      id: ''
+    }
+  });
   const {
     fields: contestantField,
     append: contestantAppend,
@@ -109,11 +121,7 @@ export const GotTalentForm = () => {
     });
   };
 
-  const submitGotTalent = async (
-    data: FormValue,
-    event: BaseSyntheticEvent
-  ) => {
-    event.preventDefault();
+  const submitGotTalent: SubmitHandler<FormValue> = async (data: FormValue) => {
     setLoading(true);
 
     try {
@@ -134,7 +142,6 @@ export const GotTalentForm = () => {
         await uploadFile(musikPath, data.musik[0]);
       }
 
-      // TODO: ktm sama musik belum dihandle
       const payload: RouterInputs['showcase']['registerGotTalent'] = {
         teamName: data.name,
         teamMember: data.contestant.map((item) => item.name),
@@ -206,8 +213,9 @@ export const GotTalentForm = () => {
   return (
     <Box
       zIndex='10'
-      bgGradient='linear(to-br, navy.1, purple.3)'
-      boxShadow='inset 0 0 24px rgba(0,0,0,0.8), 12px 12px rgba(0,0,0,0.4)'
+      backdropFilter='blur(13px)'
+      boxShadow='3px 3px 14px 0px rgba(0, 0, 0, 0.69)'
+      backgroundColor='rgba(237, 240, 247, 0.20)'
       px={12}
       py={9}
       borderRadius='lg'
@@ -215,17 +223,23 @@ export const GotTalentForm = () => {
       maxH='70vh'
       overflowY='auto'
       w={{ base: '80%', lg: '700px' }}
+      sx={{
+        '&::-webkit-scrollbar': {
+          width: '0'
+        }
+      }}
     >
       <Heading
         fontSize='2xl'
         textAlign='center'
         textShadow='4px 6px rgba(0,0,0,0.5)'
+        color='white'
       >
         ITB GOT TALENT
       </Heading>
       <form
         onSubmit={(e: BaseSyntheticEvent) =>
-          void submitGotTalent(getValues(), e)
+          void handleSubmit(submitGotTalent)(e)
         }
       >
         <VStack spacing={4} mt={5} color='white'>
@@ -373,7 +387,8 @@ export const GotTalentForm = () => {
                   message: 'KTM tidak boleh kosong'
                 },
                 validate: (value) => {
-                  if (value[0] && value[0].type !== 'application/zip') {
+                  const file: File | undefined = value[0];
+                  if (file && file.name.split('.')[1] !== 'zip') {
                     return 'KTM harus berupa file .zip';
                   }
                   return true;
@@ -401,7 +416,8 @@ export const GotTalentForm = () => {
               variant='unstyled'
               {...register('musik', {
                 validate: (value) => {
-                  if (value[0] && value[0].type !== 'audio/mp3') {
+                  const file: File | undefined = value[0];
+                  if (file && file.name.split('.')[1] !== 'mp3') {
                     return 'Musik harus berupa file .mp3';
                   }
                   return true;
@@ -515,6 +531,7 @@ export const GotTalentForm = () => {
             isLoading={loading}
             loadingText='Mendaftarkan...'
             type='submit'
+            w='full'
           >
             Daftar
           </Button>
