@@ -21,7 +21,7 @@ export const storageRouter = createTRPCRouter({
       // TODO: Cukup panggil di awal saja
       await ctx.bucket.setCorsConfiguration([
         {
-          maxAgeSeconds: env.BUCKET_CORS_EXPIRATION_TIME,
+          // maxAgeSeconds: env.BUCKET_CORS_EXPIRATION_TIME,
           method: ["GET", "PUT", "DELETE"],
           origin: ["*"],
           responseHeader: ["Content-Type"],
@@ -57,7 +57,7 @@ export const storageRouter = createTRPCRouter({
       // TODO: Cukup panggil di awal saja
       await ctx.bucket.setCorsConfiguration([
         {
-          maxAgeSeconds: env.BUCKET_CORS_EXPIRATION_TIME,
+          // maxAgeSeconds: env.BUCKET_CORS_EXPIRATION_TIME,
           method: ["GET", "PUT", "DELETE"],
           origin: ["*"],
           responseHeader: ["Content-Type"],
@@ -90,7 +90,7 @@ export const storageRouter = createTRPCRouter({
       // TODO: Cukup panggil di awal saja
       await ctx.bucket.setCorsConfiguration([
         {
-          maxAgeSeconds: env.BUCKET_CORS_EXPIRATION_TIME,
+          // maxAgeSeconds: env.BUCKET_CORS_EXPIRATION_TIME,
           method: ["GET", "PUT", "DELETE"],
           origin: ["*"],
           responseHeader: ["Content-Type"],
