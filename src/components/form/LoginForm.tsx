@@ -9,20 +9,31 @@ import {
   InputRightElement,
   Button,
   Text,
-  VStack
+  VStack,
+  useToast
 } from '@chakra-ui/react';
-import { type SignInResponse, signIn } from 'next-auth/react';
+import { UserRole } from '@prisma/client';
+import { useRouter } from 'next/router';
+import { signIn, useSession } from 'next-auth/react';
+import type { InferGetServerSidePropsType } from 'next';
 import { useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { type getServerSideProps } from '~/pages/auth';
 
 interface FormValues {
   nim: string;
   password: string;
 }
 
-const LoginForm = () => {
+const LoginForm = ({
+  csrfToken
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [showPassword, setShowPassword] = useState(false);
+  const { data: session } = useSession();
+  const router = useRouter();
+  const toast = useToast();
+
   const {
     handleSubmit,
     register,
@@ -36,70 +47,101 @@ const LoginForm = () => {
       password: ''
     }
   });
+
+  const handleLoggedIn = () => {
+    toast({
+      title: 'Success',
+      description: 'Berhasil login!',
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+      position: 'top'
+    });
+    handleRedirect();
+  };
+
+  const handleRedirect = () => {
+    const role = session?.user.role;
+    role === UserRole.MENTOR
+      ? void router.push('/attendance')
+      : void router.push('/live');
+  };
+
+  const handleError = (message: string) => {
+    toast({
+      title: 'Error',
+      description: `${message}`,
+      status: 'error',
+      duration: 2000,
+      isClosable: true,
+      position: 'top'
+    });
+  };
+
   const login: SubmitHandler<FormValues> = async (data: FormValues, event) => {
     event?.preventDefault();
-    await signIn('credentials', {
+    const res = await signIn('credentials', {
       nim: data.nim,
       password: data.password,
-      redirect: false
-    }).then((res: SignInResponse | undefined) => {
-      console.log(res);
-      if (res?.ok) return;
-      console.log(res?.error);
-      if (res?.error === 'User not found') {
+      redirect: false,
+      csrfToken
+    });
+
+    if (res?.ok) handleLoggedIn();
+    if (res?.error) {
+      const error: string = res.error;
+      handleError(error);
+      if (error === 'User not found') {
         setError('nim', {
           type: 'manual',
           message: 'NIM tidak ditemukan'
         });
-      } else if (res?.error === 'Password is incorrect') {
+      } else if (error === 'Password is incorrect') {
         setError('password', {
           type: 'manual',
           message: 'Password salah'
         });
-      } else {
-        setError('root', { message: 'Something went wrong' });
       }
-    });
+    }
 
     reset({}, { keepErrors: true, keepValues: !!errors });
   };
+
   return (
     <Flex
       color='white'
       direction='column'
       alignItems='center'
-      w={{ base: 'auto', md: '40rem' }}
-      padding={{ base: '2.5rem', md: '5rem 8rem' }}
-      borderRadius={{ base: '2.5rem', md: '5rem' }}
+      padding={{ base: '2.5rem', md: '3rem 4rem' }}
+      borderRadius={{ base: '2.5rem', md: '4rem' }}
       backdropFilter='blur(13px)'
       boxShadow='3px 3px 14px 0px rgba(0, 0, 0, 0.69)'
       backgroundColor='rgba(237, 240, 247, 0.20)'
-      fontFamily='Somar Rounded'
-      gap={{ base: '1.5rem', md: '3rem' }}
+      width={{ base: 'auto', md: '28rem' }}
+      gap={{ base: '1.5rem', md: '2.5rem' }}
     >
       <Image
         src='/images/login/Vector.png'
         alt=''
-        w={{ base: '12rem', md: '18rem' }}
+        w={{ base: '12rem', md: '16rem' }}
         draggable='false'
+        loading='lazy'
       />
-      <Heading
-        fontSize={{ base: '2xl', md: '5xl' }}
-        fontFamily='Bodwars'
-        textAlign='center'
-      >
+      <Heading fontSize={{ base: '2xl', md: '5xl' }} textAlign='center'>
         LOGIN
       </Heading>
-      <form onSubmit={(e) => void handleSubmit(login)(e)}>
-        <VStack
-          spacing={{ base: 5, md: 10 }}
-          width={{ base: 'auto', md: '40ch' }}
-        >
+      <form
+        onSubmit={(e) => void handleSubmit(login)(e)}
+        style={{
+          width: '100%'
+        }}
+      >
+        <input name='csrfToken' type='hidden' defaultValue={csrfToken} />
+        <VStack spacing={{ base: 5, md: 10 }} width='100%'>
           <FormControl isInvalid={!!errors.nim}>
             <Input
               placeholder='NIM'
               {...register('nim', { required: 'NIM tidak boleh kosong' })}
-              maxW='24rem'
               type='text'
               size={{ base: 'sm', md: 'md' }}
             />
