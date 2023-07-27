@@ -205,8 +205,6 @@ export const GotTalentForm = () => {
     const time =
       (dateList[date] as DateDetail[])?.find((date) => date.id === timeId)
         ?.time ?? '';
-    console.log(time);
-    console.log(dateList[date]);
     return <GotTalentSubmitted date={date} time={time} />;
   }
 
@@ -531,7 +529,7 @@ export const GotTalentForm = () => {
             isLoading={loading}
             loadingText='Mendaftarkan...'
             type='submit'
-            w='full'
+            w='50%'
           >
             Daftar
           </Button>

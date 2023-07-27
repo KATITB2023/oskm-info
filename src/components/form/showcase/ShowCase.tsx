@@ -10,7 +10,7 @@ export const ShowCase = () => {
     // TODO: CHANGE THIS SWITCH TIME
     const switchTime = new Date('July 27, 2023 15:21:55');
     const currentTime = new Date();
-    if (switchTime < currentTime) {
+    if (switchTime > currentTime) {
       setDaftarUnit(false);
     }
   }, []);

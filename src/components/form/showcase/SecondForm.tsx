@@ -12,8 +12,8 @@ import {
   Select
 } from '@chakra-ui/react';
 import { TRPCClientError } from '@trpc/client';
-import { type BaseSyntheticEvent, useState, type SyntheticEvent } from 'react';
-import { useForm } from 'react-hook-form';
+import { type BaseSyntheticEvent, useState } from 'react';
+import { type SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { api } from '~/utils/api';
 import _ from 'lodash';
 import { ShowCaseSubmitted } from './ShowCaseSubmitted';
@@ -24,7 +24,7 @@ interface FormValues {
 }
 
 export const SecondForm = () => {
-  const { register, formState, setValue, getValues } =
+  const { control, register, formState, setValue, handleSubmit, watch } =
     useForm<FormValues>({
       mode: 'onChange',
       delayError: 1000,
@@ -34,25 +34,18 @@ export const SecondForm = () => {
       }
     });
 
-  const [token, setToken] = useState('');
+  const token = watch('token');
   const locationsQuery = api.showcase.getLocation.useQuery({ token: token });
   const registerLocation = api.showcase.bookLocation.useMutation();
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState(false);
 
   const locationsList = locationsQuery.data;
-
   const toast = useToast();
 
-  const fetchLocations = (e: SyntheticEvent) => {
-    setToken((e.target as HTMLInputElement).value);
-  };
-
-  const submitSecondShowCase = async (
-    data: FormValues,
-    event: BaseSyntheticEvent
+  const submitSecondShowCase: SubmitHandler<FormValues> = async (
+    data: FormValues
   ) => {
-    event.preventDefault();
     setLoading(true);
 
     try {
@@ -90,8 +83,9 @@ export const SecondForm = () => {
   return (
     <Box
       zIndex='10'
-      bgGradient='linear(to-br, navy.1, purple.3)'
-      boxShadow='inset 0 0 24px rgba(0,0,0,0.8), 12px 12px rgba(0,0,0,0.4)'
+      backdropFilter='blur(13px)'
+      boxShadow='3px 3px 14px 0px rgba(0, 0, 0, 0.69)'
+      backgroundColor='rgba(237, 240, 247, 0.20)'
       px={12}
       py={9}
       borderRadius='lg'
@@ -99,25 +93,35 @@ export const SecondForm = () => {
       maxH='70vh'
       overflowY='auto'
       w={{ base: '80%', lg: '700px' }}
+      sx={{
+        '&::-webkit-scrollbar': {
+          width: '0'
+        }
+      }}
     >
       <Heading
         fontSize='2xl'
         textAlign='center'
         textShadow='4px 6px rgba(0,0,0,0.5)'
+        color='white'
       >
         AMBIL LOKASI
       </Heading>
-      <form onSubmit={(event) => void submitSecondShowCase(getValues(), event)}>
+      <form
+        onSubmit={(event: BaseSyntheticEvent) =>
+          void handleSubmit(submitSecondShowCase)(event)
+        }
+      >
         <VStack spacing={4} mt={5} color='white'>
           <FormControl isRequired isInvalid={!!formState.errors.token}>
             <FormLabel>Token</FormLabel>
             <Input
               placeholder='Masukkan token'
               {...register('token', {
-                onChange: _.debounce(
-                  (e: SyntheticEvent) => fetchLocations(e),
-                  1000
-                )
+                required: {
+                  value: true,
+                  message: 'Token tidak boleh kosong'
+                }
               })}
             />
             {formState.errors.token && (
@@ -128,54 +132,66 @@ export const SecondForm = () => {
           </FormControl>
           <FormControl isRequired isInvalid={!!formState.errors.location}>
             <FormLabel>Lokasi</FormLabel>
-            <Select
-              variant='filled'
-              bg='gray.600'
-              color='white'
-              w='full'
-              borderColor='gray.400'
-              onChange={(e) => setValue('location', e.target.value)}
-              transition='all 0.2s ease-in-out'
-              _hover={{
-                opacity: 0.8
-              }}
-              _focus={{
-                background: 'gray.600',
-                borderColor: 'gray.400',
-                color: 'white'
-              }}
-              css={{
-                option: {
-                  background: '#2F2E2E'
+            <Controller
+              control={control}
+              name='location'
+              rules={{
+                required: {
+                  value: true,
+                  message: 'Lokasi tidak boleh kosong'
                 }
               }}
-            >
-              {locationsList ? (
-                locationsList.locations.map((location, index) => (
-                  <option
-                    style={{
-                      background: 'gray.600',
-                      color: 'white'
-                    }}
-                    key={index}
-                    value={location}
-                  >
-                    {location}
-                  </option>
-                ))
-              ) : (
-                <option
-                  style={{
+              render={() => (
+                <Select
+                  variant='filled'
+                  bg='gray.600'
+                  color='white'
+                  w='full'
+                  borderColor='gray.400'
+                  onChange={(e) => setValue('location', e.target.value)}
+                  transition='all 0.2s ease-in-out'
+                  _hover={{
+                    opacity: 0.8
+                  }}
+                  _focus={{
                     background: 'gray.600',
+                    borderColor: 'gray.400',
                     color: 'white'
                   }}
-                  selected
-                  disabled
+                  css={{
+                    option: {
+                      background: '#2F2E2E'
+                    }
+                  }}
                 >
-                  Invalid token
-                </option>
+                  {locationsList ? (
+                    locationsList.locations.map((location, index) => (
+                      <option
+                        style={{
+                          background: 'gray.600',
+                          color: 'white'
+                        }}
+                        key={index}
+                        value={location}
+                      >
+                        {location}
+                      </option>
+                    ))
+                  ) : (
+                    <option
+                      style={{
+                        background: 'gray.600',
+                        color: 'white'
+                      }}
+                      selected
+                      disabled
+                    >
+                      Invalid token
+                    </option>
+                  )}
+                </Select>
               )}
-            </Select>
+            />
             {formState.errors.location && (
               <FormErrorMessage>
                 {formState.errors.location.message as string}
@@ -190,6 +206,7 @@ export const SecondForm = () => {
             loadingText='Mendaftarkan...'
             type='submit'
             isDisabled={Object.values(formState.errors).length > 0}
+            w='50%'
           >
             Ambil
           </Button>
