@@ -45,7 +45,6 @@ exports.env = createEnv({
       // SAMPLER_RATIO must be a positive number
       z.number().positive().min(0).max(1)
     ),
-    GOOGLE_APPLICATION_CREDENTIALS: z.string().min(1),
     BUCKET_NAME: z.string().min(1),
     URL_EXPIRATION_TIME: z.preprocess(
       // If URL_EXPIRATION_TIME is not set, set it to 1 hour
@@ -53,7 +52,6 @@ exports.env = createEnv({
       // URL_EXPIRATION_TIME must be a positive integer
       z.number().int().positive().min(1)
     ),
-    BUCKET_API_KEY: z.string().min(1),
     TYPING_TIMEOUT: z.preprocess(
       // If TYPING_TIMEOUT is not set, set it to 1000 ms
       (str) => (str ? +str : 1000),
@@ -71,7 +69,8 @@ exports.env = createEnv({
    */
   client: {
     NEXT_PUBLIC_API_URL: z.string().url(),
-    NEXT_PUBLIC_WS_URL: z.string().url()
+    NEXT_PUBLIC_WS_URL: z.string().url(),
+    NEXT_PUBLIC_BUCKET_API_KEY: z.string().min(1)
   },
 
   /**
@@ -87,13 +86,12 @@ exports.env = createEnv({
     S_MAXAGE: process.env.S_MAXAGE,
     STALE_WHILE_REVALIDATE: process.env.STALE_WHILE_REVALIDATE,
     SAMPLER_RATIO: process.env.SAMPLER_RATIO,
-    GOOGLE_APPLICATION_CREDENTIALS: process.env.GOOGLE_APPLICATION_CREDENTIALS,
     BUCKET_NAME: process.env.BUCKET_NAME,
     URL_EXPIRATION_TIME: process.env.URL_EXPIRATION_TIME,
-    BUCKET_API_KEY: process.env.BUCKET_API_KEY,
     TYPING_TIMEOUT: process.env.TYPING_TIMEOUT,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
+    NEXT_PUBLIC_BUCKET_API_KEY: process.env.NEXT_PUBLIC_BUCKET_API_KEY,
     REDIS_URL: process.env.REDIS_URL
   },
   /**

@@ -1,4 +1,5 @@
 import axios, { type AxiosProgressEvent } from 'axios';
+import { env } from '~/env.cjs';
 
 export enum FolderEnum {
   PROFILE = 'profile',
@@ -21,14 +22,15 @@ export enum Lembaga {
 export const uploadFile = async (
   url: string,
   file: File,
-  type: AllowableFileTypeEnum,
   onUploadProgress?: (progressEvent: AxiosProgressEvent) => void
 ) => {
   const axiosInstance = axios.create();
+  const data = new FormData();
+  data.append('file', file);
 
-  await axiosInstance.put<null>(url, file, {
+  await axiosInstance.put<null>(url, data, {
     headers: {
-      'Content-Type': type
+      'API-KEY': env.NEXT_PUBLIC_BUCKET_API_KEY
     },
     onUploadProgress
   });
@@ -42,6 +44,9 @@ export const downloadFile = async (
 
   const response = await axiosInstance.get<Blob>(url, {
     responseType: 'blob',
+    headers: {
+      'API-KEY': env.NEXT_PUBLIC_BUCKET_API_KEY
+    },
     onDownloadProgress
   });
 
