@@ -14,7 +14,7 @@ const Home: NextPage = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Flex
-        minH='100vh'
+        minH='100dvh'
         backgroundImage='/images/bg-coming-soon.png'
         backgroundSize='cover'
         backgroundPosition='center'
