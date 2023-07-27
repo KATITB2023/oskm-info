@@ -12,7 +12,7 @@ import {
   Select
 } from '@chakra-ui/react';
 import { TRPCClientError } from '@trpc/client';
-import { type BaseSyntheticEvent, useState } from 'react';
+import { type BaseSyntheticEvent, useState, type SyntheticEvent } from 'react';
 import { type SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { api } from '~/utils/api';
 import _ from 'lodash';
@@ -24,7 +24,8 @@ interface FormValues {
 }
 
 export const SecondForm = () => {
-  const { control, register, formState, setValue, handleSubmit, watch } =
+  const [token, setToken] = useState<string>('');
+  const { control, register, formState, setValue, handleSubmit } =
     useForm<FormValues>({
       mode: 'onChange',
       delayError: 1000,
@@ -34,7 +35,6 @@ export const SecondForm = () => {
       }
     });
 
-  const token = watch('token');
   const locationsQuery = api.showcase.getLocation.useQuery({ token: token });
   const registerLocation = api.showcase.bookLocation.useMutation();
   const [loading, setLoading] = useState<boolean>(false);
@@ -113,7 +113,7 @@ export const SecondForm = () => {
         }
       >
         <VStack spacing={4} mt={5} color='white'>
-          <FormControl isRequired isInvalid={!!formState.errors.token}>
+          <FormControl isInvalid={!!formState.errors.token}>
             <FormLabel>Token</FormLabel>
             <Input
               placeholder='Masukkan token'
@@ -121,7 +121,12 @@ export const SecondForm = () => {
                 required: {
                   value: true,
                   message: 'Token tidak boleh kosong'
-                }
+                },
+                onChange: _.debounce(
+                  (e: SyntheticEvent) =>
+                    setToken((e.target as HTMLInputElement).value),
+                  1000
+                )
               })}
             />
             {formState.errors.token && (
@@ -130,7 +135,7 @@ export const SecondForm = () => {
               </FormErrorMessage>
             )}
           </FormControl>
-          <FormControl isRequired isInvalid={!!formState.errors.location}>
+          <FormControl isInvalid={!!formState.errors.location}>
             <FormLabel>Lokasi</FormLabel>
             <Controller
               control={control}

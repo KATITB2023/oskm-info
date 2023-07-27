@@ -112,6 +112,16 @@ export const showcaseRouter = createTRPCRouter({
         });
       }
 
+      const pastDeadline =
+        new Date('Aug 6, 2023 23:59:59 GMT+0700').getTime() <
+        new Date().getTime();
+      if (pastDeadline) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Registration deadline has passed'
+        });
+      }
+
       await ctx.prisma.showcaseBooking.create({
         data: {
           name: input.name,

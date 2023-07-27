@@ -1,19 +1,10 @@
 import { Flex, Image } from '@chakra-ui/react';
 import { FirstForm } from './FirstForm';
 import { SecondForm } from './SecondForm';
-import { useEffect, useState } from 'react';
 
 export const ShowCase = () => {
-  const [daftarUnit, setDaftarUnit] = useState(true);
-
-  useEffect(() => {
-    // TODO: CHANGE THIS SWITCH TIME
-    const switchTime = new Date('July 27, 2023 15:21:55');
-    const currentTime = new Date();
-    if (switchTime > currentTime) {
-      setDaftarUnit(false);
-    }
-  }, []);
+  const daftarUnit =
+    new Date('Aug 6, 2023 23:59:59 GMT+0700').getTime() > new Date().getTime();
 
   return (
     <Flex
