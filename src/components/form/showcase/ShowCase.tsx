@@ -51,18 +51,23 @@ export const ShowCase = () => {
         draggable='false'
         loading='lazy'
       />
-      <Flex direction={'column'} rowGap={'1rem'}>
+      <Flex
+        direction='column'
+        rowGap='1rem'
+        justifyContent='center'
+        alignItems='center'
+      >
         <Flex
-          borderWidth={'3px'}
-          borderColor={'black'}
-          borderRadius={'50px'}
+          borderWidth='3px'
+          borderColor='black'
+          borderRadius='50px'
           w={{ base: '80%', lg: '700px' }}
-          columnGap={'0.5rem'}
+          columnGap='0.5rem'
         >
           <Button
             color={daftarUnit ? undefined : 'white'}
-            width={'50%'}
-            borderRadius={'50px'}
+            width='50%'
+            borderRadius='50px'
             backgroundColor={daftarUnit ? '' : 'transparent'}
             onClick={() => setDaftarUnit(true)}
           >
@@ -70,8 +75,8 @@ export const ShowCase = () => {
           </Button>
           <Button
             color={daftarUnit ? 'white' : undefined}
-            width={'50%'}
-            borderRadius={'50px'}
+            width='50%'
+            borderRadius='50px'
             backgroundColor={daftarUnit ? 'transparent' : ''}
             onClick={() => setDaftarUnit(false)}
           >

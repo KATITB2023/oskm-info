@@ -99,6 +99,19 @@ export const showcaseRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
+      const registered = await ctx.prisma.showcaseBooking.findFirst({
+        where: {
+          nim: input.nim
+        }
+      });
+
+      if (registered) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'This NIM has already been registered'
+        });
+      }
+
       await ctx.prisma.showcaseBooking.create({
         data: {
           name: input.name,
@@ -149,13 +162,13 @@ export const showcaseRouter = createTRPCRouter({
         where: {
           token: input.token
         }
-      })
+      });
 
       if (bookedLocation) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'Token has been used'
-        })
+        });
       }
 
       try {

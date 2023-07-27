@@ -9,13 +9,15 @@ import {
   VStack,
   Flex,
   useToast,
-  Select
+  Select,
+  InputGroup,
+  InputLeftAddon
 } from '@chakra-ui/react';
 import { TRPCClientError } from '@trpc/client';
 import { type BaseSyntheticEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { api } from '~/utils/api';
-import { Lembaga } from '~/utils/file';
+import { Lembaga, uploadFile } from '~/utils/file';
 
 interface FormValues {
   name: string;
@@ -25,7 +27,7 @@ interface FormValues {
   position: string;
   lineId: string;
   waNumber: string;
-  mouPath: string;
+  mouPath: FileList;
 }
 
 export const FirstForm = () => {
@@ -41,7 +43,7 @@ export const FirstForm = () => {
         position: '',
         lineId: '',
         waNumber: '',
-        mouPath: ''
+        mouPath: undefined
       }
     });
 
@@ -57,8 +59,19 @@ export const FirstForm = () => {
     event.preventDefault();
     setLoading(true);
 
+    const fileName = `showcase-mou-${data.nim}-${data.lembagaName}`;
+    const extension = data.mouPath[0]?.name.split('.').pop() as string;
+    const fullPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
+
+    if (data.mouPath[0]) {
+      await uploadFile(fullPath, data.mouPath[0]);
+    }
+
     try {
-      const result = await registerUnitMutation.mutateAsync(data);
+      const result = await registerUnitMutation.mutateAsync({
+        ...data,
+        mouPath: fullPath
+      });
 
       toast({
         title: 'Success',
@@ -103,7 +116,7 @@ export const FirstForm = () => {
         textAlign='center'
         textShadow='4px 6px rgba(0,0,0,0.5)'
       >
-        PENDAFTARAN UNIT
+        DAFTAR UNIT
       </Heading>
       <form onSubmit={(event) => void submitFirstShowcase(getValues(), event)}>
         <VStack spacing={4} mt={5} color='white'>
@@ -225,17 +238,27 @@ export const FirstForm = () => {
           </FormControl>
           <FormControl isRequired isInvalid={!!formState.errors.waNumber}>
             <FormLabel>Nomor WhatsApp</FormLabel>
-            <Input
-              placeholder='Masukkan nomor WhatsApp Anda'
-              {...register('waNumber', {
-                pattern: {
-                  value: new RegExp(
-                    `^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$`
-                  ),
-                  message: 'Nomor WhatsApp invalid'
-                }
-              })}
-            />
+            <InputGroup>
+              <InputLeftAddon>+62</InputLeftAddon>
+              <Input
+                placeholder='Masukkan nomor WhatsApp Anda'
+                {...register('waNumber', {
+                  setValueAs: (v: string) => {
+                    let value = v;
+                    if (v[0] === '0') {
+                      value = v.slice(1);
+                    }
+                    return '+62'.concat(value);
+                  },
+                  pattern: {
+                    value: new RegExp(
+                      `^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$`
+                    ),
+                    message: 'Nomor WhatsApp invalid'
+                  }
+                })}
+              />
+            </InputGroup>
             {formState.errors.waNumber && (
               <FormErrorMessage>
                 {formState.errors.waNumber.message as string}
@@ -244,23 +267,19 @@ export const FirstForm = () => {
           </FormControl>
           <FormControl isInvalid={!!formState.errors.mouPath}>
             <FormLabel>Insert Media MoU</FormLabel>
-            {/* <Input
+            <Input
               type='file'
-              accept='application/zip'
+              accept='application/pdf'
               variant='unstyled'
-              {...register('ktm', {
-                required: {
-                  value: true,
-                  message: 'KTM tidak boleh kosong'
-                },
-                validate: (value: FileList | null) => {
-                  if (value && value[0]?.type !== 'application/zip') {
-                    return 'KTM harus berupa file .zip';
+              {...register('mouPath', {
+                validate: (value) => {
+                  if (value[0] && value[0].type !== 'application/pdf') {
+                    return 'MoU harus berupa file pdf';
                   }
                   return true;
                 }
               })}
-            /> */}
+            />
             {formState.errors.mouPath && (
               <FormErrorMessage>
                 {formState.errors.mouPath.message as string}
