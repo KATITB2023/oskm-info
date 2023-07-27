@@ -1,10 +1,19 @@
-import { Button, Flex, Image } from '@chakra-ui/react';
+import { Flex, Image } from '@chakra-ui/react';
 import { FirstForm } from './FirstForm';
 import { SecondForm } from './SecondForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const ShowCase = () => {
   const [daftarUnit, setDaftarUnit] = useState(true);
+
+  useEffect(() => {
+    // TODO: CHANGE THIS SWITCH TIME
+    const switchTime = new Date('July 27, 2023 15:21:55');
+    const currentTime = new Date();
+    if (switchTime < currentTime) {
+      setDaftarUnit(false);
+    }
+  }, []);
 
   return (
     <Flex
@@ -51,40 +60,7 @@ export const ShowCase = () => {
         draggable='false'
         loading='lazy'
       />
-      <Flex
-        direction='column'
-        rowGap='1rem'
-        justifyContent='center'
-        alignItems='center'
-      >
-        <Flex
-          borderWidth='3px'
-          borderColor='black'
-          borderRadius='50px'
-          w={{ base: '80%', lg: '700px' }}
-          columnGap='0.5rem'
-        >
-          <Button
-            color={daftarUnit ? undefined : 'white'}
-            width='50%'
-            borderRadius='50px'
-            backgroundColor={daftarUnit ? '' : 'transparent'}
-            onClick={() => setDaftarUnit(true)}
-          >
-            Daftar Unit
-          </Button>
-          <Button
-            color={daftarUnit ? 'white' : undefined}
-            width='50%'
-            borderRadius='50px'
-            backgroundColor={daftarUnit ? 'transparent' : ''}
-            onClick={() => setDaftarUnit(false)}
-          >
-            Ambil Lokasi
-          </Button>
-        </Flex>
-        {daftarUnit ? <FirstForm /> : <SecondForm />}
-      </Flex>
+      {daftarUnit ? <FirstForm /> : <SecondForm />}
     </Flex>
   );
 };
