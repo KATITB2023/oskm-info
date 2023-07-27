@@ -18,6 +18,7 @@ import { type BaseSyntheticEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { api } from '~/utils/api';
 import { Lembaga, uploadFile } from '~/utils/file';
+import { ShowCaseSubmitted } from './ShowCaseSubmitted';
 
 interface FormValues {
   name: string;
@@ -31,23 +32,23 @@ interface FormValues {
 }
 
 export const FirstForm = () => {
-  const { register, formState, setValue, getValues, reset } =
-    useForm<FormValues>({
-      mode: 'onChange',
-      delayError: 1000,
-      defaultValues: {
-        name: '',
-        nim: '',
-        lembaga: Object.values(Lembaga)[0],
-        lembagaName: '',
-        position: '',
-        lineId: '',
-        waNumber: '',
-        mouPath: undefined
-      }
-    });
+  const { register, formState, setValue, getValues } = useForm<FormValues>({
+    mode: 'onChange',
+    delayError: 1000,
+    defaultValues: {
+      name: '',
+      nim: '',
+      lembaga: Object.values(Lembaga)[0],
+      lembagaName: '',
+      position: '',
+      lineId: '',
+      waNumber: '',
+      mouPath: undefined
+    }
+  });
 
   const registerUnitMutation = api.showcase.registerUnit.useMutation();
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const toast = useToast();
@@ -59,11 +60,11 @@ export const FirstForm = () => {
     event.preventDefault();
     setLoading(true);
 
-    const fileName = `showcase-mou-${data.nim}-${data.lembagaName}`;
-    const extension = data.mouPath[0]?.name.split('.').pop() as string;
-    const fullPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
-
+    let fullPath = '';
     if (data.mouPath[0]) {
+      const fileName = `showcase-mou-${data.nim}-${data.lembagaName}`;
+      const extension = data.mouPath[0]?.name.split('.').pop() as string;
+      fullPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
       await uploadFile(fullPath, data.mouPath[0]);
     }
 
@@ -81,7 +82,8 @@ export const FirstForm = () => {
         isClosable: true,
         position: 'top'
       });
-      reset();
+
+      setSuccess(true);
     } catch (error: unknown) {
       if (!(error instanceof TRPCClientError)) throw error;
 
@@ -97,6 +99,10 @@ export const FirstForm = () => {
 
     setLoading(false);
   };
+
+  if (success) {
+    return <ShowCaseSubmitted firstForm={true} />;
+  }
 
   return (
     <Box
@@ -252,7 +258,7 @@ export const FirstForm = () => {
                   },
                   pattern: {
                     value: new RegExp(
-                      `^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$`
+                      `^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,7}$`
                     ),
                     message: 'Nomor WhatsApp invalid'
                   }

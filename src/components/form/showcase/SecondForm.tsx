@@ -16,6 +16,7 @@ import { type BaseSyntheticEvent, useState, type SyntheticEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { api } from '~/utils/api';
 import _ from 'lodash';
+import { ShowCaseSubmitted } from './ShowCaseSubmitted';
 
 interface FormValues {
   token: string;
@@ -37,6 +38,7 @@ export const SecondForm = () => {
   const locationsQuery = api.showcase.getLocation.useQuery({ token: token });
   const registerLocation = api.showcase.bookLocation.useMutation();
   const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState(false);
 
   const locationsList = locationsQuery.data;
 
@@ -64,8 +66,7 @@ export const SecondForm = () => {
         isClosable: true,
         position: 'top'
       });
-      reset();
-      setToken('');
+      setSuccess(true);
     } catch (error: unknown) {
       if (!(error instanceof TRPCClientError)) throw error;
 
@@ -81,6 +82,10 @@ export const SecondForm = () => {
 
     setLoading(false);
   };
+
+  if (success) {
+    return <ShowCaseSubmitted firstForm={false} />;
+  }
 
   return (
     <Box
