@@ -20,6 +20,7 @@ export const showcaseRouter = createTRPCRouter({
     .input(
       z.object({
         teamName: z.string(),
+        contact: z.string(),
         teamMember: z.string().array(),
         ktmPath: z.string(),
         musicPath: z.string().optional(),
@@ -49,6 +50,7 @@ export const showcaseRouter = createTRPCRouter({
           registrant: {
             create: {
               teamName: input.teamName,
+              contact: input.contact,
               teamMember: input.teamMember,
               ktmPath: input.ktmPath,
               musicPath: input.musicPath,

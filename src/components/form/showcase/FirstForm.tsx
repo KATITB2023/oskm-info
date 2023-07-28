@@ -62,7 +62,7 @@ export const FirstForm = () => {
     try {
       let fullPath = '';
       if (data.mouPath[0]) {
-        const fileName = `showcase-mou-${data.nim}-${data.lembagaName}`;
+        const fileName = `showcase-mou-${data.nim}-${data.lembagaName.replace(' ', '')}`;
         const extension = data.mouPath[0]?.name.split('.').pop() as string;
         fullPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
         await uploadFile(fullPath, data.mouPath[0]);
@@ -128,7 +128,7 @@ export const FirstForm = () => {
         textShadow='4px 6px rgba(0,0,0,0.5)'
         color='white'
       >
-        DAFTAR UNIT
+        DAFTAR BOOTH SHOWCASE
       </Heading>
       <form
         onSubmit={(event: BaseSyntheticEvent) =>
