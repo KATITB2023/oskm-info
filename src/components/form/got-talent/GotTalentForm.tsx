@@ -151,7 +151,7 @@ export const GotTalentForm = () => {
       if (data.contact[0] === '0' && !useLine) {
         formattedContact = data.contact.slice(1);
       }
-      '+62'.concat(formattedContact);
+      formattedContact = '+62'.concat(formattedContact);
 
       const payload: RouterInputs['showcase']['registerGotTalent'] = {
         teamName: data.name,
