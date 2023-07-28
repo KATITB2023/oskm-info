@@ -11,6 +11,8 @@ import {
   useToast,
   Tooltip,
   Icon,
+  InputGroup,
+  InputLeftAddon,
   Select
 } from '@chakra-ui/react';
 import { TRPCClientError } from '@trpc/client';
@@ -30,6 +32,7 @@ import { uploadFile } from '~/utils/file';
 
 interface FormValue {
   name: string;
+  contact: string;
   contestant: { name: string }[];
   ktm: FileList;
   musik: FileList;
@@ -61,6 +64,7 @@ export const GotTalentForm = () => {
     mode: 'onSubmit',
     defaultValues: {
       name: '',
+      contact: '',
       contestant: [{ name: '' }],
       ktm: undefined,
       musik: undefined,
@@ -106,6 +110,7 @@ export const GotTalentForm = () => {
     api.showcase.registerGotTalent.useMutation();
   const [dateList, setDateList] = useState<Date>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [useLine, setUseLine] = useState(true);
 
   const toast = useToast();
   const formDate = watch('date');
@@ -129,22 +134,29 @@ export const GotTalentForm = () => {
       let musikPath = '';
 
       if (data.ktm[0]) {
-        const fileName = `got-talent-ktm-${data.name}`;
+        const fileName = `got-talent-ktm-${data.name.replace(' ', '')}`;
         const extension = data.ktm[0]?.name.split('.').pop() as string;
         ktmPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
         await uploadFile(ktmPath, data.ktm[0]);
       }
 
       if (data.musik[0]) {
-        const fileName = `got-talent-musik-${data.name}`;
+        const fileName = `got-talent-musik-${data.name.replace(' ', '')}`;
         const extension = data.musik[0]?.name.split('.').pop() as string;
         musikPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
         await uploadFile(musikPath, data.musik[0]);
       }
 
+      let formattedContact = '';
+      if (data.contact[0] === '0' && !useLine) {
+        formattedContact = data.contact.slice(1);
+      }
+      '+62'.concat(formattedContact);
+
       const payload: RouterInputs['showcase']['registerGotTalent'] = {
         teamName: data.name,
         teamMember: data.contestant.map((item) => item.name),
+        contact: useLine ? data.contact : formattedContact,
         ktmPath: ktmPath,
         musicPath: musikPath,
         property: data.property.map((item) => item.name),
@@ -268,6 +280,90 @@ export const GotTalentForm = () => {
               </FormErrorMessage>
             )}
           </FormControl>
+          <FormControl isInvalid={!!formState.errors.contact}>
+            <FormLabel>Kontak</FormLabel>
+            <Controller
+              control={control}
+              name='contact'
+              rules={{
+                required: {
+                  value: true,
+                  message: 'Kontak tidak boleh kosong'
+                }
+              }}
+              render={() => (
+                <Flex w={'full'} gap={2}>
+                  <Select
+                    variant='filled'
+                    bg='gray.600'
+                    color='white'
+                    w='50%'
+                    borderColor='gray.400'
+                    onChange={(e) => {
+                      e.target.value === 'lineId'
+                        ? setUseLine(true)
+                        : setUseLine(false);
+                    }}
+                    transition='all 0.2s ease-in-out'
+                    _hover={{
+                      opacity: 0.8
+                    }}
+                    _focus={{
+                      background: 'gray.600',
+                      borderColor: 'gray.400',
+                      color: 'white'
+                    }}
+                    css={{
+                      option: {
+                        background: '#2F2E2E'
+                      }
+                    }}
+                  >
+                    <option
+                      style={{
+                        background: 'gray.600',
+                        color: 'white'
+                      }}
+                      key='lineId'
+                      value='lineId'
+                    >
+                      ID Line
+                    </option>
+                    <option
+                      style={{
+                        background: 'gray.600',
+                        color: 'white'
+                      }}
+                      key='whatsApp'
+                      value='whatsApp'
+                    >
+                      Nomor WhatsApp
+                    </option>
+                  </Select>
+                  {useLine ? (
+                    <Input
+                      placeholder='Masukkan ID Line'
+                      {...register('contact')}
+                    />
+                  ) : (
+                    <InputGroup>
+                      <InputLeftAddon>+62</InputLeftAddon>
+                      <Input
+                        placeholder='Masukkan nomor WhatsApp Anda'
+                        {...register('contact')}
+                      />
+                    </InputGroup>
+                  )}
+                </Flex>
+              )}
+            />
+            {formState.errors.contact && (
+              <FormErrorMessage>
+                {formState.errors.contact.message as string}
+              </FormErrorMessage>
+            )}
+          </FormControl>
+
           <FormControl isInvalid={!!formState.errors.contestant}>
             <FormLabel>Nama Peserta</FormLabel>
             <Flex flexDir='column' gap={1}>
