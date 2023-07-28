@@ -30,6 +30,7 @@ const Home: NextPage = () => {
           alt='coming-soon'
           w={{ base: '200px', md: '350px' }}
           draggable='false'
+          loading='lazy'
         />
         <Image
           src='/images/komet.png'
@@ -41,6 +42,7 @@ const Home: NextPage = () => {
           left='0'
           zIndex='10'
           draggable='false'
+          loading='lazy'
         />
         <Image
           src='/images/bulan.png'
@@ -52,6 +54,7 @@ const Home: NextPage = () => {
           left='-3%'
           zIndex='10'
           draggable='false'
+          loading='lazy'
         />
         <Image
           src='/images/munaroh.png'
@@ -63,6 +66,7 @@ const Home: NextPage = () => {
           right='0'
           zIndex='10'
           draggable='false'
+          loading='lazy'
         />
         <Image
           src='/images/spark.png'
@@ -74,6 +78,7 @@ const Home: NextPage = () => {
           left='12%'
           zIndex='10'
           draggable='false'
+          loading='lazy'
         />
         <Heading
           fontSize={{ base: '2xl', md: '5xl' }}

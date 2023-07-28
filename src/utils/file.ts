@@ -1,29 +1,38 @@
-import axios, { type AxiosProgressEvent } from "axios";
+import axios, { type AxiosProgressEvent } from 'axios';
+import { env } from '~/env.cjs';
 
 export enum FolderEnum {
-  PROFILE = "profile",
-  ASSIGNMENT = "assignment",
+  PROFILE = 'profile',
+  ASSIGNMENT = 'assignment'
 }
 
 export enum AllowableFileTypeEnum {
-  PDF = "application/pdf",
-  PNG = "image/png",
-  JPEG = "image/jpeg",
+  PDF = 'application/pdf',
+  PNG = 'image/png',
+  JPEG = 'image/jpeg'
+}
+
+export enum Lembaga {
+  HMJ = 'HMJ',
+  UKM = 'UKM',
+  PENGMAS = 'PENGMAS',
+  DLL = 'DLL'
 }
 
 export const uploadFile = async (
   url: string,
   file: File,
-  type: AllowableFileTypeEnum,
   onUploadProgress?: (progressEvent: AxiosProgressEvent) => void
 ) => {
   const axiosInstance = axios.create();
+  const data = new FormData();
+  data.append('file', file);
 
-  await axiosInstance.put<null>(url, file, {
+  await axiosInstance.put<null>(url, data, {
     headers: {
-      "Content-Type": type,
+      'API-KEY': env.NEXT_PUBLIC_BUCKET_API_KEY
     },
-    onUploadProgress,
+    onUploadProgress
   });
 };
 
@@ -34,8 +43,11 @@ export const downloadFile = async (
   const axiosInstance = axios.create();
 
   const response = await axiosInstance.get<Blob>(url, {
-    responseType: "blob",
-    onDownloadProgress,
+    responseType: 'blob',
+    headers: {
+      'API-KEY': env.NEXT_PUBLIC_BUCKET_API_KEY
+    },
+    onDownloadProgress
   });
 
   return response.data;

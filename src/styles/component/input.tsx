@@ -17,6 +17,12 @@ const variantDark: SystemStyleFunction = () => {
       _focusVisible: {
         boxShadow: '0 0 16px rgba(255,252,131,0.4)'
       }
+    },
+    addon: {
+      border: '2px solid',
+      borderColor: 'gray.400',
+      bg: 'gray.600',
+      color: 'white'
     }
   };
 };
