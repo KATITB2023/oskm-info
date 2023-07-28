@@ -15,14 +15,7 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import React, { ReactNode, useState } from 'react';
-import {
-  AboutIcon,
-  MerchandiseIcon,
-  MapIcon,
-  BlogIcon,
-  LoginIcon,
-  SpacelogIcon
-} from '~/styles/component/icon';
+import {MdAssuredWorkload, MdShoppingBag, MdMap, MdNewspaper, MdRocketLaunch, MdLogin} from 'react-icons/md'
 
 const MobLiItem = ({ children }: { children: ReactNode }) => {
   return (
@@ -147,7 +140,7 @@ const Navbar = () => {
             </Box>
           </HStack>
         </UnorderedList>
-        <Box display={{ base: 'block', lg: '' }}>
+        <Box display={{ base: 'block', lg: '' }} >
           <Menu strategy='fixed'>
             <MenuButton
               as={Button}
@@ -176,7 +169,7 @@ const Navbar = () => {
               <Link href='/tes'>
                 <MobLiItem>
                   <Box>
-                    <Icon w={6} h={6} as={AboutIcon} />
+                    <Icon w={6} h={6} as={MdAssuredWorkload} />
                   </Box>
                   <Text>About Us</Text>
                 </MobLiItem>
@@ -184,7 +177,7 @@ const Navbar = () => {
               <Link href='/'>
                 <MobLiItem>
                   <Box>
-                    <Icon w={6} h={6} as={MerchandiseIcon} />
+                    <Icon w={6} h={6} as={MdShoppingBag} />
                   </Box>
                   <Text>Merchandise</Text>
                 </MobLiItem>
@@ -192,7 +185,7 @@ const Navbar = () => {
               <Link href='/'>
                 <MobLiItem>
                   <Box>
-                    <Icon w={6} h={6} as={MapIcon} />
+                    <Icon w={6} h={6} as={MdMap} />
                   </Box>
                   <Text>Interactive Map</Text>
                 </MobLiItem>
@@ -200,7 +193,7 @@ const Navbar = () => {
               <Link href='/'>
                 <MobLiItem>
                   <Box>
-                    <Icon w={6} h={6} as={BlogIcon} />
+                    <Icon w={6} h={6} as={MdNewspaper} />
                   </Box>
                   <Text>Blog</Text>
                 </MobLiItem>
@@ -210,7 +203,7 @@ const Navbar = () => {
                   <Link href='/'>
                     <MobLiItem>
                       <Box>
-                        <Icon w={6} h={6} as={SpacelogIcon} />
+                        <Icon w={6} h={6} as={MdRocketLaunch} />
                       </Box>
                       <Text>Spacelog</Text>
                     </MobLiItem>
@@ -219,7 +212,7 @@ const Navbar = () => {
                   <Link href='/'>
                     <MobLiItem>
                       <Box>
-                        <Icon w={6} h={6} as={LoginIcon} />
+                        <Icon w={6} h={6} as={MdLogin} />
                       </Box>
                       <Text>Login</Text>
                     </MobLiItem>
