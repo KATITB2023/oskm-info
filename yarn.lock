@@ -1216,7 +1216,7 @@
 
 "@katitb2023/database@git+https://github.com/KATITB2023/database.git#main":
   version "1.0.0"
-  resolved "git+https://github.com/KATITB2023/database.git#8bca40ca581a13eeed9f51555be4b4340c1349bd"
+  resolved "git+https://github.com/KATITB2023/database.git#520c29ee4e2a06f9beec0789164aec58915c51d2"
   dependencies:
     "@prisma/client" "4.15.0"
     dotenv-cli "^7.2.1"
