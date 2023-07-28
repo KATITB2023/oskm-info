@@ -38,7 +38,6 @@ const LoginForm = ({
     handleSubmit,
     register,
     formState: { errors, isDirty, isValid, isSubmitting },
-    setError,
     reset
   } = useForm<FormValues>({
     mode: 'onSubmit',
@@ -88,21 +87,7 @@ const LoginForm = ({
     });
 
     if (res?.ok) handleLoggedIn();
-    if (res?.error) {
-      const error: string = res.error;
-      handleError(error);
-      if (error === 'User not found') {
-        setError('nim', {
-          type: 'manual',
-          message: 'NIM tidak ditemukan'
-        });
-      } else if (error === 'Password is incorrect') {
-        setError('password', {
-          type: 'manual',
-          message: 'Password salah'
-        });
-      }
-    }
+    if (res?.error) handleError(res.error);
 
     reset({}, { keepErrors: true, keepValues: !!errors });
   };
@@ -172,14 +157,16 @@ const LoginForm = ({
           </FormControl>
           <Button
             type='submit'
-            disabled={!isDirty || !isValid}
+            isDisabled={!isDirty || !isValid}
+            isLoading={isSubmitting}
+            loadingText='Loading'
             maxW='12rem'
             w='100%'
             fontFamily='Bodwars'
             cursor='pointer'
             size={{ base: 'sm', md: 'md' }}
           >
-            {isSubmitting ? 'Loading...' : 'Login'}
+            Login
           </Button>
         </VStack>
       </form>
