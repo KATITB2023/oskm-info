@@ -1,6 +1,7 @@
-import { storageRouter } from "~/server/api/routers/storage";
-import { createTRPCRouter } from "~/server/api/trpc";
-import { messageRouter } from "./routers/message";
+import { storageRouter } from '~/server/api/routers/storage';
+import { createTRPCRouter } from '~/server/api/trpc';
+import { messageRouter } from './routers/message';
+import { showcaseRouter } from './routers/showcase';
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { messageRouter } from "./routers/message";
 export const appRouter = createTRPCRouter({
   storage: storageRouter,
   message: messageRouter,
+  showcase: showcaseRouter
 });
 
 // export type definition of API
