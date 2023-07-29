@@ -137,14 +137,14 @@ const LoginForm = ({
           <FormControl isInvalid={!!errors.password}>
             <InputGroup size={{ base: 'sm', md: 'md' }}>
               <Input
-                placeholder='password'
+                placeholder='Password'
                 {...register('password', {
                   required: 'Password tidak boleh kosong'
                 })}
                 type={showPassword ? 'text' : 'password'}
               />
               <InputRightElement height='100%' paddingRight='1rem'>
-                {showPassword ? (
+                {!showPassword ? (
                   <AiOutlineEye onClick={() => setShowPassword(false)} />
                 ) : (
                   <AiOutlineEyeInvisible
