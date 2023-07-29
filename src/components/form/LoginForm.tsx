@@ -145,10 +145,10 @@ const LoginForm = ({
               />
               <InputRightElement height='100%' paddingRight='1rem'>
                 {!showPassword ? (
-                  <AiOutlineEye onClick={() => setShowPassword(false)} />
+                  <AiOutlineEye onClick={() => setShowPassword(true)} />
                 ) : (
                   <AiOutlineEyeInvisible
-                    onClick={() => setShowPassword(true)}
+                    onClick={() => setShowPassword(false)}
                   />
                 )}
               </InputRightElement>
