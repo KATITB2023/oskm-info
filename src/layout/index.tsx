@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react';
 import Navbar from '~/components/Navbar';
 
 interface Props {
-  title: string;
+  title?: string;
   children?: React.ReactNode;
 }
 
@@ -22,7 +22,7 @@ export default function Layout({ title, children }: Props) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-      >
+        >
         <Box px={{ base: 7, lg: 12 }} py={5}>
           {children}
           {process.env.NODE_ENV !== 'production' && (

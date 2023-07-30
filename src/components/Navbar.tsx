@@ -140,7 +140,7 @@ const Navbar = () => {
             </Box>
           </HStack>
         </UnorderedList>
-        <Box display={{ base: 'block', lg: '' }} >
+        <Box display={{ base: 'block', lg: 'none' }} >
           <Menu strategy='fixed'>
             <MenuButton
               as={Button}
