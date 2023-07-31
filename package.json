@@ -27,6 +27,9 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.7.1",
+    "@deck.gl/core": "^8.9.22",
+    "@deck.gl/layers": "^8.9.22",
+    "@deck.gl/react": "^8.9.22",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.1.1",

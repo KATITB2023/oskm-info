@@ -14,8 +14,15 @@ import {
   Icon
 } from '@chakra-ui/react';
 import Link from 'next/link';
-import React, { ReactNode, useState } from 'react';
-import {MdAssuredWorkload, MdShoppingBag, MdMap, MdNewspaper, MdRocketLaunch, MdLogin} from 'react-icons/md'
+import React, { type ReactNode, useState } from 'react';
+import {
+  MdAssuredWorkload,
+  MdShoppingBag,
+  MdMap,
+  MdNewspaper,
+  MdRocketLaunch,
+  MdLogin
+} from 'react-icons/md';
 
 const MobLiItem = ({ children }: { children: ReactNode }) => {
   return (
@@ -100,7 +107,12 @@ const Navbar = () => {
         fontWeight='semibold'
       >
         <Box pos='absolute' width='100%' left='0' top='0'>
-          <Image src='/images/nav-ekor.png' draggable='false' loading='lazy' />
+          <Image
+            src='/images/nav-ekor.png'
+            draggable='false'
+            loading='lazy'
+            alt=''
+          />
         </Box>
         <Box zIndex='1000'>
           <Image
@@ -108,6 +120,7 @@ const Navbar = () => {
             height={{ base: '38px', lg: '57px' }}
             draggable='false'
             loading='lazy'
+            alt=''
           />
         </Box>
         <UnorderedList
@@ -121,7 +134,7 @@ const Navbar = () => {
             <Link href='/'>
               <DeskLiItem>Merchandise</DeskLiItem>
             </Link>
-            <Link href='/'>
+            <Link href='/interactive-map'>
               <DeskLiItem>Interactive Map</DeskLiItem>
             </Link>
             <Link href='/'>
@@ -140,7 +153,7 @@ const Navbar = () => {
             </Box>
           </HStack>
         </UnorderedList>
-        <Box display={{ base: 'block', lg: 'none' }} >
+        <Box display={{ base: 'block', lg: 'none' }}>
           <Menu strategy='fixed'>
             <MenuButton
               as={Button}
@@ -155,6 +168,7 @@ const Navbar = () => {
                 margin='auto'
                 draggable='false'
                 loading='lazy'
+                alt=''
               />
             </MenuButton>
             <MenuList
@@ -182,7 +196,7 @@ const Navbar = () => {
                   <Text>Merchandise</Text>
                 </MobLiItem>
               </Link>
-              <Link href='/'>
+              <Link href='/interactive-map'>
                 <MobLiItem>
                   <Box>
                     <Icon w={6} h={6} as={MdMap} />
