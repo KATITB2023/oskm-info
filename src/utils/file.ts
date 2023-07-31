@@ -1,17 +1,6 @@
 import axios, { type AxiosProgressEvent } from 'axios';
 import { env } from '~/env.cjs';
 
-export enum FolderEnum {
-  PROFILE = 'profile',
-  ASSIGNMENT = 'assignment'
-}
-
-export enum AllowableFileTypeEnum {
-  PDF = 'application/pdf',
-  PNG = 'image/png',
-  JPEG = 'image/jpeg'
-}
-
 export enum Lembaga {
   HMJ = 'HMJ',
   UKM = 'UKM',
@@ -30,25 +19,18 @@ export const uploadFile = async (
 
   await axiosInstance.put<null>(url, data, {
     headers: {
-      'API-KEY': env.NEXT_PUBLIC_BUCKET_API_KEY
+      'api-key': env.NEXT_PUBLIC_BUCKET_API_KEY
     },
     onUploadProgress
   });
 };
 
-export const downloadFile = async (
-  url: string,
-  onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void
-) => {
+export const deleteFile = async (url: string) => {
   const axiosInstance = axios.create();
 
-  const response = await axiosInstance.get<Blob>(url, {
-    responseType: 'blob',
+  await axiosInstance.delete<null>(url, {
     headers: {
-      'API-KEY': env.NEXT_PUBLIC_BUCKET_API_KEY
-    },
-    onDownloadProgress
+      'api-key': env.NEXT_PUBLIC_BUCKET_API_KEY
+    }
   });
-
-  return response.data;
 };
