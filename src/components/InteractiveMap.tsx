@@ -1,5 +1,9 @@
 import DeckGL from '@deck.gl/react/typed';
 import { LineLayer } from '@deck.gl/layers/typed';
+import mapboxgl from 'mapbox-gl';
+import Map from 'react-map-gl';
+import { env } from '~/env.cjs';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 // Viewport settings
 const INITIAL_VIEW_STATE = {
@@ -26,7 +30,15 @@ const InteractiveMap = () => {
       initialViewState={INITIAL_VIEW_STATE}
       controller={true}
       layers={layers}
-    />
+      width={'100vw'}
+      height={'100vh'}
+    >
+      <Map
+        mapboxAccessToken={env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+        mapLib={mapboxgl}
+        mapStyle='mapbox://styles/mapbox/streets-v9'
+      />
+    </DeckGL>
   );
 };
 
