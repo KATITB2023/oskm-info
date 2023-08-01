@@ -148,10 +148,11 @@ export const GotTalentForm = () => {
       }
 
       let formattedContact = '';
-      if (data.contact[0] === '0' && !useLine) {
-        formattedContact = data.contact.slice(1);
+      if (!useLine && data.contact[0] === '0') {
+        formattedContact = '+62'.concat(data.contact.slice(1));
+      } else {
+        formattedContact = '+62'.concat(data.contact);
       }
-      formattedContact = '+62'.concat(formattedContact);
 
       const payload: RouterInputs['showcase']['registerGotTalent'] = {
         teamName: data.name,
