@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Box } from '@chakra-ui/react';
 import Navbar from '~/components/Navbar';
 
 interface Props {
@@ -23,14 +22,12 @@ export default function Layout({ title, children }: Props) {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <Box px={{ base: 7, lg: 12 }} py={5}>
-          {children}
-          {/* {process.env.NODE_ENV !== 'production' && (
+        {children}
+        {/* {process.env.NODE_ENV !== 'production' && (
             <Box>
               <ReactQueryDevtools initialIsOpen={false} />
             </Box>
           )} */}
-        </Box>
       </motion.div>
       {/* TODO: add footer */}
     </>
