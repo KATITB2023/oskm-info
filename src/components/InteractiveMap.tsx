@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 import mapboxgl from 'mapbox-gl';
 import Map, {
   type ViewState,
@@ -7,27 +7,47 @@ import Map, {
   ScaleControl,
   GeolocateControl,
   FullscreenControl,
-  useMap
+  useMap,
+  Marker
 } from 'react-map-gl';
+import { type MapLocation, type MapPhoto } from '@prisma/client';
+import { api } from '~/utils/api';
 import { env } from '~/env.cjs';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const InteractiveButton = () => {
+const InteractiveMarker = ({
+  location
+}: {
+  location: MapLocation & {
+    MapPhoto: MapPhoto[];
+  };
+}) => {
   const { current: map } = useMap();
 
   return (
-    <Button
+    <Marker
+      key={location.id}
+      longitude={location.baseLongitude.toNumber()}
+      latitude={location.baseLatitude.toNumber()}
       onClick={() => {
         map?.flyTo({
-          center: [107.610584, -6.891182],
-          zoom: 16,
-          pitch: 0,
-          bearing: 0
+          center: [
+            location.baseLongitude.toNumber(),
+            location.baseLatitude.toNumber()
+          ],
+          zoom: 18,
+          essential: true
         });
       }}
     >
-      Home
-    </Button>
+      <Image
+        src='/images/spark3.png'
+        alt='marker'
+        w='125px'
+        draggable='false'
+        loading='lazy'
+      />
+    </Marker>
   );
 };
 
@@ -35,9 +55,13 @@ const InteractiveMap = () => {
   const [viewState, setViewState] = useState<Partial<ViewState>>({
     longitude: 107.610584,
     latitude: -6.891182,
-    zoom: 16,
+    zoom: 18,
     pitch: 0,
     bearing: 0
+  });
+
+  const getInteractiveMapQuery = api.interactiveMap.getInteractiveMap.useQuery({
+    campus: 'Ganesha'
   });
 
   return (
@@ -56,7 +80,10 @@ const InteractiveMap = () => {
       <NavigationControl />
       <ScaleControl />
       <GeolocateControl />
-      <InteractiveButton />
+      {getInteractiveMapQuery.data &&
+        getInteractiveMapQuery.data.map((location) => (
+          <InteractiveMarker key={location.id} location={location} />
+        ))}
     </Map>
   );
 };
