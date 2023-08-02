@@ -60,9 +60,8 @@ const InteractiveSelect = ({
     <Select
       width='164px'
       height='40px'
-      bg='gray.600'
+      bg='navy.2'
       color='white'
-      borderColor='gray.400'
       position='absolute'
       top='125px'
       left='25px'
@@ -72,11 +71,6 @@ const InteractiveSelect = ({
       transition='all 0.2s ease-in-out'
       _hover={{
         opacity: 0.8
-      }}
-      _focus={{
-        background: 'gray.600',
-        borderColor: 'gray.400',
-        color: 'white'
       }}
       css={{
         option: {
@@ -102,18 +96,12 @@ const InteractiveSelect = ({
 
 const InteractiveMarker = ({
   location,
-  selectedLocation,
   setSelectedLocation,
   onOpen
 }: {
   location: MapLocation & {
     MapPhoto: MapPhoto[];
   };
-  selectedLocation:
-    | (MapLocation & {
-        MapPhoto: MapPhoto[];
-      })
-    | undefined;
   setSelectedLocation: Dispatch<
     SetStateAction<
       | (MapLocation & {
@@ -126,24 +114,20 @@ const InteractiveMarker = ({
 }) => {
   const { current: map } = useMap();
 
-  useEffect(() => {
-    if (!selectedLocation || !map) return;
-
-    // Fly to selected location
-    map.flyTo({
-      center: [
-        selectedLocation.baseLongitude.toNumber(),
-        selectedLocation.baseLatitude.toNumber()
-      ],
-      zoom: 18
-    });
-  }, [map, selectedLocation]);
-
   return (
     <Marker
       longitude={location.baseLongitude.toNumber()}
       latitude={location.baseLatitude.toNumber()}
       onClick={() => {
+        // Fly to selected location
+        map?.flyTo({
+          center: [
+            location.baseLongitude.toNumber(),
+            location.baseLatitude.toNumber()
+          ],
+          zoom: 18
+        });
+
         // Set selected location
         setSelectedLocation(location);
 
@@ -207,7 +191,6 @@ const InteractiveMap = () => {
         <InteractiveMarker
           key={location.id}
           location={location}
-          selectedLocation={selectedLocation}
           setSelectedLocation={setSelectedLocation}
           onOpen={onOpen}
         />
