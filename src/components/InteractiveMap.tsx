@@ -58,11 +58,14 @@ const InteractiveSelect = ({
 
   return (
     <Select
-      variant='filled'
+      width='164px'
+      height='40px'
       bg='gray.600'
       color='white'
-      w='50%'
       borderColor='gray.400'
+      position='absolute'
+      top='125px'
+      left='25px'
       onChange={(e) => {
         setSelectedCampus(e.target.value);
       }}
