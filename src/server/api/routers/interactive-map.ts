@@ -2,7 +2,30 @@ import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 
 export const interactiveMapRouter = createTRPCRouter({
-  getInteractiveMap: publicProcedure
+  getCampuses: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.map.findMany({
+      select: {
+        id: true,
+        campus: true
+      }
+    });
+  }),
+
+  getCampusInfo: publicProcedure
+    .input(
+      z.object({
+        campus: z.string()
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.map.findUnique({
+        where: {
+          campus: input.campus
+        }
+      });
+    }),
+
+  getLocations: publicProcedure
     .input(
       z.object({
         campus: z.string()
