@@ -58,7 +58,6 @@ const InteractiveSelect = ({
 
   return (
     <Select
-      placeholder='Select Campus'
       variant='filled'
       bg='gray.600'
       color='white'
