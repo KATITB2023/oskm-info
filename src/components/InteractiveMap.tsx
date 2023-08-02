@@ -1,5 +1,17 @@
-import { useState } from 'react';
-import { Image } from '@chakra-ui/react';
+import { type Dispatch, useState, type SetStateAction } from 'react';
+import {
+  Button,
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure
+} from '@chakra-ui/react';
 import mapboxgl from 'mapbox-gl';
 import Map, {
   type ViewState,
@@ -16,17 +28,27 @@ import { env } from '~/env.cjs';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const InteractiveMarker = ({
-  location
+  location,
+  setSelectedLocation,
+  onOpen
 }: {
   location: MapLocation & {
     MapPhoto: MapPhoto[];
   };
+  setSelectedLocation: Dispatch<
+    SetStateAction<
+      | (MapLocation & {
+          MapPhoto: MapPhoto[];
+        })
+      | undefined
+    >
+  >;
+  onOpen: () => void;
 }) => {
   const { current: map } = useMap();
 
   return (
     <Marker
-      key={location.id}
       longitude={location.baseLongitude.toNumber()}
       latitude={location.baseLatitude.toNumber()}
       onClick={() => {
@@ -35,9 +57,14 @@ const InteractiveMarker = ({
             location.baseLongitude.toNumber(),
             location.baseLatitude.toNumber()
           ],
-          zoom: 18,
-          essential: true
+          zoom: 18
         });
+
+        // Set selected location
+        setSelectedLocation(location);
+
+        // Open modal
+        onOpen();
       }}
     >
       <Image
@@ -59,32 +86,59 @@ const InteractiveMap = () => {
     pitch: 0,
     bearing: 0
   });
+  const [selectedLocation, setSelectedLocation] = useState<
+    MapLocation & {
+      MapPhoto: MapPhoto[];
+    }
+  >();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getInteractiveMapQuery = api.interactiveMap.getInteractiveMap.useQuery({
     campus: 'Ganesha'
   });
 
   return (
-    <Map
-      mapboxAccessToken={env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
-      mapLib={mapboxgl}
-      mapStyle='mapbox://styles/mapbox/streets-v9'
-      style={{
-        width: '100vw',
-        height: '100vh'
-      }}
-      onMove={(e) => setViewState(e.viewState)}
-      {...viewState}
-    >
-      <FullscreenControl />
-      <NavigationControl />
-      <ScaleControl />
-      <GeolocateControl />
-      {getInteractiveMapQuery.data &&
-        getInteractiveMapQuery.data.map((location) => (
-          <InteractiveMarker key={location.id} location={location} />
+    <>
+      <Map
+        mapboxAccessToken={env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+        mapLib={mapboxgl}
+        mapStyle='mapbox://styles/mapbox/streets-v9'
+        style={{
+          width: '100vw',
+          height: '100vh'
+        }}
+        onMove={(e) => setViewState(e.viewState)}
+        {...viewState}
+      >
+        <FullscreenControl />
+        <NavigationControl />
+        <ScaleControl />
+        <GeolocateControl />
+        {getInteractiveMapQuery.data?.map((location) => (
+          <InteractiveMarker
+            key={location.id}
+            location={location}
+            setSelectedLocation={setSelectedLocation}
+            onOpen={onOpen}
+          />
         ))}
-    </Map>
+      </Map>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent bgGradient='linear(to-br, navy.3, purple.1)'>
+          <ModalHeader color='white'>{selectedLocation?.title}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text color='white'>{selectedLocation?.subtitle}</Text>
+            <Text color='white'>{selectedLocation?.description}</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 

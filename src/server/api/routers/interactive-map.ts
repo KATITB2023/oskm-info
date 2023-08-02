@@ -18,7 +18,7 @@ export const interactiveMapRouter = createTRPCRouter({
         }
       });
 
-      if (!interactiveMap) return undefined;
+      if (!interactiveMap) return [];
 
       return await ctx.prisma.mapLocation.findMany({
         include: {
