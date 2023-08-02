@@ -135,10 +135,7 @@ const InteractiveMarker = ({
       ],
       zoom: 18
     });
-
-    // Open modal
-    onOpen();
-  }, [map, selectedLocation, onOpen]);
+  }, [map, selectedLocation]);
 
   return (
     <Marker
@@ -147,6 +144,9 @@ const InteractiveMarker = ({
       onClick={() => {
         // Set selected location
         setSelectedLocation(location);
+
+        // Open modal
+        onOpen();
       }}
     >
       <Image
@@ -185,7 +185,7 @@ const InteractiveMap = () => {
     <Map
       mapboxAccessToken={env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
       mapLib={mapboxgl}
-      mapStyle='mapbox://styles/mapbox/streets-v9'
+      mapStyle='mapbox://styles/mapbox/streets-v12'
       style={{
         width: '100vw',
         height: '100vh'
