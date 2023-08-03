@@ -216,14 +216,24 @@ const InteractiveMap = () => {
       onMove={(e) => setViewState(e.viewState)}
       {...viewState}
     >
+      <FullscreenControl
+        style={{
+          position: 'relative',
+          top: '100px',
+          right: '20px'
+        }}
+      />
+      <NavigationControl
+        style={{ position: 'relative', top: '100px', right: '20px' }}
+      />
+      <GeolocateControl
+        style={{ position: 'relative', top: '100px', right: '20px' }}
+      />
+      <ScaleControl />
       <InteractiveSelect
         selectedCampus={selectedCampus}
         setSelectedCampus={setSelectedCampus}
       />
-      <FullscreenControl />
-      <NavigationControl />
-      <ScaleControl />
-      <GeolocateControl />
       {getLocationsQuery.data?.map((location) => (
         <InteractiveMarker
           key={location.id}
