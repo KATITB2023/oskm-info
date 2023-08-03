@@ -67,17 +67,19 @@ const tileLayer: FillExtrusionLayer = {
 };
 
 const InteractiveSelect = ({
+  placeholder,
   selectedCampus,
   setSelectedCampus
 }: {
-  selectedCampus: string | undefined;
-  setSelectedCampus: Dispatch<SetStateAction<string | undefined>>;
+  placeholder: string | undefined;
+  selectedCampus: string;
+  setSelectedCampus: Dispatch<SetStateAction<string>>;
 }) => {
   const { current: map } = useMap();
 
   const getCampusesQuery = api.interactiveMap.getCampuses.useQuery();
   const getCampusInfoQuery = api.interactiveMap.getCampusInfo.useQuery({
-    campus: selectedCampus ?? 'Ganesha'
+    campus: selectedCampus
   });
 
   useEffect(() => {
@@ -95,6 +97,7 @@ const InteractiveSelect = ({
 
   return (
     <Select
+      placeholder={placeholder}
       width='164px'
       height='40px'
       bg='navy.2'
@@ -183,7 +186,57 @@ const InteractiveMarker = ({
   );
 };
 
-const InteractiveMap = () => {
+const InteractiveLocator = ({
+  inputSelectedLocationName,
+  setSelectedLocation,
+  onOpen
+}: {
+  inputSelectedLocationName: string;
+  setSelectedLocation: Dispatch<
+    SetStateAction<
+      | (MapLocation & {
+          MapPhoto: MapPhoto[];
+        })
+      | undefined
+    >
+  >;
+  onOpen: () => void;
+}) => {
+  const { current: map } = useMap();
+
+  const getLocationInfoQuery = api.interactiveMap.getLocationInfo.useQuery({
+    title: inputSelectedLocationName
+  });
+
+  useEffect(() => {
+    if (!getLocationInfoQuery.data || !map) return;
+
+    // Fly to selected location
+    map.flyTo({
+      center: [
+        getLocationInfoQuery.data.baseLongitude.toNumber(),
+        getLocationInfoQuery.data.baseLatitude.toNumber()
+      ],
+      zoom: 18
+    });
+
+    // Set selected location
+    setSelectedLocation(getLocationInfoQuery.data);
+
+    // Open Modal
+    onOpen();
+  }, [map, getLocationInfoQuery.data, onOpen, setSelectedLocation]);
+
+  return null;
+};
+
+const InteractiveMap = ({
+  inputSelectedCampus,
+  inputSelectedLocationName
+}: {
+  inputSelectedCampus?: string;
+  inputSelectedLocationName?: string;
+}) => {
   const [viewState, setViewState] = useState<Partial<ViewState>>({
     longitude: 107.610584,
     latitude: -6.891182,
@@ -191,17 +244,21 @@ const InteractiveMap = () => {
     pitch: 0,
     bearing: 0
   });
-  const [selectedCampus, setSelectedCampus] = useState<string>();
+
+  const [selectedCampus, setSelectedCampus] = useState<string>(
+    inputSelectedCampus ?? 'Ganesha'
+  );
   const [selectedLocation, setSelectedLocation] = useState<
-    MapLocation & {
-      MapPhoto: MapPhoto[];
-    }
+    | (MapLocation & {
+        MapPhoto: MapPhoto[];
+      })
+    | undefined
   >();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getLocationsQuery = api.interactiveMap.getLocations.useQuery({
-    campus: selectedCampus ?? 'Ganesha'
+    campus: selectedCampus
   });
 
   return (
@@ -227,13 +284,23 @@ const InteractiveMap = () => {
         style={{ position: 'relative', top: '100px', right: '20px' }}
       />
       <GeolocateControl
+        showUserHeading
+        trackUserLocation
         style={{ position: 'relative', top: '100px', right: '20px' }}
       />
       <ScaleControl />
       <InteractiveSelect
+        placeholder={inputSelectedCampus}
         selectedCampus={selectedCampus}
         setSelectedCampus={setSelectedCampus}
       />
+      {inputSelectedLocationName && (
+        <InteractiveLocator
+          inputSelectedLocationName={inputSelectedLocationName}
+          setSelectedLocation={setSelectedLocation}
+          onOpen={onOpen}
+        />
+      )}
       {getLocationsQuery.data?.map((location) => (
         <InteractiveMarker
           key={location.id}

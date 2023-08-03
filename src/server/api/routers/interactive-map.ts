@@ -51,5 +51,22 @@ export const interactiveMapRouter = createTRPCRouter({
           mapId: interactiveMap.id
         }
       });
+    }),
+
+  getLocationInfo: publicProcedure
+    .input(
+      z.object({
+        title: z.string()
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.mapLocation.findUnique({
+        include: {
+          MapPhoto: true
+        },
+        where: {
+          title: input.title
+        }
+      });
     })
 });
