@@ -6,11 +6,48 @@ import {
   GridItem,
   Text,
   Stack,
-  Button
+  Button,
+  Link
 } from '@chakra-ui/react';
 import Navbar from '../Navbar';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 export default function Jumbotron() {
+  const handleGetRequest = () => {
+    const guidebookURL = 'https://cdn.oskmitb.com/foto-random.png'; // Replace with guidebook URL
+    axios.get(guidebookURL).catch((error) => {
+      console.error('Error fetching file:', error);
+    });
+  };
+
+  // COUNTDOWN
+  const targetDate = new Date('2023-08-10T00:00:00.000+07:00').getTime();
+  const calculateTimeLeft = () => {
+    const difference = targetDate - new Date().getTime();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+
+    return timeLeft;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  });
   return (
     <Flex
       minH='100dvh'
@@ -54,7 +91,7 @@ export default function Jumbotron() {
                 fontWeight={700}
                 color={'#FFFC83'}
               >
-                00
+                {timeLeft.days}
               </Text>
               <Text
                 fontSize={{ base: '1.5vw', md: '1vw' }}
@@ -74,7 +111,7 @@ export default function Jumbotron() {
                 fontWeight={700}
                 color={'#FFFC83'}
               >
-                00
+                {timeLeft.hours}
               </Text>
               <Text
                 fontSize={{ base: '1.5vw', md: '1vw' }}
@@ -94,7 +131,7 @@ export default function Jumbotron() {
                 fontWeight={700}
                 color={'#FFFC83'}
               >
-                00
+                {timeLeft.minutes}
               </Text>
               <Text
                 fontSize={{ base: '1.5vw', md: '1vw' }}
@@ -114,7 +151,7 @@ export default function Jumbotron() {
                 fontWeight={700}
                 color={'#FFFC83'}
               >
-                00
+                {timeLeft.seconds}
               </Text>
               <Text
                 fontSize={{ base: '1.5vw', md: '1vw' }}
@@ -141,6 +178,7 @@ export default function Jumbotron() {
         >
           Explore Now!
         </Button>
+
         <Button
           height={{ base: '5vw', md: '3.5vw' }}
           width={{ base: '28vw', md: '18vw' }}
@@ -151,6 +189,7 @@ export default function Jumbotron() {
           borderWidth={1}
           _hover={{ color: '#1D0263', backgroundColor: '#FFFC83' }}
           borderRadius={{ base: '6px', md: '12px' }}
+          onClick={handleGetRequest}
         >
           Download Guidebook
         </Button>
