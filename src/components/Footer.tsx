@@ -151,7 +151,7 @@ const Footer = () => {
             loading='lazy'
           />
           <Box>
-            <HStack spacing={{ base: '51px', lg: '45px' }}>
+            <HStack marginTop='33px' spacing={{ base: '51px', lg: '45px' }}>
               <VStack alignItems='left' spacing={{ base: '14px', lg: '45px' }}>
                 <Link
                   href='/'

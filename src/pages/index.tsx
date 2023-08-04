@@ -1,8 +1,7 @@
 import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { type NextPage } from 'next';
 import Head from 'next/head';
-import Navbar from '~/components/Navbar';
-import Footer from '~/components/Footer';
+
 
 const Home: NextPage = () => {
   return (
@@ -15,7 +14,6 @@ const Home: NextPage = () => {
         />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Navbar/>
       <Flex
         minH='100dvh'
         backgroundImage='/images/bg-coming-soon.png'
@@ -121,7 +119,6 @@ const Home: NextPage = () => {
           </Center>
         </Flex> */}
       </Flex>
-      <Footer/>
     </>
   );
 };
