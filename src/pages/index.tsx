@@ -71,7 +71,7 @@ const Home: NextPage = () => {
           draggable='false'
           loading='lazy'
         />
-        <Image
+        {/* <Image
           src='/images/spark.png'
           display={{ base: 'none', md: 'block' }}
           alt=''
@@ -82,7 +82,7 @@ const Home: NextPage = () => {
           zIndex='10'
           draggable='false'
           loading='lazy'
-        />
+        /> */}
         <Heading
           fontSize={{ base: '2xl', md: '5xl' }}
           textAlign='center'
