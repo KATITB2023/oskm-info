@@ -15,7 +15,14 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import React, { ReactNode, useState } from 'react';
-import {MdAssuredWorkload, MdShoppingBag, MdMap, MdNewspaper, MdRocketLaunch, MdLogin} from 'react-icons/md'
+import {
+  MdAssuredWorkload,
+  MdShoppingBag,
+  MdMap,
+  MdNewspaper,
+  MdRocketLaunch,
+  MdLogin
+} from 'react-icons/md';
 
 const MobLiItem = ({ children }: { children: ReactNode }) => {
   return (
@@ -140,7 +147,7 @@ const Navbar = () => {
             </Box>
           </HStack>
         </UnorderedList>
-        <Box display={{ base: 'block', lg: 'none' }} >
+        <Box display={{ base: 'block', lg: 'none' }}>
           <Menu strategy='fixed'>
             <MenuButton
               as={Button}

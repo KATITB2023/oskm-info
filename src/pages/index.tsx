@@ -1,8 +1,13 @@
 import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { type NextPage } from 'next';
 import Head from 'next/head';
+import Jumbotron from '~/components/home-page/jumbotron';
 
 const Home: NextPage = () => {
+  return <Jumbotron></Jumbotron>;
+};
+
+const Homs: NextPage = () => {
   return (
     <>
       <Head>
