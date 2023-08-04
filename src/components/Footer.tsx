@@ -6,6 +6,7 @@ import {
   Link,
   UnorderedList,
   HStack,
+  VStack,
   Divider,
   Text
 } from '@chakra-ui/react';
@@ -24,7 +25,7 @@ const Footer = () => {
         backgroundSize='cover'
         backgroundPosition='center'
         backgroundRepeat='no-repeat'
-        justifyContent='space-between'
+        justifyContent='center'
         alignItems='center'
         overflow='hidden'
         fontWeight='semibold'
@@ -37,7 +38,8 @@ const Footer = () => {
             loading='lazy'
           />
         </Box>
-        <Box pos='absolute' left='30'>
+        {/* Desktop Display */}
+        <Box pos='absolute' left='30' display={{ base: 'none', lg: 'block' }}>
           <Flex>
             <Image
               src='/images/foot-logo.png'
@@ -133,6 +135,104 @@ const Footer = () => {
               </HStack>
             </Box>
           </Flex>
+        </Box>
+        {/* Mobile Display */}
+        <Box pos='absolute' display={{ base: 'block', lg: 'none' }}>
+          <Image
+            src='/images/foot-logo.png'
+            height={{ base: '54', lg: '87' }}
+            draggable='false'
+            loading='lazy'
+          />
+          <Image
+            src='/images/foot-oskm.svg'
+            height={{ base: '26', lg: '87' }}
+            draggable='false'
+            loading='lazy'
+          />
+          <Box>
+            <HStack spacing={{ base: '51px', lg: '45px' }}>
+              <VStack alignItems='left' spacing={{ base: '14px', lg: '45px' }}>
+                <Link
+                  href='/'
+                  color='white'
+                  _hover={{ textDecoration: 'none' }}
+                >
+                  About Us
+                </Link>
+                <Link
+                  href='/'
+                  color='white'
+                  _hover={{ textDecoration: 'none' }}
+                >
+                  Interactive Map
+                </Link>
+              </VStack>
+              <VStack alignItems='left' spacing={{ base: '14px', lg: '45px' }}>
+                <Link
+                  href='/'
+                  color='white'
+                  _hover={{ textDecoration: 'none' }}
+                >
+                  Merchandise
+                </Link>
+                <Link
+                  href='/'
+                  color='white'
+                  _hover={{ textDecoration: 'none' }}
+                >
+                  Blog
+                </Link>
+              </VStack>
+            </HStack>
+          </Box>
+          <Divider my='20px' />
+          <HStack spacing={{ base: '13px', lg: '13px' }}>
+            <Link href='/' color='white'>
+              <Image
+                src='/images/foot-twitter.png'
+                draggable='false'
+                loading='lazy'
+              />
+            </Link>
+            <Link href='/' color='white'>
+              <Image
+                src='/images/foot-instagram.png'
+                draggable='false'
+                loading='lazy'
+              />
+            </Link>
+            <Link href='/' color='white'>
+              <Image
+                src='/images/foot-youtube.png'
+                draggable='false'
+                loading='lazy'
+              />
+            </Link>
+            <Link href='/' color='white'>
+              <Image
+                src='/images/foot-linkedin.png'
+                draggable='false'
+                loading='lazy'
+              />
+            </Link>
+          </HStack>
+          <Box marginTop='22px' alignItems='left'>
+            <HStack>
+              <Image
+                src='/images/foot-itb.png'
+                draggable='false'
+                loading='lazy'
+              />
+              <Box fontSize='12px' textAlign='left' color='white'>
+                <Text>ITB Kampus Jatinangor</Text>
+                <Text maxW='250px'>
+                  Jl. Let. Jen. Purn. Dr. (HC) Mashudi No. 1 Jatinangor, Kab.
+                  Sumedang, Jawa Barat Indonesia 45363
+                </Text>
+              </Box>
+            </HStack>
+          </Box>
         </Box>
       </Flex>
     </Center>
