@@ -14,7 +14,7 @@ export const GotTalentSubmitted = ({ date, time }: Props) => (
     px={5}
   >
     <Image
-      src='/images/maintenance-submitted.png'
+      src='/images/icon/maintenance-submitted.png.png'
       alt='coming-soon'
       w={{ base: '150px', md: '250px' }}
       draggable='false'
