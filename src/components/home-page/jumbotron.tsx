@@ -60,20 +60,20 @@ export default function Jumbotron() {
     >
       <Navbar></Navbar>
       <Image
-        src='/images/coming-soon.png'
+        src='/images/logo-oskm.png'
+        draggable='false'
+        loading='lazy'
+        height={{ base: '50%', md: '17.5%' }}
+        width={{ base: '50%', md: '17.5%' }}
+        margin={'5% 0 10px 0'}
+        zIndex='10'
+      ></Image>
+      <Image
+        src='/images/oskm-title.png'
         draggable='false'
         loading='lazy'
         height={{ base: '50%', md: '25%' }}
         width={{ base: '50%', md: '25%' }}
-        margin={'10% 0 10px 0'}
-        zIndex='10'
-      ></Image>
-      <Image
-        src='/images/oskm-logo.png'
-        draggable='false'
-        loading='lazy'
-        height={{ base: '50%', md: '30%' }}
-        width={{ base: '50%', md: '30%' }}
         zIndex='10'
       ></Image>
       <Flex fontSize={{ base: '5vw', md: '3vw' }} padding={'10px 0 15px 0'}>
