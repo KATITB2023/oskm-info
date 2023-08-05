@@ -32,6 +32,102 @@ export default function AboutUs() {
             position='absolute'
             zIndex='-99'
           ></Flex>
+          <Image
+            src='/images/star-top.png'
+            alt=''
+            top='0%'
+            right={{ base: '5%', md: '0%' }}
+            brightness='0.6'
+            zIndex='-98'
+            position='absolute'
+            draggable='false'
+            loading='lazy'
+            height={{ base: '300px', md: '800px' }}
+          />
+          <Image
+            src='/images/star-left.png'
+            alt=''
+            top={{ base: '5%', md: '7%' }}
+            left={{ base: '5%', md: '0%' }}
+            brightness='0.6'
+            zIndex='-98'
+            position='absolute'
+            draggable='false'
+            loading='lazy'
+            height={{ base: '800px', md: '1800px' }}
+          />
+          <Image
+            src='/images/planet-right.png'
+            alt=''
+            top={{ base: '5%', md: '40%' }}
+            right='0'
+            brightness='0.6'
+            zIndex='-98'
+            position='absolute'
+            draggable='false'
+            loading='lazy'
+            height={{ base: '800px', md: '500px' }}
+          />
+          <Image
+            src='/images/planet-left.png'
+            alt=''
+            top={{ base: '5%', md: '47%' }}
+            left='0'
+            brightness='0.6'
+            zIndex='-98'
+            position='absolute'
+            draggable='false'
+            loading='lazy'
+            height={{ base: '800px', md: '1100px' }}
+          />
+          <Image
+            src='/images/spiral-right.png'
+            alt=''
+            top={{ base: '5%', md: '63%' }}
+            right={{ base: '5%', md: '20%' }}
+            brightness='0.6'
+            zIndex='-98'
+            position='absolute'
+            draggable='false'
+            loading='lazy'
+            height={{ base: '800px', md: '270px' }}
+          />
+          <Image
+            src='/images/planet-mini-left.png'
+            alt=''
+            top={{ base: '5%', md: '80%' }}
+            left='0'
+            brightness='0.6'
+            zIndex='-98'
+            position='absolute'
+            draggable='false'
+            loading='lazy'
+            height={{ base: '800px', md: '250px' }}
+          />
+          <Image
+            src='/images/planet-mini-right.png'
+            alt=''
+            top={{ base: '5%', md: '80%' }}
+            right='0'
+            brightness='0.6'
+            zIndex='-98'
+            position='absolute'
+            draggable='false'
+            loading='lazy'
+            height={{ base: '800px', md: '250px' }}
+          />
+          <Image
+            src='/images/bulan-bottom.png'
+            alt=''
+            bottom='-2%'
+            right='0'
+            brightness='0.6'
+            zIndex='-98'
+            position='absolute'
+            draggable='false'
+            loading='lazy'
+            width='100%'
+          />
         </Box>
         <Box mx={{ base: '8%', md: '22%' }}>
           <Flex justifyContent='center' pb='60px' pt='190px'>

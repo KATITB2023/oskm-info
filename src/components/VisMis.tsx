@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Image } from '@chakra-ui/react';
 import { colors } from '~/styles/component/colors';
 
 export default function VisMis(props: {
@@ -24,6 +24,13 @@ export default function VisMis(props: {
         px={{ base: '30px', md: '60px' }}
         borderRadius='10px'
         boxShadow={`0px 0px 10px ${colors.navy[5]}`}
+        bgImage={{
+          base: '/images/vismis-bg-mobile.png',
+          md: '/images/vismis-bg.png'
+        }}
+        bgSize='cover'
+        bgRepeat='no-repeat'
+        bgPosition='center'
       >
         <Text align='justify' color='white'>
           {props.text}
