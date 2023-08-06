@@ -123,6 +123,8 @@ export const FirstForm = () => {
 
       const result = await registerUnitMutation.mutateAsync({
         ...formData,
+        angkatan: parseInt(formData.angkatan.toString()),
+        total: parseInt(formData.total.toString()),
         waNumber: `+62${formData.waNumber}`,
         mouPath,
         proofPath
