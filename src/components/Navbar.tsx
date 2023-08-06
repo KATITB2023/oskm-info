@@ -11,10 +11,11 @@ import {
   MenuItem,
   MenuButton,
   MenuList,
-  Icon
+  Icon,
+  type As
 } from '@chakra-ui/react';
 import Link from 'next/link';
-import React, { type ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import {
   MdAssuredWorkload,
   MdShoppingBag,
@@ -23,54 +24,84 @@ import {
   MdRocketLaunch,
   MdLogin
 } from 'react-icons/md';
+import { useRouter } from 'next/router';
+import { RxHamburgerMenu } from 'react-icons/rx';
 
-const MobLiItem = ({ children }: { children: ReactNode }) => {
+interface LiItemProps {
+  href: string;
+  itemName: string;
+  itemIcon?: As;
+}
+
+const MobLiItem = ({ href, itemIcon, itemName }: LiItemProps) => {
+  const router = useRouter();
+  const activeRoute = (routeName: string) => {
+    return router.pathname.includes(routeName);
+  };
+
   return (
-    <MenuItem
-      my='4px'
-      bg='transparent'
-      pos='relative'
-      _hover={{
-        color: 'yellow.5',
-        _after: { height: '100%' }
-      }}
-      _after={{
-        content: '""',
-        display: 'block',
-        width: '2px',
-        background: 'yellow.5',
-        position: 'absolute',
-        left: 0
-      }}
-    >
-      <HStack spacing={2}>{children}</HStack>
-    </MenuItem>
+    <Link href={href}>
+      <MenuItem
+        my='4px'
+        bg='transparent'
+        pos='relative'
+        color={activeRoute(href) ? 'yellow.5' : '#ffffff'}
+        _hover={{
+          color: 'yellow.5',
+          _after: { height: '100%' }
+        }}
+        _after={{
+          content: '""',
+          display: 'block',
+          width: '2px',
+          height: activeRoute(href) ? '100%' : 0,
+          background: 'yellow.5',
+          position: 'absolute',
+          left: 0
+        }}
+      >
+        <HStack spacing={2}>
+          <Box>
+            <Icon w={6} h={6} as={itemIcon} />
+          </Box>
+          <Text>{itemName}</Text>
+        </HStack>
+      </MenuItem>
+    </Link>
   );
 };
 
-const DeskLiItem = ({ children }: { children: ReactNode }) => {
+const DeskLiItem = ({ href, itemName }: LiItemProps) => {
+  const router = useRouter();
+  const activeRoute = (routeName: string) => {
+    return router.pathname.includes(routeName);
+  };
+
   return (
-    <HStack
-      pos='relative'
-      _hover={{
-        color: 'yellow.5',
-        transition: 'width 0.3s',
-        _after: { width: '100%' }
-      }}
-      _after={{
-        content: '""',
-        display: 'block',
-        width: 0,
-        height: '2px',
-        background: 'yellow.5',
-        transition: 'width .3s',
-        position: 'absolute',
-        bottom: 0,
-        left: 0
-      }}
-    >
-      <Text>{children}</Text>
-    </HStack>
+    <Link href={href}>
+      <HStack
+        pos='relative'
+        color={activeRoute(href) ? 'yellow.5' : '#ffffff'}
+        _hover={{
+          color: 'yellow.5',
+          transition: 'width 0.3s',
+          _after: { width: '100%' }
+        }}
+        _after={{
+          content: '""',
+          display: 'block',
+          width: activeRoute(href) ? '100%' : 0,
+          height: '2px',
+          background: 'yellow.5',
+          transition: 'width .3s',
+          position: 'absolute',
+          bottom: 0,
+          left: 0
+        }}
+      >
+        <Text>{itemName}</Text>
+      </HStack>
+    </Link>
   );
 };
 
@@ -115,38 +146,41 @@ const Navbar = () => {
           />
         </Box>
         <Box zIndex='1000'>
-          <Image
-            src='/images/nav-logo.svg'
-            height={{ base: '38px', lg: '57px' }}
-            draggable='false'
-            loading='lazy'
-            alt=''
-          />
+          <Link href='/'>
+            <HStack>
+              <Image
+                src='/images/logo-oskm.png'
+                height={{ base: '38px', lg: '57px' }}
+                draggable='false'
+                loading='lazy'
+                alt='logo'
+              />
+              <Image
+                src='/images/nav-logo.svg'
+                height={{ base: '38px', lg: '57px' }}
+                draggable='false'
+                loading='lazy'
+                alt='logo-teks'
+              />
+            </HStack>
+          </Link>
         </Box>
         <UnorderedList
           listStyleType='none'
           display={{ base: 'none', lg: 'block' }}
         >
           <HStack spacing={{ lg: '27px', xl: '45px' }}>
-            <Link href='/tes'>
-              <DeskLiItem>About Us</DeskLiItem>
-            </Link>
-            <Link href='/'>
-              <DeskLiItem>Merchandise</DeskLiItem>
-            </Link>
-            <Link href='/interactive-map'>
-              <DeskLiItem>Interactive Map</DeskLiItem>
-            </Link>
-            <Link href='/'>
-              <DeskLiItem>Blog</DeskLiItem>
-            </Link>
+            <DeskLiItem href='/about-us' itemName='About Us' />
+            <DeskLiItem href='/merch' itemName='Merchandise' />
+            <DeskLiItem href='/interactive-map' itemName='Interactive Map' />
+            <DeskLiItem href='/blog' itemName='Blog' />
             <Box onClick={handleLogin}>
               {isLogin ? (
-                <Link href='/'>
+                <Link href='https://google.com'>
                   <Button variant='solid'>Space Log</Button>
                 </Link>
               ) : (
-                <Link href='/'>
+                <Link href='/login'>
                   <Button variant='outline'>Login</Button>
                 </Link>
               )}
@@ -161,15 +195,16 @@ const Navbar = () => {
               padding='0'
               border='1px'
               borderRadius='8px'
+              _hover={{
+                color: 'yellow.5'
+              }}
+              _active={{
+                color: 'yellow.5'
+              }}
             >
-              <Image
-                src='/images/hamburger.png'
-                width='24px'
-                margin='auto'
-                draggable='false'
-                loading='lazy'
-                alt=''
-              />
+              <Box display='flex' alignItems='center' justifyContent='center'>
+                <RxHamburgerMenu size={24} />
+              </Box>
             </MenuButton>
             <MenuList
               color='white'
@@ -180,57 +215,35 @@ const Navbar = () => {
               bgSize='cover'
               border='none'
             >
-              <Link href='/tes'>
-                <MobLiItem>
-                  <Box>
-                    <Icon w={6} h={6} as={MdAssuredWorkload} />
-                  </Box>
-                  <Text>About Us</Text>
-                </MobLiItem>
-              </Link>
-              <Link href='/'>
-                <MobLiItem>
-                  <Box>
-                    <Icon w={6} h={6} as={MdShoppingBag} />
-                  </Box>
-                  <Text>Merchandise</Text>
-                </MobLiItem>
-              </Link>
-              <Link href='/interactive-map'>
-                <MobLiItem>
-                  <Box>
-                    <Icon w={6} h={6} as={MdMap} />
-                  </Box>
-                  <Text>Interactive Map</Text>
-                </MobLiItem>
-              </Link>
-              <Link href='/'>
-                <MobLiItem>
-                  <Box>
-                    <Icon w={6} h={6} as={MdNewspaper} />
-                  </Box>
-                  <Text>Blog</Text>
-                </MobLiItem>
-              </Link>
+              <MobLiItem
+                href='/about-us'
+                itemName='About Us'
+                itemIcon={MdAssuredWorkload}
+              />
+              <MobLiItem
+                href='/merch'
+                itemName='Merchandise'
+                itemIcon={MdShoppingBag}
+              />
+              <MobLiItem
+                href='/interactive-map'
+                itemName='Interactive Map'
+                itemIcon={MdMap}
+              />
+              <MobLiItem href='/blog' itemName='Blog' itemIcon={MdNewspaper} />
               <Box onClick={handleLogin}>
                 {isLogin ? (
-                  <Link href='/'>
-                    <MobLiItem>
-                      <Box>
-                        <Icon w={6} h={6} as={MdRocketLaunch} />
-                      </Box>
-                      <Text>Spacelog</Text>
-                    </MobLiItem>
-                  </Link>
+                  <MobLiItem
+                    href='/https://google.com'
+                    itemName='Spacelog'
+                    itemIcon={MdRocketLaunch}
+                  />
                 ) : (
-                  <Link href='/'>
-                    <MobLiItem>
-                      <Box>
-                        <Icon w={6} h={6} as={MdLogin} />
-                      </Box>
-                      <Text>Login</Text>
-                    </MobLiItem>
-                  </Link>
+                  <MobLiItem
+                    href='/login'
+                    itemName='Login'
+                    itemIcon={MdLogin}
+                  />
                 )}
               </Box>
             </MenuList>
