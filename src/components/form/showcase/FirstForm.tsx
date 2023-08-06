@@ -108,8 +108,9 @@ export const FirstForm = () => {
         )}`;
         const file = formData.mouPath[0] as File | undefined;
         const extension = file?.name.split('.').pop() as string;
-        mouPath = `https://cdn.oskmitb.com/showcase/${fileName}.${extension}`;
-        await uploadFile(sanitizeURL(mouPath), formData.mouPath[0]);
+        const tempPath = `https://cdn.oskmitb.com/showcase/${fileName}.${extension}`;
+        mouPath = sanitizeURL(tempPath);
+        await uploadFile(mouPath, formData.mouPath[0]);
       }
 
       if (formData.proofPath[0]) {
@@ -119,8 +120,9 @@ export const FirstForm = () => {
         )}`;
         const file = formData.proofPath[0] as File | undefined;
         const extension = file?.name.split('.').pop() as string;
-        proofPath = `https://cdn.oskmitb.com/showcase/${fileName}.${extension}`;
-        await uploadFile(sanitizeURL(proofPath), formData.proofPath[0]);
+        const tempPath = `https://cdn.oskmitb.com/showcase/${fileName}.${extension}`;
+        proofPath = sanitizeURL(tempPath);
+        await uploadFile(proofPath, formData.proofPath[0]);
       }
 
       const result = await registerUnitMutation.mutateAsync({
