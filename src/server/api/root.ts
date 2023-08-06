@@ -1,6 +1,6 @@
-import { storageRouter } from '~/server/api/routers/storage';
 import { createTRPCRouter } from '~/server/api/trpc';
 import { messageRouter } from './routers/message';
+import { showcaseRouter } from './routers/showcase';
 import { chatbotRouter } from '~/server/api/routers/chatbot';
 
 /**
@@ -10,8 +10,8 @@ import { chatbotRouter } from '~/server/api/routers/chatbot';
  */
 export const appRouter = createTRPCRouter({
   chatbot: chatbotRouter,
-  storage: storageRouter,
-  message: messageRouter
+  message: messageRouter,
+  showcase: showcaseRouter
 });
 
 // export type definition of API

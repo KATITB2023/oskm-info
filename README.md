@@ -9,6 +9,7 @@ Web OSKM yes
 3. Jalankan `yarn install`
 4. Copy file `.env.example` menjadi `.env`
 5. Ubah nilai dari `DATABASE_URL` menjadi alamat database kalian
+   > Note: Buat terlebih dahulu database dengan nama yang bebas dengan postgres
 6. Hapus baris `NEXT_PUBLIC_WS_URL="ws://localhost:3000"`
 7. Jalankan database migration. `yarn migrate-dev`
 8. Jalankan local dev server. `yarn dev`

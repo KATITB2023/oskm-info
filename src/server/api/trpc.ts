@@ -7,16 +7,15 @@
  * need to use are documented accordingly near the end.
  */
 
-import { UserRole } from "@prisma/client";
-import { initTRPC, TRPCError } from "@trpc/server";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { type Session } from "next-auth";
-import superjson from "superjson";
-import { ZodError } from "zod";
-import { bucket } from "~/server/bucket";
-import { prisma } from "~/server/db";
-import { tracer } from "~/server/tracer";
-import { getServerAuthSession } from "~/server/auth";
+import { UserRole } from '@prisma/client';
+import { initTRPC, TRPCError } from '@trpc/server';
+import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
+import { type Session } from 'next-auth';
+import superjson from 'superjson';
+import { ZodError } from 'zod';
+import { prisma } from '~/server/db';
+import { tracer } from '~/server/tracer';
+import { getServerAuthSession } from '~/server/auth';
 
 /**
  * 1. CONTEXT
@@ -44,8 +43,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     prisma,
-    tracer,
-    bucket
+    tracer
   };
 };
 
@@ -116,7 +114,7 @@ export const publicProcedure = t.procedure;
  */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
   return next({
     ctx: {
@@ -134,7 +132,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  */
 const isAdmin = enforceUserIsAuthed.unstable_pipe(({ ctx, next }) => {
   if (ctx.session.user.role !== UserRole.ADMIN) {
-    throw new TRPCError({ code: "FORBIDDEN" });
+    throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next();
 });
@@ -147,14 +145,14 @@ const isAdmin = enforceUserIsAuthed.unstable_pipe(({ ctx, next }) => {
  */
 const isStudent = enforceUserIsAuthed.unstable_pipe(({ ctx, next }) => {
   if (ctx.session.user.role !== UserRole.STUDENT) {
-    throw new TRPCError({ code: "FORBIDDEN" });
+    throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next();
 });
 
 const isMentor = enforceUserIsAuthed.unstable_pipe(({ ctx, next }) => {
   if (ctx.session.user.role !== UserRole.MENTOR) {
-    throw new TRPCError({ code: "FORBIDDEN" });
+    throw new TRPCError({ code: 'FORBIDDEN' });
   }
   return next();
 });
