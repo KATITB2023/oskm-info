@@ -3,7 +3,7 @@ import { TRPCClientError } from '@trpc/client';
 import { useState } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { api } from '~/utils/api';
-import { Lembaga, uploadFile } from '~/utils/file';
+import { Lembaga, sanitizeURL, uploadFile } from '~/utils/file';
 import { ShowCaseSubmitted } from './ShowCaseSubmitted';
 import { IdentityForm } from './IdentityForm';
 import { LembagaForm } from './LembagaForm';
@@ -14,7 +14,7 @@ export interface IdentityFormValues {
   nim: string;
   fakultas: string;
   jurusan: string;
-  angkatan: number;
+  angkatan: string;
   lineId: string;
   waNumber: string;
 }
@@ -102,28 +102,30 @@ export const FirstForm = () => {
       let proofPath = '';
 
       if (formData.mouPath[0]) {
-        const fileName = `showcase-mou-${
-          formData.nim
-        }-${formData.lembagaName.replace(' ', '')}`;
+        const fileName = `mou-${formData.nim}-${formData.lembagaName.replace(
+          ' ',
+          ''
+        )}`;
         const file = formData.mouPath[0] as File | undefined;
         const extension = file?.name.split('.').pop() as string;
-        mouPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
-        await uploadFile(mouPath, formData.mouPath[0]);
+        mouPath = `https://cdn.oskmitb.com/showcase/${fileName}.${extension}`;
+        await uploadFile(sanitizeURL(mouPath), formData.mouPath[0]);
       }
 
       if (formData.proofPath[0]) {
-        const fileName = `showcase-proof-${
-          formData.nim
-        }-${formData.lembagaName.replace(' ', '')}`;
+        const fileName = `proof-${formData.nim}-${formData.lembagaName.replace(
+          ' ',
+          ''
+        )}`;
         const file = formData.proofPath[0] as File | undefined;
         const extension = file?.name.split('.').pop() as string;
-        proofPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
-        await uploadFile(proofPath, formData.proofPath[0]);
+        proofPath = `https://cdn.oskmitb.com/showcase/${fileName}.${extension}`;
+        await uploadFile(sanitizeURL(proofPath), formData.proofPath[0]);
       }
 
       const result = await registerUnitMutation.mutateAsync({
         ...formData,
-        angkatan: parseInt(formData.angkatan.toString()),
+        angkatan: formData.angkatan,
         total: parseInt(formData.total.toString()),
         waNumber: `+62${formData.waNumber}`,
         mouPath,
