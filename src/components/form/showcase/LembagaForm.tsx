@@ -51,7 +51,7 @@ export const LembagaForm = ({
       }
     >
       <VStack spacing={4} mt={5} color='white'>
-        <Box bg='purple.1' px={5} py={3} borderRadius='lg'>
+        <Box bg='purple.1' px={5} py={3} borderRadius='lg' w='100%'>
           <Box as='span'>
             Sebelum mengisi form di bawah, harap membaca ToR dan SOP yang akan
             berlaku untuk Festival serta mengisi MoU yang ada di{' '}
@@ -190,7 +190,7 @@ export const LembagaForm = ({
       </VStack>
       <Flex justifyContent='space-between' mt={7}>
         <Button
-          w='25%'
+          w={{ base: '75px', lg: '25%' }}
           variant='outline'
           alignSelf='center'
           onClick={() => setPage(1)}
@@ -198,7 +198,7 @@ export const LembagaForm = ({
           Back
         </Button>
         <Button
-          w='25%'
+          w={{ base: '75px', lg: '25%' }}
           alignSelf='center'
           type='submit'
           isDisabled={Object.values(formState.errors).length > 0}

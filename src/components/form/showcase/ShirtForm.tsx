@@ -332,7 +332,7 @@ export const ShirtForm = ({
         </VStack>
         <Flex justifyContent='space-between' mt={7}>
           <Button
-            w='25%'
+            w={{ base: '75px', lg: '25%' }}
             variant='outline'
             alignSelf='center'
             onClick={() => setPage(2)}
@@ -340,7 +340,7 @@ export const ShirtForm = ({
             Back
           </Button>
           <Button
-            w='25%'
+            w={{ base: '75px', lg: '25%' }}
             alignSelf='center'
             isLoading={loading}
             loadingText='Submitting'
