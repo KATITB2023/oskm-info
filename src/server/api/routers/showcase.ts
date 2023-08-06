@@ -94,7 +94,7 @@ export const showcaseRouter = createTRPCRouter({
         nim: z.string(),
         fakultas: z.string(),
         jurusan: z.string(),
-        angkatan: z.number(),
+        angkatan: z.string(),
         lineId: z.string(),
         waNumber: z.string(),
         lembaga: z.nativeEnum(Lembaga),
