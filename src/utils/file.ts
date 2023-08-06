@@ -4,8 +4,8 @@ import { env } from '~/env.cjs';
 export enum Lembaga {
   HMJ = 'HMJ',
   UKM = 'UKM',
-  PENGMAS = 'PENGMAS',
-  DLL = 'DLL'
+  BSO = 'BSO',
+  PUSAT = 'PUSAT'
 }
 
 export const uploadFile = async (
