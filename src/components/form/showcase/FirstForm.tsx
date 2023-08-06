@@ -60,7 +60,8 @@ export const FirstForm = () => {
     mode: 'onSubmit',
     delayError: 1000,
     defaultValues: {
-      lembaga: Object.values(Lembaga)[0]
+      lembaga: Object.values(Lembaga)[0],
+      noise: false
     }
   });
   const {
