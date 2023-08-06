@@ -156,7 +156,7 @@ export const LembagaForm = ({
           )}
         </FormControl>
         <FormControl isInvalid={!!formState.errors.position}>
-          <FormLabel>Jabatan Pengisi</FormLabel>
+          <FormLabel>Jabatan Pengisi Form</FormLabel>
           <Input
             placeholder='Ketua'
             {...register('position', {
