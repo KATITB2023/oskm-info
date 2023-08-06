@@ -172,7 +172,7 @@ export const LembagaForm = ({
           sekitarnya untuk mengatur tingkat kebisingan? (dibahas lebih lanjut
           bersama LO masing-masing)
         </Checkbox>
-        <FormControl isInvalid={!!formState.errors.mouPath}>
+        {/* <FormControl isInvalid={!!formState.errors.mouPath}>
           <FormLabel>File MoU</FormLabel>
           <Input
             type='file'
@@ -194,7 +194,7 @@ export const LembagaForm = ({
               {formState.errors.mouPath.message as string}
             </FormErrorMessage>
           )}
-        </FormControl>
+        </FormControl> */}
       </VStack>
       <Flex justifyContent='space-between' mt={7}>
         <Button
