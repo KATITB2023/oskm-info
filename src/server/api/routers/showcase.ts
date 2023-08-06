@@ -102,8 +102,12 @@ export const showcaseRouter = createTRPCRouter({
         position: z.string(),
         noise: z.boolean(),
         mouPath: z.string(),
-        sizeKaos: z.string(),
-        sleeveKaos: z.string(),
+        kaos: z
+          .object({
+            size: z.string(),
+            sleeve: z.string()
+          })
+          .array(),
         total: z.number(),
         method: z.string(),
         proofPath: z.string()
@@ -147,8 +151,7 @@ export const showcaseRouter = createTRPCRouter({
           position: input.position,
           noise: input.noise,
           mouPath: input.mouPath,
-          sizeKaos: input.sizeKaos,
-          sleeveKaos: input.sleeveKaos,
+          kaos: input.kaos,
           total: input.total,
           method: input.method,
           proofPath: input.proofPath

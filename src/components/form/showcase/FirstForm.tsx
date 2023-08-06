@@ -28,8 +28,10 @@ export interface LembagaFormValues {
 }
 
 export interface ShirtFormValues {
-  sizeKaos: string;
-  sleeveKaos: string;
+  kaos: {
+    size: string;
+    sleeve: string;
+  }[];
   total: number;
   method: string;
   proofPath: FileList;
@@ -73,8 +75,10 @@ export const FirstForm = () => {
   } = useForm<ShirtFormValues>({
     mode: 'onSubmit',
     defaultValues: {
-      sizeKaos: 'S',
-      sleeveKaos: 'Pendek',
+      kaos: [
+        { size: 'S', sleeve: 'Pendek' },
+        { size: 'S', sleeve: 'Pendek' }
+      ],
       method: 'GoPay'
     }
   });
@@ -175,7 +179,7 @@ export const FirstForm = () => {
       color='yellow.3'
       maxH='80vh'
       overflowY='auto'
-      w={{ base: '80%', lg: '700px' }}
+      w={{ base: '90%', lg: '700px' }}
       sx={{
         '&::-webkit-scrollbar': {
           width: '0'
