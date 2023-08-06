@@ -93,11 +93,11 @@ export const ShirtForm = ({
       >
         <VStack spacing={4} mt={5} color='white'>
           <Box bg='purple.1' px={5} py={3} borderRadius='lg'>
-            Setiap penjaga booth ITB SHOWCASE WAJIB membeli kaos dan landyard
-            seharga RpXXX. Terdapat biaya tambahan untuk kaos lengan panjang
+            Setiap penjaga booth ITB SHOWCASE WAJIB membeli kaos dan lanyard
+            seharga Rp 115.000. Terdapat biaya tambahan untuk kaos lengan panjang
             sebesar Rp 10.000 dan penambahan biaya untuk kaos dengan ukuran
             selain S-XL, yaitu sebesar Rp5.000 untuk XXL-XXXL dan Rp 10.000
-            untuk XXXXL-XXXXXL
+            untuk XXXXL-XXXXXL. Untuk informasi terkait PO baju, dapat menghubungi Naveen: naveennaomi
           </Box>
           <Image src='/size-chart.png' alt='chart' draggable='false' />
           <FormControl isInvalid={!!formState.errors.sizeKaos}>

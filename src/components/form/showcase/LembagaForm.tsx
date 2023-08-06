@@ -60,6 +60,14 @@ export const LembagaForm = ({
             https://linktr.ee/FestivalITBShowcase2023
           </Link>
         </Box>
+        <Box bg='purple.1' px={5} py={3} borderRadius='lg'>
+          <Box as='span'>
+            <b>Lembaga</b> yang ingin ikut serta dalam kegiatan parade dapat mengisi formulir berikut:{' '}
+          </Box>
+          <Link isExternal href='https://go.oskmitb.com/IkutParade'>
+            https://go.oskmitb.com/IkutParade
+          </Link>
+        </Box>
         <FormControl isInvalid={!!formState.errors.lembaga}>
           <FormLabel>Lembaga</FormLabel>
           <Controller
