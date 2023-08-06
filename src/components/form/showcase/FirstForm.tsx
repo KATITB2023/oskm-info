@@ -24,6 +24,9 @@ export interface LembagaFormValues {
   lembagaName: string;
   position: string;
   noise: boolean;
+  secondPartyName: string;
+  secondPartyPosition: string;
+  secondPartyContact: string;
   mouPath: FileList;
 }
 
