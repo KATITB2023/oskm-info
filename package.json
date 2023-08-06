@@ -26,7 +26,7 @@
     "schema": "./node_modules/@katitb2023/database/schema.prisma"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.7.1",
+    "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@google-cloud/storage": "^6.11.0",
@@ -51,7 +51,7 @@
     "@trpc/server": "^10.26.0",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
-    "framer-motion": "^10.12.21",
+    "framer-motion": "^10.15.0",
     "next": "^13.4.2",
     "next-auth": "^4.22.1",
     "node-cron": "^3.0.2",
