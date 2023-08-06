@@ -211,7 +211,7 @@ export const LembagaForm = ({
         <FormControl isInvalid={!!formState.errors.secondPartyContact}>
           <FormLabel>Kontak Pihak Kedua</FormLabel>
           <Input
-            placeholder='Nama lengkap pihak kedua yang akan dicantumkan di MoU'
+            placeholder='Kontak pihak kedua yang akan dicantumkan di MoU'
             {...register('secondPartyContact', {
               required: {
                 value: true,
