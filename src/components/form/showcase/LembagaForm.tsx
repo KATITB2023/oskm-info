@@ -69,7 +69,7 @@ export const LembagaForm = ({
             dicantumkan dalam MoU.
           </Box>
         </Box>
-        <Box bg='purple.1' px={5} py={3} borderRadius='lg'>
+        <Box bg='purple.1' px={5} py={3} borderRadius='lg' w='100%'>
           <Box as='span'>
             <b>Lembaga</b> yang ingin ikut serta dalam kegiatan parade dapat
             mengisi formulir berikut:{' '}
