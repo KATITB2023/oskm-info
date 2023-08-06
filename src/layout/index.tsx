@@ -23,14 +23,12 @@ export default function Layout({ title, children }: Props) {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <Box>
-          {children}
-          {/* {process.env.NODE_ENV !== 'production' && (
-            <Box>
-              <ReactQueryDevtools initialIsOpen={false} />
-            </Box>
-          )} */}
-        </Box>
+        {children}
+        {process.env.NODE_ENV !== 'production' && (
+          <Box>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </Box>
+        )}
       </motion.div>
       {/* TODO: add footer */}
     </>

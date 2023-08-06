@@ -1,12 +1,24 @@
 import axios, { type AxiosProgressEvent } from 'axios';
+import sanitize from 'sanitize-filename';
+import { v4 as uuidv4 } from 'uuid';
 import { env } from '~/env.cjs';
 
 export enum Lembaga {
   HMJ = 'HMJ',
   UKM = 'UKM',
-  PENGMAS = 'PENGMAS',
-  DLL = 'DLL'
+  BSO = 'BSO',
+  PUSAT = 'PUSAT'
 }
+
+export const sanitizeURL = (url: string) => {
+  const lastPathIndex = url.lastIndexOf('/');
+  const lastPath = url.substring(lastPathIndex + 1);
+
+  const sanitizedLastPath = `${uuidv4()}-${sanitize(lastPath)}`;
+  const sanitizedURL = url.replace(lastPath, sanitizedLastPath);
+
+  return sanitizedURL;
+};
 
 export const uploadFile = async (
   url: string,
