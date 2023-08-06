@@ -37,7 +37,7 @@ export const GotTalentSubmitted = ({ date, time }: Props) => (
         color='orange'
         alignSelf='center'
       >
-        {date} {time}
+        {/* {date} {time} */}
       </Box>
     </Box>
   </Flex>

@@ -1,76 +1,133 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Heading,
-  Input,
-  VStack,
-  Flex,
-  useToast,
-  Select,
-  InputGroup,
-  InputLeftAddon
-} from '@chakra-ui/react';
+import { Box, Heading, useToast } from '@chakra-ui/react';
 import { TRPCClientError } from '@trpc/client';
-import { type BaseSyntheticEvent, useState } from 'react';
-import { type SubmitHandler, useForm, Controller } from 'react-hook-form';
+import { useState } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { api } from '~/utils/api';
 import { Lembaga, uploadFile } from '~/utils/file';
 import { ShowCaseSubmitted } from './ShowCaseSubmitted';
+import { IdentityForm } from './IdentityForm';
+import { LembagaForm } from './LembagaForm';
+import { ShirtForm } from './ShirtForm';
 
-interface FormValues {
+export interface IdentityFormValues {
   name: string;
   nim: string;
+  fakultas: string;
+  jurusan: string;
+  angkatan: number;
+  lineId: string;
+  waNumber: string;
+}
+
+export interface LembagaFormValues {
   lembaga: Lembaga;
   lembagaName: string;
   position: string;
-  lineId: string;
-  waNumber: string;
+  noise: boolean;
   mouPath: FileList;
 }
 
+export interface ShirtFormValues {
+  sizeKaos: string;
+  sleeveKaos: string;
+  total: number;
+  method: string;
+  proofPath: FileList;
+}
+
+interface FormValues
+  extends IdentityFormValues,
+    LembagaFormValues,
+    ShirtFormValues {}
+
 export const FirstForm = () => {
-  const { control, register, formState, setValue, handleSubmit } =
-    useForm<FormValues>({
-      mode: 'onChange',
-      delayError: 1000,
-      defaultValues: {
-        name: '',
-        nim: '',
-        lembaga: Object.values(Lembaga)[0],
-        lembagaName: '',
-        position: '',
-        lineId: '',
-        waNumber: '',
-        mouPath: undefined
-      }
-    });
+  const {
+    register: identityRegister,
+    formState: identityFormState,
+    handleSubmit: handleIdentitySubmit,
+    getValues: getIdentityValues
+  } = useForm<IdentityFormValues>({
+    mode: 'onSubmit'
+  });
+  const {
+    control: lembagaControl,
+    register: lembagaRegister,
+    formState: lembagaFormState,
+    setValue: setLembaga,
+    handleSubmit: handleLembagaSubmit,
+    getValues: getLembagaValues
+  } = useForm<LembagaFormValues>({
+    mode: 'onSubmit',
+    delayError: 1000,
+    defaultValues: {
+      lembaga: Object.values(Lembaga)[0],
+      noise: false
+    }
+  });
+  const {
+    control: ShirtControl,
+    register: ShirtRegister,
+    formState: ShirtFormState,
+    setValue: setShirt,
+    handleSubmit: handleShirtSubmit
+  } = useForm<ShirtFormValues>({
+    mode: 'onSubmit',
+    defaultValues: {
+      sizeKaos: 'S',
+      sleeveKaos: 'Pendek',
+      method: 'GoPay'
+    }
+  });
 
   const registerUnitMutation = api.showcase.registerUnit.useMutation();
+  const [page, setPage] = useState(1);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const toast = useToast();
 
-  const submitFirstShowcase: SubmitHandler<FormValues> = async (
-    data: FormValues
+  const submitFirstShowcase: SubmitHandler<ShirtFormValues> = async (
+    data: ShirtFormValues
   ) => {
     setLoading(true);
 
     try {
-      let fullPath = '';
-      if (data.mouPath[0]) {
-        const fileName = `showcase-mou-${data.nim}-${data.lembagaName.replace(' ', '')}`;
-        const extension = data.mouPath[0]?.name.split('.').pop() as string;
-        fullPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
-        await uploadFile(fullPath, data.mouPath[0]);
+      const formData: FormValues = {
+        ...getIdentityValues(),
+        ...getLembagaValues(),
+        ...data
+      };
+
+      let mouPath = '';
+      let proofPath = '';
+
+      if (formData.mouPath[0]) {
+        const fileName = `showcase-mou-${
+          formData.nim
+        }-${formData.lembagaName.replace(' ', '')}`;
+        const file = formData.mouPath[0] as File | undefined;
+        const extension = file?.name.split('.').pop() as string;
+        mouPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
+        await uploadFile(mouPath, formData.mouPath[0]);
+      }
+
+      if (formData.proofPath[0]) {
+        const fileName = `showcase-proof-${
+          formData.nim
+        }-${formData.lembagaName.replace(' ', '')}`;
+        const file = formData.proofPath[0] as File | undefined;
+        const extension = file?.name.split('.').pop() as string;
+        proofPath = `https://cdn.oskmitb.com/${fileName}.${extension}`;
+        await uploadFile(proofPath, formData.proofPath[0]);
       }
 
       const result = await registerUnitMutation.mutateAsync({
-        ...data,
-        mouPath: fullPath
+        ...formData,
+        angkatan: parseInt(formData.angkatan.toString()),
+        total: parseInt(formData.total.toString()),
+        waNumber: `+62${formData.waNumber}`,
+        mouPath,
+        proofPath
       });
 
       toast({
@@ -113,7 +170,7 @@ export const FirstForm = () => {
       py={9}
       borderRadius='lg'
       color='yellow.3'
-      maxH='70vh'
+      maxH='80vh'
       overflowY='auto'
       w={{ base: '80%', lg: '700px' }}
       sx={{
@@ -130,232 +187,36 @@ export const FirstForm = () => {
       >
         DAFTAR BOOTH SHOWCASE
       </Heading>
-      <form
-        onSubmit={(event: BaseSyntheticEvent) =>
-          void handleSubmit(submitFirstShowcase)(event)
-        }
-      >
-        <VStack spacing={4} mt={5} color='white'>
-          <FormControl isInvalid={!!formState.errors.name}>
-            <FormLabel>Nama</FormLabel>
-            <Input
-              placeholder='Masukkan nama Anda'
-              {...register('name', {
-                required: {
-                  value: true,
-                  message: 'Nama tidak boleh kosong'
-                }
-              })}
-            />
-            {formState.errors.name && (
-              <FormErrorMessage>
-                {formState.errors.name.message as string}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl isInvalid={!!formState.errors.nim}>
-            <FormLabel>NIM</FormLabel>
-            <Flex flexDir='column' gap={1}>
-              <Input
-                placeholder='Masukkan NIM Anda'
-                {...register('nim', {
-                  required: {
-                    value: true,
-                    message: 'NIM tidak boleh kosong'
-                  },
-                  pattern: {
-                    value: new RegExp('^[0-9]{8}$'),
-                    message: 'NIM tidak valid'
-                  }
-                })}
-              />
-            </Flex>
-            {formState.errors.nim && (
-              <FormErrorMessage>
-                {formState.errors.nim.message as string}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl isInvalid={!!formState.errors.lembaga}>
-            <FormLabel>Lembaga</FormLabel>
-            <Controller
-              control={control}
-              name='lembaga'
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Lembaga tidak boleh kosong'
-                }
-              }}
-              render={() => (
-                <Select
-                  variant='filled'
-                  bg='gray.600'
-                  color='white'
-                  w='full'
-                  borderColor='gray.400'
-                  onChange={(e) =>
-                    setValue(
-                      'lembaga',
-                      Lembaga[e.target.value as keyof typeof Lembaga]
-                    )
-                  }
-                  transition='all 0.2s ease-in-out'
-                  _hover={{
-                    opacity: 0.8
-                  }}
-                  _focus={{
-                    background: 'gray.600',
-                    borderColor: 'gray.400',
-                    color: 'white'
-                  }}
-                  css={{
-                    option: {
-                      background: '#2F2E2E'
-                    }
-                  }}
-                >
-                  {Object.values(Lembaga).map((lembaga, index) => (
-                    <option
-                      style={{
-                        background: 'gray.600',
-                        color: 'white'
-                      }}
-                      key={index}
-                      value={lembaga}
-                    >
-                      {lembaga}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            />
-            {formState.errors.lembaga && (
-              <FormErrorMessage>
-                {formState.errors.lembaga.message as string}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl isInvalid={!!formState.errors.lembagaName}>
-            <FormLabel>Nama Lembaga</FormLabel>
-            <Input
-              placeholder='Masukkan nama lembaga Anda'
-              {...register('lembagaName', {
-                required: {
-                  value: true,
-                  message: 'Nama lembaga tidak boleh kosong'
-                }
-              })}
-            />
-            {formState.errors.lembagaName && (
-              <FormErrorMessage>
-                {formState.errors.lembagaName.message as string}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl isInvalid={!!formState.errors.position}>
-            <FormLabel>Jabatan</FormLabel>
-            <Input
-              placeholder='Masukkan jabatan Anda'
-              {...register('position', {
-                required: {
-                  value: true,
-                  message: 'Jabatan tidak boleh kosong'
-                }
-              })}
-            />
-            {formState.errors.position && (
-              <FormErrorMessage>
-                {formState.errors.position.message as string}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl isInvalid={!!formState.errors.lineId}>
-            <FormLabel>ID Line</FormLabel>
-            <Input
-              placeholder='Masukkan ID Line Anda'
-              {...register('lineId', {
-                required: {
-                  value: true,
-                  message: 'ID Line tidak boleh kosong'
-                }
-              })}
-            />
-            {formState.errors.lineId && (
-              <FormErrorMessage>
-                {formState.errors.lineId.message as string}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl isInvalid={!!formState.errors.waNumber}>
-            <FormLabel>Nomor WhatsApp</FormLabel>
-            <InputGroup>
-              <InputLeftAddon>+62</InputLeftAddon>
-              <Input
-                placeholder='Masukkan nomor WhatsApp Anda'
-                {...register('waNumber', {
-                  required: {
-                    value: true,
-                    message: 'Nomor WhatsApp tidak boleh kosong'
-                  },
-                  setValueAs: (v: string) => {
-                    let value = v;
-                    if (v[0] === '0') {
-                      value = v.slice(1);
-                    }
-                    return '+62'.concat(value);
-                  },
-                  pattern: {
-                    value: new RegExp(
-                      `^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,7}$`
-                    ),
-                    message: 'Nomor WhatsApp invalid'
-                  }
-                })}
-              />
-            </InputGroup>
-            {formState.errors.waNumber && (
-              <FormErrorMessage>
-                {formState.errors.waNumber.message as string}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl isInvalid={!!formState.errors.mouPath}>
-            <FormLabel>Insert Media MoU</FormLabel>
-            <Input
-              type='file'
-              accept='application/pdf'
-              variant='unstyled'
-              {...register('mouPath', {
-                validate: (value) => {
-                  const file: File | undefined = value[0];
-                  if (file && file.name.split('.')[1] !== 'pdf') {
-                    return 'MoU harus berupa file .pdf';
-                  }
-                  return true;
-                }
-              })}
-            />
-            {formState.errors.mouPath && (
-              <FormErrorMessage>
-                {formState.errors.mouPath.message as string}
-              </FormErrorMessage>
-            )}
-          </FormControl>
-        </VStack>
-        <Flex justifyContent='center' mt={7}>
-          <Button
-            alignSelf='center'
-            isLoading={loading}
-            loadingText='Mendaftarkan...'
-            type='submit'
-            isDisabled={Object.values(formState.errors).length > 0}
-            w='50%'
-          >
-            Daftar
-          </Button>
-        </Flex>
-      </form>
+      {page === 1 && (
+        <IdentityForm
+          register={identityRegister}
+          formState={identityFormState}
+          handleSubmit={handleIdentitySubmit}
+          setPage={setPage}
+        />
+      )}
+      {page === 2 && (
+        <LembagaForm
+          control={lembagaControl}
+          register={lembagaRegister}
+          formState={lembagaFormState}
+          setValue={setLembaga}
+          handleSubmit={handleLembagaSubmit}
+          setPage={setPage}
+        />
+      )}
+      {page === 3 && (
+        <ShirtForm
+          control={ShirtControl}
+          register={ShirtRegister}
+          formState={ShirtFormState}
+          setValue={setShirt}
+          handleSubmit={handleShirtSubmit}
+          handleSubmitForm={submitFirstShowcase}
+          loading={loading}
+          setPage={setPage}
+        />
+      )}
     </Box>
   );
 };
