@@ -7,6 +7,7 @@ const BookingShowCasePage: NextPage = () => {
     <>
       <Head>
         <title>Booking Showcase - KAT ITB 2023</title>
+        <meta name="description" content="Form Booking Showcase - KAT ITB 2023" />
       </Head>
       <ShowCase />
     </>
