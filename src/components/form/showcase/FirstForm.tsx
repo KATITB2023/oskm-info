@@ -102,20 +102,20 @@ export const FirstForm = () => {
         ...data
       };
 
-      let mouPath = '';
+      const mouPath = '';
       let proofPath = '';
 
-      if (formData.mouPath[0]) {
-        const fileName = `mou-${formData.nim}-${formData.lembagaName.replace(
-          ' ',
-          ''
-        )}`;
-        const file = formData.mouPath[0] as File | undefined;
-        const extension = file?.name.split('.').pop() as string;
-        const tempPath = `https://cdn.oskmitb.com/showcase/${fileName}.${extension}`;
-        mouPath = sanitizeURL(tempPath);
-        await uploadFile(mouPath, formData.mouPath[0]);
-      }
+      // if (formData.mouPath[0]) {
+      //   const fileName = `mou-${formData.nim}-${formData.lembagaName.replace(
+      //     ' ',
+      //     ''
+      //   )}`;
+      //   const file = formData.mouPath[0] as File | undefined;
+      //   const extension = file?.name.split('.').pop() as string;
+      //   const tempPath = `https://cdn.oskmitb.com/showcase/${fileName}.${extension}`;
+      //   mouPath = sanitizeURL(tempPath);
+      //   await uploadFile(mouPath, formData.mouPath[0]);
+      // }
 
       if (formData.proofPath[0]) {
         const fileName = `proof-${formData.nim}-${formData.lembagaName.replace(
