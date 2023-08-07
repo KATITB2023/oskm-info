@@ -146,6 +146,7 @@ export default function Merch() {
                 padding='1.5rem 3.5rem'
                 fontFamily='SomarRounded-Regular'
                 variant='outline'
+                zIndex='100'
               >
                 Ganesha Goods
               </Button>
