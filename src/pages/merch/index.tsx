@@ -20,6 +20,7 @@ export default function Merch() {
           backgroundPosition='center center'
           overflowY='scroll'
           overflowX='hidden'
+          paddingTop='10rem'
           backgroundSize={{ base: 'initial', lg: 'cover' }}
           sx={{
             '&::-webkit-scrollbar': {
@@ -147,7 +148,7 @@ export default function Merch() {
                 padding='1.5rem 3.5rem'
                 fontFamily='SomarRounded-Regular'
                 variant='outline'
-                zIndex='100'
+                zIndex='1'
               >
                 Ganesha Goods
               </Button>
