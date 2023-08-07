@@ -29,6 +29,7 @@ export default function Merch() {
             margin={{ base: '5rem 0 0 0', md: '10rem 0 0 0' }}
             textShadow='0px 4px 30px #72D8BA'
             lineHeight='30px'
+            zIndex='1'
           >
             Merch
           </Text>
@@ -48,7 +49,7 @@ export default function Merch() {
             alt='small-sparks'
             w={{ base: '200px', md: '300px' }}
             position='absolute'
-            top={{ base: '30rem', md: '30rem' }}
+            top={{ base: '35rem', md: '30rem' }}
             left={{ base: '0', md: '0' }}
             zIndex='0'
           />
@@ -81,13 +82,31 @@ export default function Merch() {
           >
             <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
               <Image
+                src='/images/merch-moon-star-1.png'
+                alt='half-moon'
+                w={{ base: '300px' }}
+                position='absolute'
+                top={{ base: '-18rem', md: '-16rem' }}
+                left={{ base: '-6rem', md: '-10rem' }}
+                zIndex='1'
+              />
+              <Image
+                src='/images/merch-moon-star-2.png'
+                alt='half-moon'
+                w={{ base: '300px' }}
+                position='absolute'
+                top={{ base: '-18rem', md: '-13rem' }}
+                left={{ base: '0rem', md: '-2rem' }}
+                zIndex='1'
+              />
+              <Image
                 src='/images/merch-half-moon.png'
                 alt='half-moon'
                 w={{ base: '400px' }}
                 position='absolute'
                 top={{ base: '-10rem', md: '-10rem' }}
-                left={{ base: '-12rem', md: '-20rem' }}
-                zIndex='1'
+                left={{ base: '-9rem', md: '-20rem' }}
+                zIndex='0'
               />
               <Image
                 src='/images/merch-star.png'
@@ -103,7 +122,7 @@ export default function Merch() {
                 Tokopedia
               </Text>
               <Button
-                padding='1.5rem 2rem'
+                padding='1.5rem 3.5rem'
                 fontFamily='SomarRounded-Regular'
                 variant='outline'
               >
@@ -115,7 +134,7 @@ export default function Merch() {
                 Pre-Order
               </Text>
               <Button
-                padding='1.5rem 2rem'
+                padding='1.5rem 3.5rem'
                 fontFamily='SomarRounded-Regular'
                 variant='outline'
               >
@@ -127,7 +146,7 @@ export default function Merch() {
                 Instagram
               </Text>
               <Button
-                padding='1.5rem 2rem'
+                padding='1.5rem 3.5rem'
                 fontFamily='SomarRounded-Regular'
                 variant='outline'
               >
@@ -155,6 +174,16 @@ export default function Merch() {
                 zIndex='0'
               />
 
+              <Image
+                src='/images/merch-galaxy-aura.png'
+                alt='small-sparks'
+                w={{ base: '200px', md: '0' }}
+                position='absolute'
+                top={{ base: '15rem', md: '30rem' }}
+                left={{ base: '-7rem', md: '0' }}
+                zIndex='0'
+              />
+
               <MerchCard
                 title='Mug'
                 price={22000}
@@ -165,15 +194,37 @@ export default function Merch() {
               />
             </Box>
 
-            <MerchCard
-              title='Lanyard'
-              price={18000}
-              productImage='/images/merch-lanyard-1.png'
-              secondImage='/images/merch-lanyard-2.png'
-              spaceImage='/images/merch-asteroid-2.png'
-              productWidth='39px'
-              spaceWidth=''
-            />
+            <Box position='relative'>
+              <MerchCard
+                title='Lanyard'
+                price={18000}
+                productImage='/images/merch-lanyard-1.png'
+                secondImage='/images/merch-lanyard-2.png'
+                spaceImage='/images/merch-asteroid-2.png'
+                productWidth='39px'
+                spaceWidth=''
+              />
+
+              <Image
+                src='/images/merch-blue-lightning.png'
+                alt='small-sparks'
+                w={{ base: '300px', md: '0' }}
+                position='absolute'
+                top={{ base: '14rem', md: '30rem' }}
+                right={{ base: '-6rem', md: '0' }}
+                zIndex='0'
+              />
+
+              <Image
+                src='/images/merch-moon-star-2.png'
+                alt='half-moon'
+                w={{ base: '500px', md: '0' }}
+                position='absolute'
+                top={{ base: '18rem', md: '-13rem' }}
+                left={{ base: '5rem', md: '-2rem' }}
+                zIndex='1'
+              />
+            </Box>
             <MerchCard
               title='Korek Api'
               price={15000}
@@ -182,16 +233,37 @@ export default function Merch() {
               productWidth='46px'
               spaceWidth=''
             />
-            <MerchCard
-              title='Gantungan Kunci'
-              price={8000}
-              productImage='/images/merch-ganci.png'
-              spaceImage='/images/merch-bulan-1.png'
-              productWidth='176px'
-              spaceWidth='200px'
-            />
 
             <Box position='relative'>
+              <Image
+                src='/images/merch-pink-lightning.png'
+                alt='small-sparks'
+                w={{ base: '100%', md: '0' }}
+                position='absolute'
+                top={{ base: '-6rem', md: '30rem' }}
+                left={{ base: '-8rem', md: '0' }}
+                zIndex='0'
+              />
+              <MerchCard
+                title='Gantungan Kunci'
+                price={8000}
+                productImage='/images/merch-ganci.png'
+                spaceImage='/images/merch-bulan-1.png'
+                productWidth='176px'
+                spaceWidth='200px'
+              />
+            </Box>
+
+            <Box position='relative'>
+              <Image
+                src='/images/merch-pink-comet.png'
+                alt='small-sparks'
+                w={{ base: '300px', md: '100%' }}
+                position='absolute'
+                top={{ base: '8rem', md: '30rem' }}
+                right={{ base: '6rem', md: '-15rem' }}
+                zIndex='0'
+              />
               <MerchCard
                 title='Stiker'
                 price={10000}
