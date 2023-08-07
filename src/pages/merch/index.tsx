@@ -180,7 +180,7 @@ export default function Merch() {
                 w={{ base: '200px', md: '0' }}
                 position='absolute'
                 top={{ base: '15rem', md: '30rem' }}
-                left={{ base: '-7rem', md: '0' }}
+                left={{ base: '-7rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
               />
 
@@ -211,7 +211,7 @@ export default function Merch() {
                 w={{ base: '300px', md: '0' }}
                 position='absolute'
                 top={{ base: '14rem', md: '30rem' }}
-                right={{ base: '-6rem', md: '0' }}
+                right={{ base: '-6rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
               />
 
@@ -241,7 +241,7 @@ export default function Merch() {
                 w={{ base: '100%', md: '0' }}
                 position='absolute'
                 top={{ base: '-6rem', md: '30rem' }}
-                left={{ base: '-8rem', md: '0' }}
+                left={{ base: '-8rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
               />
               <MerchCard
