@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { createEnv } = require("@t3-oss/env-nextjs");
-const { z } = require("zod");
+const { createEnv } = require('@t3-oss/env-nextjs');
+const { z } = require('zod');
 
 exports.env = createEnv({
   /**
@@ -10,9 +10,9 @@ exports.env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().url(),
-    NODE_ENV: z.enum(["development", "test", "production"]),
+    NODE_ENV: z.enum(['development', 'test', 'production']),
     NEXTAUTH_SECRET:
-      process.env.NODE_ENV === "production"
+      process.env.NODE_ENV === 'production'
         ? z.string().min(1)
         : z.string().min(1).optional(),
     NEXTAUTH_URL: z.preprocess(
@@ -45,20 +45,6 @@ exports.env = createEnv({
       // SAMPLER_RATIO must be a positive number
       z.number().positive().min(0).max(1)
     ),
-    GOOGLE_APPLICATION_CREDENTIALS: z.string().min(1),
-    BUCKET_NAME: z.string().min(1),
-    URL_EXPIRATION_TIME: z.preprocess(
-      // If URL_EXPIRATION_TIME is not set, set it to 1 hour
-      (str) => (str ? +str : 60 * 60 * 1000),
-      // URL_EXPIRATION_TIME must be a positive integer
-      z.number().int().positive().min(1)
-    ),
-    BUCKET_CORS_EXPIRATION_TIME: z.preprocess(
-      // If BUCKET_CORS_EXPIRATION_TIME is not set, set it to 1 hour
-      (str) => (str ? +str : 60 * 60),
-      // BUCKET_CORS_EXPIRATION_TIME must be a positive integer
-      z.number().int().positive().min(1)
-    ),
     TYPING_TIMEOUT: z.preprocess(
       // If TYPING_TIMEOUT is not set, set it to 1000 ms
       (str) => (str ? +str : 1000),
@@ -66,7 +52,7 @@ exports.env = createEnv({
       z.number().int().positive().min(1)
     ),
     // IF REDIS_URL is not set, will not using redis (memory cache)
-    REDIS_URL: z.string().url(),
+    REDIS_URL: z.string().url()
   },
 
   /**
@@ -77,6 +63,7 @@ exports.env = createEnv({
   client: {
     NEXT_PUBLIC_API_URL: z.string().url(),
     NEXT_PUBLIC_WS_URL: z.string().url(),
+    NEXT_PUBLIC_BUCKET_API_KEY: z.string().min(1)
   },
 
   /**
@@ -92,18 +79,15 @@ exports.env = createEnv({
     S_MAXAGE: process.env.S_MAXAGE,
     STALE_WHILE_REVALIDATE: process.env.STALE_WHILE_REVALIDATE,
     SAMPLER_RATIO: process.env.SAMPLER_RATIO,
-    GOOGLE_APPLICATION_CREDENTIALS: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-    BUCKET_NAME: process.env.BUCKET_NAME,
-    URL_EXPIRATION_TIME: process.env.URL_EXPIRATION_TIME,
-    BUCKET_CORS_EXPIRATION_TIME: process.env.BUCKET_CORS_EXPIRATION_TIME,
     TYPING_TIMEOUT: process.env.TYPING_TIMEOUT,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
-    REDIS_URL: process.env.REDIS_URL,
+    NEXT_PUBLIC_BUCKET_API_KEY: process.env.NEXT_PUBLIC_BUCKET_API_KEY,
+    REDIS_URL: process.env.REDIS_URL
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
    * This is especially useful for Docker builds.
    */
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  skipValidation: !!process.env.SKIP_ENV_VALIDATION
 });
