@@ -19,6 +19,7 @@ export default function Merch() {
           alignItems='center'
           backgroundPosition='center center'
           overflowY='scroll'
+          overflowX='hidden'
           backgroundSize={{ base: 'initial', lg: 'cover' }}
           sx={{
             '&::-webkit-scrollbar': {
