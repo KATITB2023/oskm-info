@@ -21,6 +21,14 @@ export default function Merch() {
           overflowY='scroll'
           backgroundSize={{ base: 'initial', lg: 'cover' }}
         >
+          <Image
+            src='/images/merch-half-moon.png'
+            alt='half-moon'
+            w={{ base: '400px' }}
+            position='absolute'
+            left='300'
+            top='120'
+          />
           <Text
             fontSize={{ base: '24px', md: '100px' }}
             fontWeight='bold'
@@ -33,7 +41,12 @@ export default function Merch() {
             Merch
           </Text>
 
-          <Flex gap='2rem' display={{ base: 'none', md: 'flex' }}>
+          <Flex
+            gap='3rem'
+            display={{ base: 'flex' }}
+            mb='10rem'
+            flexDirection={{ base: 'column', md: 'row' }}
+          >
             <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
               <Text color='#FFF' fontFamily='SomarRounded-Regular'>
                 Tokopedia
@@ -44,6 +57,18 @@ export default function Merch() {
                 variant='outline'
               >
                 Ganesha Goods
+              </Button>
+            </Flex>
+            <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
+              <Text color='#FFF' fontFamily='SomarRounded-Regular'>
+                Pre-Order
+              </Text>
+              <Button
+                padding='1.5rem 2rem'
+                fontFamily='SomarRounded-Regular'
+                variant='outline'
+              >
+                Order Now !
               </Button>
             </Flex>
             <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
@@ -70,7 +95,7 @@ export default function Merch() {
           >
             <MerchCard
               title='Mug'
-              price={20000}
+              price={22000}
               productImage='/images/merch-mug.png'
               spaceImage='/images/merch-asteroid-1.png'
               productWidth='180px'
@@ -78,7 +103,7 @@ export default function Merch() {
             />
             <MerchCard
               title='Lanyard'
-              price={30000}
+              price={18000}
               productImage='/images/merch-lanyard-1.png'
               secondImage='/images/merch-lanyard-2.png'
               spaceImage='/images/merch-asteroid-2.png'
@@ -87,7 +112,7 @@ export default function Merch() {
             />
             <MerchCard
               title='Korek Api'
-              price={10000}
+              price={15000}
               productImage='/images/merch-korek-api.png'
               spaceImage='/images/merch-asteroid-3.png'
               productWidth='46px'
@@ -95,15 +120,15 @@ export default function Merch() {
             />
             <MerchCard
               title='Gantungan Kunci'
-              price={15000}
+              price={8000}
               productImage='/images/merch-ganci.png'
               spaceImage='/images/merch-bulan-1.png'
               productWidth='176px'
-              spaceWidth=''
+              spaceWidth='200px'
             />
             <MerchCard
               title='Stiker'
-              price={5000}
+              price={10000}
               productImage='/images/merch-sticker.png'
               spaceImage='/images/merch-bulan-2.png'
               productWidth='135px'
@@ -111,7 +136,7 @@ export default function Merch() {
             />
             <MerchCard
               title='Kipas'
-              price={10000}
+              price={12000}
               productImage='/images/merch-kipas.png'
               spaceImage='/images/merch-bulan-3.png'
               productWidth='162px'

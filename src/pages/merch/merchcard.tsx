@@ -43,7 +43,16 @@ export default function MerchCard(props: MerchCardProps) {
           <Text
             color='#FF93D1;'
             fontFamily='Bodwars'
-            fontSize={{ base: '20px', md: '35px' }}
+            fontSize={
+              title === 'Gantungan Kunci'
+                ? { base: '20px', md: '30px' }
+                : { base: '20px', md: '35px' }
+            }
+            mt={
+              title === 'Gantungan Kunci'
+                ? { base: '-1rem', md: '-2rem' }
+                : { base: '0rem', md: '0rem' }
+            }
             textShadow='0px 4px 30px #8D47E5'
             marginBottom='1rem'
             textAlign='center'
@@ -58,12 +67,12 @@ export default function MerchCard(props: MerchCardProps) {
             padding={{ base: '0.8rem 0.8rem', md: '1.5rem 1.5rem' }}
             fontFamily='SomarRounded-Regular'
             zIndex='10'
-            mb={{ base: '1rem', md: '0' }}
+            mb={{ base: '0.5rem', md: '0' }}
           >
             Buy Now
           </Button>
           <Box
-            zIndex='1'
+            zIndex='3'
             _hover={{
               animation: 'hoverEffect 1s infinite alternate' // Apply the keyframe animation
             }}
@@ -92,23 +101,26 @@ export default function MerchCard(props: MerchCardProps) {
                   zIndex='3'
                 />
               </Flex>
-
-              <Image
-                src={spaceImage}
-                alt='asteroid-1'
-                w={{ base: '80%', md: spaceWidth }}
-                zIndex='2'
-                left='8'
-                mt={{ base: '-5rem', md: '-6rem' }}
-              />
             </Flex>
           </Box>
+          <Image
+            src={spaceImage}
+            alt='asteroid-1'
+            w={{ base: '80%', md: spaceWidth }}
+            zIndex='1'
+            left='8'
+            mt={
+              title === 'Stiker'
+                ? { base: '-6rem', md: '-9rem' }
+                : { base: '-6rem', md: '-7rem' }
+            }
+          />
 
           <Image
-            src='/images/merch-vector.png'
+            src='/images/merch-vector.svg'
             alt='merch-vector'
             position='absolute'
-            zIndex='0'
+            zIndex='2'
             bottom='0'
             w='10000px'
           />
