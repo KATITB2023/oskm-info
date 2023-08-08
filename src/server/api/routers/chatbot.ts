@@ -33,10 +33,7 @@ export const chatbotRouter = createTRPCRouter({
           text: input.text
         }
       });
-      const textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 250,
-        chunkOverlap: 50
-      });
+      const textSplitter = new RecursiveCharacterTextSplitter();
 
       const [articlesText] = await Promise.all([
         ctx.prisma.articles.findMany({

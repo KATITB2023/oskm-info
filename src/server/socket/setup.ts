@@ -5,6 +5,8 @@ import type { Server, Socket } from "socket.io";
 import { type Message } from "@prisma/client";
 import type { ServerEventsResolver } from "~/server/socket/helper";
 import { messageEvent } from "~/server/socket/events/message";
+import { ConversationSummaryMemory } from "langchain/memory";
+import { OpenAI } from "langchain";
 
 /**
  * @description server events are events that are emmited from the client to the server.
@@ -77,6 +79,7 @@ interface InterServerEvents {
  */
 export type SocketData<AuthRequired = false> = {
   session: AuthRequired extends true ? Session : Session | null;
+  memory: ConversationSummaryMemory;
 };
 
 /**
@@ -125,11 +128,18 @@ export type SocketClientInServer<AuthRequired = false> = Socket<
   SocketData<AuthRequired>
 >;
 
+const memory = new ConversationSummaryMemory({
+  memoryKey: "chat_history",
+  llm: new OpenAI({ modelName: "gpt-3.5-turbo", temperature: 0 }),
+  inputKey: "question"
+});
+
 export function setupSocket(io: SocketServer) {
   io.use((socket, next) => {
     getSession({ req: socket.request })
       .then((session) => {
         socket.data.session = session;
+        socket.data.memory = memory;
         next();
       })
       .catch(next);
