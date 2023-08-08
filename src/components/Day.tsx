@@ -3,39 +3,35 @@ import { Box, Flex, Image, Text } from '@chakra-ui/react';
 export default function Day(props: {
   date: string;
   title: string;
-  top: string;
+  top: { base: string; lg: string };
+  //   left: {base: string, lg: string};
 }) {
   return (
-    <Box
-      alignItems='center'
-      justifyContent='space-between'
-      display={{ base: 'none', md: 'block' }}
-      position='absolute'
-      zIndex='20'
-      top={props.top}
-      left='38.5%'
-      draggable='false'
-    >
-      <Image src='/images/timeline-bigO.png' alt='Gambar' />
+    <Box>
+      <Image
+        src='/images/timeline-bigO.png'
+        alt='Gambar'
+        w={{ base: '30%', lg: '100%' }}
+      />
       <Text
         whiteSpace='nowrap'
         fontFamily='SomarRounded-Bold'
-        fontSize='24'
+        fontSize={{ base: '10', lg: '24' }}
         position='absolute'
-        top='5%'
-        left='-450%'
+        left={{ base: '-220%', lg: '-520%' }}
         color='#FFFC83'
+        top={props.top}
       >
         {props.date}
       </Text>
       <Text
         whiteSpace='nowrap'
         fontFamily='SomarRounded-Bold'
-        fontSize='24'
+        fontSize={{ base: '10', lg: '24' }}
         position='absolute'
-        top='5%'
-        left='150%'
+        left={{ base: '80%', lg: '180%' }}
         color='#FFFC83'
+        top={props.top}
       >
         {props.title}
       </Text>

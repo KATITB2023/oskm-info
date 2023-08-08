@@ -9,7 +9,6 @@ export default function Time(props: {
     <Box
       alignItems='center'
       justifyContent='space-between'
-      display={{ base: 'none', md: 'block' }}
       position='absolute'
       zIndex='20'
       top={props.top}
