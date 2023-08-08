@@ -53,6 +53,17 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
         loading='lazy'
       />
       <Image
+        src='/images/about-us/planet-yellow.png'
+        top={{base: '30%', md: '34%'}}
+        right={{base: 'calc(100% - 224px)', md:'-164px'}}
+        height={{base: '334px', md:'550px'}}
+        scaleX={{base: '-1', md: '1'}}
+        zIndex='-98'
+        position='absolute'
+        draggable='false'
+        loading='lazy'
+      />
+      <Image
         src='/images/about-us/planet-left.png'
         top={{ base: props.isPreview ? '51.5%' : '48%', md: '39%' }}
         left='0'
@@ -72,17 +83,17 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
         draggable='false'
         loading='lazy'
       />
+      <Image
+        src='/images/about-us/big-moon.png'
+        bottom={{ base: '0%', md: '-500px' }}
+        right={{ base: '0%', md: '0%' }}
+        width='100%'
+        zIndex='-95'
+        position='absolute'
+        draggable='false'
+        loading='lazy'
+      />
       <Show above='md'>
-        <Image
-          src='/images/about-us/planet-right.png'
-          top='34%'
-          right='0'
-          height='550px'
-          zIndex='-98'
-          position='absolute'
-          draggable='false'
-          loading='lazy'
-        />
         {props.isPreview ? null : (
           <Fade in={true} transition={{ enter: { duration: 3 } }}>
             <Image
@@ -137,28 +148,8 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
           draggable='false'
           loading='lazy'
         />
-        <Image
-          src='/images/about-us/bulan-bottom.png'
-          bottom='0'
-          right='0'
-          width='100%'
-          zIndex='-95'
-          position='absolute'
-          draggable='false'
-          loading='lazy'
-        />
       </Show>
       <Hide above='md'>
-        <Image
-          src='/images/about-us/planet-left-mobile.png'
-          top='28.5%'
-          left='0'
-          height='400px'
-          zIndex='-98'
-          position='absolute'
-          draggable='false'
-          loading='lazy'
-        />
         <Image
           src='/images/about-us/star-top-mobile.png'
           top='2%'
@@ -185,16 +176,6 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
           left='0%'
           height='270px'
           zIndex='-98'
-          position='absolute'
-          draggable='false'
-          loading='lazy'
-        />
-        <Image
-          src='/images/about-us/bulan-bottom-mobile.png'
-          bottom={{ base: '0%', md: '0%' }}
-          right='0'
-          width='100%'
-          zIndex='-97=5'
           position='absolute'
           draggable='false'
           loading='lazy'

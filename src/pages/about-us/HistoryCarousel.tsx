@@ -11,12 +11,14 @@ import {
   Show,
   Hide,
   Fade,
-  Image
+  Image,
+  Icon
 } from '@chakra-ui/react';
 import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
 import Slider from 'react-slick';
 import { useState } from 'react';
 import { colors } from '~/styles/component/colors';
+import { CgClose } from 'react-icons/cg'
 
 interface Era {
   title: string;
@@ -260,6 +262,9 @@ export default function HistoryCarousel(props: {
                       >
                         {era.text}
                       </Text>
+                      <Button position='absolute' right='18px' top ='18px' bg='transparent' _hover={{bg: 'transparent'}} onClick={() => props.setIsPreview(true)} borderRadius='full' p='0'>
+                        <Icon as={CgClose} width='30px' height='30px' color='yellow.5'></Icon>
+                      </Button>
                     </Box>
                   </Fade>
                 )}

@@ -37,9 +37,10 @@ export default function VisMis(props: { title: 'VISI' | 'MISI' }) {
       >
         <Image
           src='/images/about-us/small-moon.png'
-          bottom='-50px'
-          right='-50px'
+          bottom={{ base: '-25px', md:'-50px'}}
+          right={{ base: '-25px', md:'-50px'}}
           zIndex='10'
+          width={{ base: '100px', md:'128px'}}
           position='absolute'
           draggable='false'
           loading='lazy'
