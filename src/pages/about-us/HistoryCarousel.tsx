@@ -18,7 +18,7 @@ import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
 import Slider from 'react-slick';
 import { useState } from 'react';
 import { colors } from '~/styles/component/colors';
-import { CgClose } from 'react-icons/cg'
+import { CgClose } from 'react-icons/cg';
 
 interface Era {
   title: string;
@@ -182,42 +182,44 @@ export default function HistoryCarousel(props: {
                   </Box>
                 </Show>
                 {props.isPreview ? (
-                  <Flex
-                    flexDirection='column'
-                    justifyContent='center'
-                    alignItems='center'
-                    pb='30px'
-                    px={{ base: '12%', md: '0' }}
-                  >
-                    <Heading
-                      fontSize={{ base: '2xl', md: '4xl' }}
-                      textAlign='center'
-                      color='yellow.5'
-                      textShadow={`0px 2.8px 2.8px ${colors.green[1]}`}
-                    >
-                      {era.title}
-                    </Heading>
-                    <Text
-                      fontSize={{ base: 'md', lg: 'lg' }}
-                      textAlign='justify'
-                      color='white'
-                      textShadow={`0px 0px 10px ${colors.yellow[5]}`}
+                  <Fade in={true} transition={{ enter: { duration: 1 } }}>
+                    <Flex
+                      flexDirection='column'
+                      justifyContent='center'
+                      alignItems='center'
                       pb='30px'
-                      pt='35px'
+                      px={{ base: '12%', md: '0' }}
                     >
-                      {era.preview}
-                    </Text>
-                    <Box>
-                      <Button
-                        onClick={() => props.setIsPreview(false)}
-                        bg='gray.600'
+                      <Heading
+                        fontSize={{ base: '2xl', md: '4xl' }}
+                        textAlign='center'
                         color='yellow.5'
-                        variant='outline'
+                        textShadow={`0px 2.8px 2.8px ${colors.green[1]}`}
                       >
-                        Read More
-                      </Button>
-                    </Box>
-                  </Flex>
+                        {era.title}
+                      </Heading>
+                      <Text
+                        fontSize={{ base: 'md', lg: 'lg' }}
+                        textAlign='justify'
+                        color='white'
+                        textShadow={`0px 0px 10px ${colors.yellow[5]}`}
+                        pb='30px'
+                        pt='35px'
+                      >
+                        {era.preview}
+                      </Text>
+                      <Box>
+                        <Button
+                          onClick={() => props.setIsPreview(false)}
+                          bg='gray.600'
+                          color='yellow.5'
+                          variant='outline'
+                        >
+                          Read More
+                        </Button>
+                      </Box>
+                    </Flex>
+                  </Fade>
                 ) : (
                   <Fade in={true} transition={{ enter: { duration: 1 } }}>
                     <Box
@@ -231,21 +233,11 @@ export default function HistoryCarousel(props: {
                       mt='20px'
                       borderRadius='10px'
                       boxShadow={`0px 0px 10px ${colors.yellow[5]}`}
-                      mb='50px'
+                      mb='60px'
                       outline={`1px solid ${colors.yellow[5]}`}
                       mx={{ base: '10%', md: '0' }}
                       position='relative'
                     >
-                      <Image
-                        src='/images/about-us/spark-edge.png'
-                        bottom='-119px'
-                        right='-127px'
-                        zIndex='10'
-                        width='250px'
-                        position='absolute'
-                        draggable='false'
-                        loading='lazy'
-                      />
                       <Heading
                         fontSize={{ base: '2xl', md: '4xl' }}
                         textAlign='center'
@@ -262,9 +254,44 @@ export default function HistoryCarousel(props: {
                       >
                         {era.text}
                       </Text>
-                      <Button position='absolute' right='18px' top ='18px' bg='transparent' _hover={{bg: 'transparent'}} onClick={() => props.setIsPreview(true)} borderRadius='full' p='0'>
-                        <Icon as={CgClose} width='30px' height='30px' color='yellow.5'></Icon>
+                      <Button
+                        position='absolute'
+                        right='18px'
+                        top='18px'
+                        bg='transparent'
+                        opacity='0.5'
+                        _hover={{
+                          bg: 'transparent',
+                          opacity: '0.8'
+                        }}
+                        onClick={() => props.setIsPreview(true)}
+                        borderRadius='full'
+                        p='0'
+                        zIndex='3'
+                      >
+                        <Icon
+                          as={CgClose}
+                          width='30px'
+                          height='30px'
+                          color='yellow.5'
+                        ></Icon>
                       </Button>
+                      <Image
+                        src='/images/about-us/spark-edge.png'
+                        top={{
+                          base: 'calc(100% - 100px)',
+                          md: 'calc(100% - 125px)'
+                        }}
+                        left={{
+                          base: 'calc(100% - 100px)',
+                          md: 'calc(100% - 125px)'
+                        }}
+                        zIndex='2'
+                        width={{ base: '200px', md: '250px' }}
+                        position='absolute'
+                        draggable='false'
+                        loading='lazy'
+                      />
                     </Box>
                   </Fade>
                 )}

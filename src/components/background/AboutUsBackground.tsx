@@ -10,16 +10,14 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
       zIndex='-99'
     >
       <Flex
-        bgImage={{
-          base: '/images/about-us/blur-bg-mobile.png',
-          md: '/images/about-us/blur-bg.png'
-        }}
-        bgSize='cover'
+        bgImage='/images/about-us/blur-bg.png'
         bgRepeat='no-repeat'
         w='100%'
         h='100%'
         position='absolute'
         zIndex='-99'
+        bgPosition={{ base: '-330px 0px', md: 'center' }}
+        bgSize={{ base: '2000px', md: 'cover' }}
       ></Flex>
       <Image
         src='/images/about-us/star-top.png'
@@ -32,21 +30,12 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
         loading='lazy'
       />
       <Image
-        src='/images/about-us/spark-top.png'
-        top={{ base: '15.5%', md: '2%' }}
-        left={{ md: '2%' }}
-        right={{ base: '0%' }}
-        height={{ base: '250px', md: '400px' }}
-        zIndex='-98'
-        position='absolute'
-        draggable='false'
-        loading='lazy'
-      />
-      <Image
         src='/images/about-us/star-left.png'
         top={{ base: '8%', md: '-3%' }}
         left='0'
         height={{ base: '1000px', md: '2300px' }}
+        minH={{ base: '1000px', md: '2300px' }}
+        minW={{ base: '541.68px', md: '1245.87px' }}
         zIndex='-98'
         position='absolute'
         draggable='false'
@@ -54,10 +43,11 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
       />
       <Image
         src='/images/about-us/planet-yellow.png'
-        top={{base: '30%', md: '34%'}}
-        right={{base: 'calc(100% - 224px)', md:'-164px'}}
-        height={{base: '334px', md:'550px'}}
-        scaleX={{base: '-1', md: '1'}}
+        top={{ base: '30%', md: '34%' }}
+        left={{ md: 'calc(100% - 386px)' }}
+        right={{ base: 'calc(100% - 224px)' }}
+        height={{ base: '334px', md: '550px' }}
+        scaleX={{ base: '-1', md: '1' }}
         zIndex='-98'
         position='absolute'
         draggable='false'
@@ -85,9 +75,11 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
       />
       <Image
         src='/images/about-us/big-moon.png'
-        bottom={{ base: '0%', md: '-500px' }}
-        right={{ base: '0%', md: '0%' }}
-        width='100%'
+        top={{ base: 'calc(100% - 338px)', md: 'calc(100% - 592px)' }}
+        left={{ base: 'calc(50% - 328px)', md: 'calc(50% - 1024px)' }}
+        height={{ base: '656px', md: '2048px' }}
+        minH={{ base: '656px', md: '2048px' }}
+        minW={{ base: '656px', md: '2048px' }}
         zIndex='-95'
         position='absolute'
         draggable='false'
@@ -109,29 +101,39 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
           </Fade>
         )}
         <Image
-          src='/images/about-us/hidden-spark-right.png'
+          src='/images/about-us/spark-blue.png'
+          top='2%'
+          right='calc(100% - 450px)'
+          height='500px'
+          zIndex='-98'
+          position='absolute'
+          draggable='false'
+          loading='lazy'
+        />
+        <Image
+          src='/images/about-us/spark-pink.png'
           top='67%'
-          right='0'
-          height='450px'
+          left='calc(100% - 331px)'
+          height='540px'
           zIndex='-98'
           position='absolute'
           draggable='false'
           loading='lazy'
         />
         <Image
-          src='/images/about-us/hidden-spark-left.png'
+          src='/images/about-us/spark-pink.png'
           top='83%'
-          left='0'
-          height='450px'
+          right='calc(100% - 331px)'
+          height='540px'
           zIndex='-98'
           position='absolute'
           draggable='false'
           loading='lazy'
         />
         <Image
-          src='/images/about-us/planet-mini-left.png'
+          src='/images/about-us/planet-mini.png'
           top='80%'
-          left='0'
+          left='calc(100% - 154px)'
           height='250px'
           zIndex='-98'
           position='absolute'
@@ -139,9 +141,9 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
           loading='lazy'
         />
         <Image
-          src='/images/about-us/planet-mini-right.png'
+          src='/images/about-us/planet-mini.png'
           top='80%'
-          right='0'
+          right='calc(100% - 154px)'
           height='250px'
           zIndex='-98'
           position='absolute'
@@ -161,6 +163,16 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
           loading='lazy'
         />
         <Image
+          src='/images/about-us/spark-blue.png'
+          top='15.5%'
+          left='calc(100% - 187px)'
+          height='226.8px'
+          zIndex='-98'
+          position='absolute'
+          draggable='false'
+          loading='lazy'
+        />
+        <Image
           src='/images/about-us/star-bottom-mobile.png'
           top={props.isPreview ? '54.7%' : '51%'}
           right='0'
@@ -171,7 +183,7 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
           loading='lazy'
         />
         <Image
-          src='/images/about-us/spark-bottom-mobile.png'
+          src='/images/about-us/spark-blue-glow.png'
           top={props.isPreview ? '69.8%' : '65%'}
           left='0%'
           height='270px'

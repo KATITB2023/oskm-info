@@ -38,6 +38,7 @@ export default function AboutUs() {
             align='justify'
             color='white'
             textShadow={`0px 0px 10px ${colors.yellow[5]}`}
+            fontSize={{ base: 'md', md: 'lg' }}
           >
             OSKM (atau Orientasi Studi Keluarga Mahasiswa) ITB merupakan
             rangkaian kegiatan dalam upaya menyambut Mahasiswa Baru ITB dan

@@ -37,10 +37,10 @@ export default function VisMis(props: { title: 'VISI' | 'MISI' }) {
       >
         <Image
           src='/images/about-us/small-moon.png'
-          bottom={{ base: '-25px', md:'-50px'}}
-          right={{ base: '-25px', md:'-50px'}}
+          top={{ base: 'calc(100% - 75px)', md: 'calc(100% - 78px)' }}
+          left={{ base: 'calc(100% - 75px)', md: 'calc(100% - 78px)' }}
           zIndex='10'
-          width={{ base: '100px', md:'128px'}}
+          width={{ base: '100px', md: '128px' }}
           position='absolute'
           draggable='false'
           loading='lazy'
@@ -84,12 +84,22 @@ export default function VisMis(props: { title: 'VISI' | 'MISI' }) {
           loading='lazy'
         />
         {props.title === 'VISI' ? (
-          <Text align='center' color='white' zIndex='2'>
+          <Text
+            align='center'
+            color='white'
+            zIndex='2'
+            fontSize={{ base: 'md', md: 'lg' }}
+          >
             KAT ITB 2023 sebagai vivarium pencetak katalisator penuh warna dalam
             mewujudkan masyarakat madani.
           </Text>
         ) : (
-          <OrderedList textAlign='justify' color='white' zIndex='2'>
+          <OrderedList
+            textAlign='justify'
+            color='white'
+            zIndex='2'
+            fontSize={{ base: 'md', md: 'lg' }}
+          >
             <ListItem>
               KAT ITB 2023 dapat menciptakan Iingkungan yang inklusif dan dapat
               mendukung pertumbuhan dan pengembangan setiap insan yang terlibat
