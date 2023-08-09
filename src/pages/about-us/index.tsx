@@ -1,8 +1,8 @@
 import { Box, Heading, Text, Flex } from '@chakra-ui/react';
 import Layout from '~/layout';
 import { colors } from '~/styles/component/colors';
-import VisMis from '~/pages/about-us/VisMis';
-import HistoryCarousel from '~/pages/about-us/HistoryCarousel';
+import VisMis from '~/components/about-us/VisMis';
+import HistoryCarousel from '~/components/about-us/HistoryCarousel';
 import { AboutUsBackground } from '~/components/background/AboutUsBackground';
 import { useState } from 'react';
 
