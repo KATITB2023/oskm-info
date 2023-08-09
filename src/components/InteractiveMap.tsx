@@ -2,6 +2,7 @@ import { type Dispatch, useState, type SetStateAction, useEffect } from 'react';
 import {
   Button,
   Image,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -11,7 +12,8 @@ import {
   ModalOverlay,
   Select,
   Text,
-  useDisclosure
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react';
 import mapboxgl from 'mapbox-gl';
 import {
@@ -30,6 +32,7 @@ import { type MapLocation, type MapPhoto } from '@prisma/client';
 import { api } from '~/utils/api';
 import { env } from '~/env.cjs';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 const tileLayer: FillExtrusionLayer = {
   id: 'add-3d-buildings',
@@ -256,10 +259,32 @@ const InteractiveMap = ({
   >();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const getLocationsQuery = api.interactiveMap.getLocations.useQuery({
     campus: selectedCampus
   });
+
+  const onCopyButtonClick = () => {
+    if (!selectedLocation) return;
+
+    void navigator.clipboard
+      .writeText(
+        encodeURI(
+          `${env.NEXT_PUBLIC_API_URL}/interactive-map?campus=${selectedCampus}&locationName=${selectedLocation.title}`
+        )
+      )
+      .then(() =>
+        toast({
+          title: 'Success',
+          description: 'Copied to clipboard!',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top'
+        })
+      );
+  };
 
   return (
     <Map
@@ -316,10 +341,30 @@ const InteractiveMap = ({
           <ModalHeader color='white'>{selectedLocation?.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text color='white'>{selectedLocation?.subtitle}</Text>
-            <Text color='white'>{selectedLocation?.description}</Text>
+            {selectedLocation && (
+              <>
+                <Text color='white'>{selectedLocation.subtitle}</Text>
+                <Text color='white'>{selectedLocation.description}</Text>
+                <Text color='white'>
+                  <Link
+                    href={encodeURI(
+                      `${env.NEXT_PUBLIC_API_URL}/interactive-map?campus=${selectedCampus}&locationName=${selectedLocation.title}`
+                    )}
+                    isExternal
+                  >
+                    {encodeURI(
+                      `${env.NEXT_PUBLIC_API_URL}/interactive-map?campus=${selectedCampus}&locationName=${selectedLocation.title}`
+                    )}{' '}
+                    <ExternalLinkIcon mx='2px' />
+                  </Link>
+                </Text>
+              </>
+            )}
           </ModalBody>
           <ModalFooter>
+            <Button onClick={onCopyButtonClick} mr={3}>
+              Share Location
+            </Button>
             <Button onClick={onClose}>Close</Button>
           </ModalFooter>
         </ModalContent>
