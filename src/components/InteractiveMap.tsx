@@ -176,7 +176,7 @@ const InteractiveMarker = ({
       }}
     >
       <Image
-        src='/images/spark3.png'
+        src='/images/misc/spark3.png'
         alt='marker'
         w='125px'
         draggable='false'
