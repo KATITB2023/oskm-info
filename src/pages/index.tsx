@@ -1,104 +1,16 @@
-import { Box, Center, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { type NextPage } from 'next';
-import Head from 'next/head';
+import Layout from '~/layout';
+import Timeline from '~/components/Timeline';
 
 const Home: NextPage = () => {
   return (
-    <>
-      <Head>
-        <title>OSKM ITB 2023</title>
-        <meta
-          name='description'
-          content='Sebuah website yang akan digunakan untuk acara OSKM ITB 2023'
-        />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <Center minH='100vh' position='relative'>
-        <Image
-          src='/images/background.png'
-          alt=''
-          position='absolute'
-          zIndex='-1'
-          w='100%'
-          h='100%'
-          objectFit='cover'
-          objectPosition='center'
-          draggable='false'
-        />
-        <Image
-          src='/images/shooting-star-left.png'
-          display={{ base: 'none', md: 'block' }}
-          alt=''
-          position='absolute'
-          w='35%'
-          top='0'
-          left='0'
-          zIndex='10'
-          draggable='false'
-        />
-        <Image
-          src='/images/shooting-star-right.png'
-          display={{ base: 'none', md: 'block' }}
-          alt=''
-          position='absolute'
-          w='35%'
-          top='0'
-          right='0'
-          zIndex='10'
-          draggable='false'
-        />
-        <Image
-          src='/images/mini-star-right.png'
-          display={{ base: 'none', md: 'block' }}
-          alt=''
-          position='absolute'
-          w='35%'
-          bottom='0'
-          right='0'
-          zIndex='10'
-          draggable='false'
-        />
-        <Image
-          src='/images/mini-star-left.png'
-          display={{ base: 'none', md: 'block' }}
-          alt=''
-          position='absolute'
-          w='35%'
-          bottom='0'
-          left='0'
-          zIndex='10'
-          draggable='false'
-        />
-        <Flex flexDir={'column'}>
-          <Heading
-            fontSize={{ base: '2xl', lg: '6xl' }}
-            textAlign='center'
-            px={4}
-            textShadow={{ base: '0px 1px #E77A23', lg: '0px 3px #E77A23' }}
-          >
-            <Box as='span' color='#8D47E5'>
-              PREPARE TO {` `}
-            </Box>
-            <Box as='span' color='#4A58F6'>
-              launch
-            </Box>
-          </Heading>
-          <Center marginTop={'2'}>
-            <Text fontSize={{ base: 'md', lg: 'xl' }} color='#FFBE3B'>
-              Sponsor inquiries:&nbsp;
-              <a href='https://wa.me/087875257932'>{'087875257932'}</a>{' '}
-              (Sarayesa)
-            </Text>
-          </Center>
-          <Center>
-            <Text fontSize={{ base: 'md', lg: 'xl' }} color='#FFBE3B'>
-              Media partner inquiries:&nbsp;
-              <a href='https://wa.me/081281856144'>081281856144</a> (Stevani)
-            </Text>
-          </Center>
-        </Flex>
-      </Center>
-    </>
+    <Layout title={''}>
+      {/* jumbotron */}
+      {/* timleine */}
+      {/* sponsor */}
+      {/* medpar */}
+      <Timeline></Timeline>
+    </Layout>
   );
 };
 
