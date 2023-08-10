@@ -11,7 +11,12 @@ export default function AboutUs() {
 
   return (
     <Layout title='About Us'>
-      <Flex flexDirection='column' w='100%' h='100%' pb='580px'>
+      <Flex
+        flexDirection='column'
+        w='100%'
+        h='100%'
+        pb={{ base: '0px', md: '512px' }}
+      >
         <AboutUsBackground isPreview={isPreview} />
         <Box mx={{ base: '8%', md: '22%' }}>
           <Flex justifyContent='center' pb='60px' pt='200px'>

@@ -75,7 +75,7 @@ export function AboutUsBackground(props: { isPreview: boolean }) {
       />
       <Image
         src='/images/about-us/big-moon.png'
-        top={{ base: 'calc(100% - 338px)', md: 'calc(100% - 592px)' }}
+        top={{ base: 'calc(100% - 338px)', md: 'calc(100% - 792px)' }}
         left={{ base: 'calc(50% - 328px)', md: 'calc(50% - 1024px)' }}
         height={{ base: '656px', md: '2048px' }}
         minH={{ base: '656px', md: '2048px' }}

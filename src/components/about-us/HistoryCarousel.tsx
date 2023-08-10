@@ -152,7 +152,7 @@ export default function HistoryCarousel(props: {
       <Flex
         justifyContent='center'
         pb={props.isPreview ? '75px' : '30px'}
-        pt={{ base: '400px', md: props.isPreview ? '500px' : '400px' }}
+        pt={{ base: '200px', md: props.isPreview ? '250px' : '200px' }}
         px='20%'
       >
         <Fade in={true} transition={{ enter: { duration: 1 } }}>

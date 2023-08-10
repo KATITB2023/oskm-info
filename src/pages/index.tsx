@@ -2,6 +2,7 @@ import { type NextPage } from 'next';
 import { Flex } from '@chakra-ui/react';
 import Layout from '~/layout';
 import ImageBox from '~/components/ImageBox';
+import Jumbotron from '~/components/home-page/Jumbotron';
 
 const Home: NextPage = () => {
   return (
@@ -19,7 +20,7 @@ const Home: NextPage = () => {
         gap={5}
         px={6}
       >
-        {/* jumbotron */}
+        <Jumbotron />
         {/* timleine */}
         {/* <ImageBox
           title='OUR SPONSORS'
