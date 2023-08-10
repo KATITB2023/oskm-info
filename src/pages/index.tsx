@@ -18,11 +18,10 @@ const Home: NextPage = () => {
         justifyContent='center'
         flexDirection='column'
         gap={5}
-        px={6}
       >
         <Jumbotron />
         {/* timleine */}
-        {/* <ImageBox
+        <ImageBox
           title='OUR SPONSORS'
           object='SPONSORS'
           contact='loremipsum@gmail.com'
@@ -33,7 +32,7 @@ const Home: NextPage = () => {
           object='MEDIA&nbsp;PARTNER'
           contact='+62-812-9237-2312'
           image='/images/bg-media-partner.png'
-        /> */}
+        />
       </Flex>
     </Layout>
   );

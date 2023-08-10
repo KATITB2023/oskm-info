@@ -1,6 +1,7 @@
 import { Flex, Image, Text, Stack, Button, VStack } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import JumbotronBackground from '../background/JumbotronBackground';
 
 interface Props {
   days: number;
@@ -59,14 +60,14 @@ export default function Jumbotron() {
     <Flex
       minH='100dvh'
       alignItems='center'
-      justifyContent={'center'}
-      backgroundSize='cover'
-      backgroundPosition='center'
-      backgroundRepeat='no-repeat'
+      justifyContent='center'
       flexDirection='column'
       pt={10}
       gap={5}
+      position='relative'
+      w='100%'
     >
+      <JumbotronBackground />
       <VStack alignItems='center' spacing={0}>
         <Image
           src='/images/logo-oskm.png'
@@ -86,7 +87,7 @@ export default function Jumbotron() {
         />
       </VStack>
 
-      <Flex flexDirection='row' gap={10}>
+      <Flex flexDirection='row' gap={10} zIndex='100'>
         {Object.keys(timeLeft).map((interval, index) => (
           <Flex flexDir={'column'} key={index} alignItems='center'>
             <Text
@@ -105,7 +106,7 @@ export default function Jumbotron() {
           </Flex>
         ))}
       </Flex>
-      <Stack direction={'row'} spacing={{ base: 2, md: 4 }}>
+      <Stack direction={'row'} spacing={{ base: 2, md: 4 }} zIndex='100'>
         <Button>Explore Now!</Button>
         <Button variant='outline' onClick={() => void handleGetRequest()}>
           Download Guidebook
