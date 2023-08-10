@@ -100,10 +100,17 @@ export const showcaseRouter = createTRPCRouter({
         lembaga: z.nativeEnum(Lembaga),
         lembagaName: z.string(),
         position: z.string(),
+        secondPartyName: z.string(),
+        secondPartyPosition: z.string(),
+        secondPartyContact: z.string(),
         noise: z.boolean(),
         mouPath: z.string(),
-        sizeKaos: z.string(),
-        sleeveKaos: z.string(),
+        kaos: z
+          .object({
+            size: z.string(),
+            sleeve: z.string()
+          })
+          .array(),
         total: z.number(),
         method: z.string(),
         proofPath: z.string()
@@ -145,10 +152,12 @@ export const showcaseRouter = createTRPCRouter({
           lembaga: input.lembaga,
           lembagaName: input.lembagaName,
           position: input.position,
+          secondPartyName: input.secondPartyName,
+          secondPartyPosition: input.secondPartyPosition,
+          secondPartyContact: input.secondPartyContact,
           noise: input.noise,
           mouPath: input.mouPath,
-          sizeKaos: input.sizeKaos,
-          sleeveKaos: input.sleeveKaos,
+          kaos: input.kaos,
           total: input.total,
           method: input.method,
           proofPath: input.proofPath
