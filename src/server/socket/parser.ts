@@ -1,13 +1,13 @@
-import { Decoder, Encoder, PacketType, type Packet } from 'socket.io-parser';
-import { serializer } from '~/server/serializer';
+import { Decoder, Encoder, PacketType, type Packet } from "socket.io-parser";
+import superjson from "superjson";
 
 const RESERVED_EVENTS = [
-  'connect', // used on the client side
-  'connect_error', // used on the client side
-  'disconnect', // used on both sides
-  'disconnecting', // used on the server side
-  'newListener', // used by the Node.js EventEmitter
-  'removeListener' // used by the Node.js EventEmitter
+  "connect", // used on the client side
+  "connect_error", // used on the client side
+  "disconnect", // used on both sides
+  "disconnecting", // used on the server side
+  "newListener", // used by the Node.js EventEmitter
+  "removeListener", // used by the Node.js EventEmitter
 ];
 
 class CustomEncoder extends Encoder {
@@ -25,17 +25,17 @@ class CustomEncoder extends Encoder {
         obj.type === PacketType.BINARY_ACK) &&
       obj.attachments
     )
-      str += obj.attachments.toString() + '-';
+      str += obj.attachments.toString() + "-";
 
     // if we have a namespace other than `/`
     // we append it followed by a comma `,`
-    if (obj.nsp && '/' !== obj.nsp) str += obj.nsp + ',';
+    if (obj.nsp && "/" !== obj.nsp) str += obj.nsp + ",";
 
     // immediately followed by the id
     if (obj.id) str += obj.id;
 
     // json data
-    if (obj.data) str += serializer.stringify(obj.data);
+    if (obj.data) str += superjson.stringify(obj.data);
 
     return [str];
   }
@@ -47,8 +47,8 @@ class CustomDecoder extends Decoder {
   }
 
   public add(obj: object): void {
-    if (typeof obj === 'string') {
-      super.emitReserved('decoded', this.decodeStringCustom(obj));
+    if (typeof obj === "string") {
+      super.emitReserved("decoded", this.decodeStringCustom(obj));
     } else {
       throw new Error(`Unknown type: ${typeof obj}`);
     }
@@ -59,7 +59,7 @@ class CustomDecoder extends Decoder {
     // look up type
     const p: Packet = {
       type: Number(str.charAt(0)),
-      nsp: '/'
+      nsp: "/",
     };
 
     if (PacketType[p.type] === undefined)
@@ -71,20 +71,20 @@ class CustomDecoder extends Decoder {
       p.type === PacketType.BINARY_ACK
     ) {
       const start = i + 1;
-      while (str.charAt(++i) !== '-' && i !== str.length) {}
+      while (str.charAt(++i) !== "-" && i !== str.length) {}
       const buf = str.substring(start, i);
-      if (buf !== Number(buf).toString() || str.charAt(i) !== '-') {
-        throw new Error('Illegal attachments');
+      if (buf !== Number(buf).toString() || str.charAt(i) !== "-") {
+        throw new Error("Illegal attachments");
       }
       p.attachments = Number(buf);
     }
 
     // look up namespace (if any)
-    if ('/' === str.charAt(i + 1)) {
+    if ("/" === str.charAt(i + 1)) {
       const start = i + 1;
       while (++i) {
         const c = str.charAt(i);
-        if (',' === c) break;
+        if ("," === c) break;
         if (i === str.length) break;
       }
       p.nsp = str.substring(start, i);
@@ -92,7 +92,7 @@ class CustomDecoder extends Decoder {
 
     // look up id
     const next = str.charAt(i + 1);
-    if ('' !== next && Number(next).toString() === next) {
+    if ("" !== next && Number(next).toString() === next) {
       const start = i + 1;
       while (++i) {
         const c = str.charAt(i);
@@ -111,7 +111,7 @@ class CustomDecoder extends Decoder {
       if (CustomDecoder.isPayloadValidCustom(p.type, payload)) {
         p.data = payload;
       } else {
-        throw new Error('Invalid payload');
+        throw new Error("Invalid payload");
       }
     }
 
@@ -120,7 +120,7 @@ class CustomDecoder extends Decoder {
 
   private tryParseCustom(str: string): boolean {
     try {
-      return serializer.parse(str);
+      return superjson.parse(str);
     } catch (e) {
       return false;
     }
@@ -131,7 +131,7 @@ class CustomDecoder extends Decoder {
     payload: unknown
   ): boolean {
     const isObject = (value: unknown) => {
-      return Object.prototype.toString.call(value) === '[object Object]';
+      return Object.prototype.toString.call(value) === "[object Object]";
     };
 
     switch (type) {
@@ -140,13 +140,13 @@ class CustomDecoder extends Decoder {
       case PacketType.DISCONNECT:
         return payload === undefined;
       case PacketType.CONNECT_ERROR:
-        return typeof payload === 'string' || isObject(payload);
+        return typeof payload === "string" || isObject(payload);
       case PacketType.EVENT:
       case PacketType.BINARY_EVENT:
         return (
           Array.isArray(payload) &&
-          (typeof payload[0] === 'number' ||
-            (typeof payload[0] === 'string' &&
+          (typeof payload[0] === "number" ||
+            (typeof payload[0] === "string" &&
               RESERVED_EVENTS.indexOf(payload[0]) === -1))
         );
       case PacketType.ACK:

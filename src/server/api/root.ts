@@ -1,7 +1,6 @@
 import { createTRPCRouter } from '~/server/api/trpc';
 import { messageRouter } from './routers/message';
 import { showcaseRouter } from './routers/showcase';
-import { interactiveMapRouter } from './routers/interactive-map';
 
 /**
  * This is the primary router for your server.
@@ -10,8 +9,7 @@ import { interactiveMapRouter } from './routers/interactive-map';
  */
 export const appRouter = createTRPCRouter({
   message: messageRouter,
-  showcase: showcaseRouter,
-  interactiveMap: interactiveMapRouter
+  showcase: showcaseRouter
 });
 
 // export type definition of API
