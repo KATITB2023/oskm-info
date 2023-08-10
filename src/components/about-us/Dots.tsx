@@ -13,6 +13,7 @@ export function Dots(props: { currentSlide: number; len: number }) {
             bg='yellow.5'
             mx='5px'
             opacity={i === props.currentSlide ? 1 : 0.5}
+            key={i}
             boxShadow={`0px 0px 10px ${colors.green[3]}`}
           />
         ) : (i >= props.currentSlide - 4 && i <= props.currentSlide - 2) ||
