@@ -19,6 +19,7 @@ import Slider from 'react-slick';
 import { useState } from 'react';
 import { colors } from '~/styles/component/colors';
 import { CgClose } from 'react-icons/cg';
+import { Dots } from './Dots';
 
 interface Era {
   title: string;
@@ -41,8 +42,9 @@ const history: Era[] = [
   },
   {
     title: 'TAHUN 2002',
-    preview: 'OSKM ITB 2002 dilegalkan dengan beberapa perubahan.',
-    text: 'OSKM ITB 2002 dilegalkan dengan beberapa perubahan seperti peniadaan acara swasta dan pendekatan kekerasan yang diganti dengan pendekatan disiplin.'
+    preview:
+      'Pada tahun ini, OSKM ITB pun akhirnya dilegalkan dengan beberapa perubahan.',
+    text: 'Pada tahun ini, OSKM ITB pun akhirnya dilegalkan dengan beberapa perubahan seperti peniadaan acara swasta dan pendekatan kekerasan yang diganti dengan pendekatan disiplin.'
   },
   {
     title: 'TAHUN 2005',
@@ -128,11 +130,11 @@ export default function HistoryCarousel(props: {
   const [slider, setSlider] = useState<Slider | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const top = useBreakpointValue({ base: '90%', md: '50%' });
+  const top = useBreakpointValue({ base: '90%', md: '47%' });
   const side = useBreakpointValue({ base: '30%', md: '17%' });
 
   const settings = {
-    dots: true,
+    dots: false,
     arrows: false,
     fade: true,
     infinite: true,
@@ -140,20 +142,6 @@ export default function HistoryCarousel(props: {
     autoplaySpeed: 3000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    customPaging: function (i: number) {
-      return (
-        <Hide above='md'>
-          <Box
-            borderRadius='full'
-            bg='yellow.5'
-            opacity={i === currentSlide ? 1 : 0.5}
-            w='15px'
-            h='15px'
-            boxShadow={`0px 0px 10px ${colors.green[3]}`}
-          ></Box>
-        </Hide>
-      );
-    },
     beforeChange: (prev: number, next: number) => {
       setCurrentSlide(next);
     }
@@ -227,14 +215,23 @@ export default function HistoryCarousel(props: {
         )}
         <Slider
           {...settings}
-          autoplay={props.isPreview}
+          // autoplay={props.isPreview}
+          autoplay={false}
           ref={(slider) => setSlider(slider)}
         >
           {history.map((era, index) => (
-            <Box key={index}>
-              <HStack spacing={6} alignItems='flex-end'>
+            <Box key={index} w='100vw' display='flex'>
+              <HStack spacing='0' alignItems='flex-end' justifyContent='center'>
                 <Show above='md'>
-                  <Box opacity='70%' px='7%' pb={props.isPreview ? 0 : '50px'}>
+                  <Box
+                    opacity='70%'
+                    pb={props.isPreview ? 0 : '50px'}
+                    // bg='pink'
+                    w='25%'
+                    minW='25%'
+                    maxW='25%'
+                    px='7%'
+                  >
                     <Heading
                       textAlign='center'
                       color='yellow.5'
@@ -246,22 +243,27 @@ export default function HistoryCarousel(props: {
                   </Box>
                 </Show>
                 {props.isPreview ? (
-                  <Fade in={true} transition={{ enter: { duration: 1 } }}>
-                    <Flex
-                      flexDirection='column'
-                      justifyContent='center'
-                      alignItems='center'
-                      pb='30px'
-                      px={{ base: '12%', md: '0' }}
+                  <Flex
+                    flexDirection='column'
+                    justifyContent='center'
+                    alignItems='center'
+                    pb='30px'
+                    px={{ base: '12%', md: '0' }}
+                    // bg='red'
+                    w={{ base: '100%', md: '50%' }}
+                    maxW={{ base: '100%', md: '50%' }}
+                    minW={{ base: '100%', md: '50%' }}
+                  >
+                    <Heading
+                      fontSize={{ base: '2xl', md: '4xl' }}
+                      textAlign='center'
+                      color='yellow.5'
+                      textShadow={`0px 2.8px 2.8px ${colors.green[1]}`}
+                      // bg='green'
                     >
-                      <Heading
-                        fontSize={{ base: '2xl', md: '4xl' }}
-                        textAlign='center'
-                        color='yellow.5'
-                        textShadow={`0px 2.8px 2.8px ${colors.green[1]}`}
-                      >
-                        {era.title}
-                      </Heading>
+                      {era.title}
+                    </Heading>
+                    <Box minH='28vh' maxH='30vh' w='100%'>
                       <Text
                         fontSize={{ base: 'md', lg: 'lg' }}
                         textAlign='justify'
@@ -272,96 +274,111 @@ export default function HistoryCarousel(props: {
                       >
                         {era.preview ? era.preview : era.text}
                       </Text>
-                      <Box>
-                        <Button
-                          onClick={() => props.setIsPreview(false)}
-                          bg='gray.600'
-                          color='yellow.5'
-                          variant='outline'
-                        >
-                          Read More
-                        </Button>
-                      </Box>
-                    </Flex>
-                  </Fade>
-                ) : (
-                  <Fade in={true} transition={{ enter: { duration: 1 } }}>
-                    <Box
-                      justifyContent='center'
-                      bgGradient={{
-                        base: 'linear(to-br, rgba(255,255,255,0.1), rgba(255,255,255,0.5))',
-                        md: 'linear(to-br, rgba(255,255,255,0.5), rgba(255,255,255,0.1))'
-                      }}
-                      py='70px'
-                      px='60px'
-                      mt='20px'
-                      borderRadius='10px'
-                      boxShadow={`0px 0px 10px ${colors.yellow[5]}`}
-                      mb='60px'
-                      outline={`1px solid ${colors.yellow[5]}`}
-                      mx={{ base: '10%', md: '0' }}
-                      position='relative'
-                    >
-                      <Heading
-                        fontSize={{ base: '2xl', md: '4xl' }}
-                        textAlign='center'
-                        color='yellow.5'
-                        textShadow={`0px 2.8px 2.8px ${colors.green[1]}`}
-                        pb='30px'
-                      >
-                        {era.title}
-                      </Heading>
-                      <Text
-                        textAlign='justify'
-                        color='white'
-                        textShadow={`0px 4px 6px ${colors.green[1]}`}
-                        whiteSpace='pre-line'
-                      >
-                        {era.text}
-                      </Text>
-                      <Button
-                        position='absolute'
-                        right='18px'
-                        top='18px'
-                        bg='transparent'
-                        opacity='0.5'
-                        _hover={{
-                          bg: 'transparent',
-                          opacity: '0.8'
-                        }}
-                        onClick={() => props.setIsPreview(true)}
-                        borderRadius='full'
-                        p='0'
-                        zIndex='3'
-                      >
-                        <Icon
-                          as={CgClose}
-                          width='30px'
-                          height='30px'
-                          color='yellow.5'
-                        ></Icon>
-                      </Button>
-                      <Image
-                        src='/images/about-us/spark-edge.png'
-                        top={{
-                          base: 'calc(100% - 100px)',
-                          md: 'calc(100% - 125px)'
-                        }}
-                        left={{
-                          base: 'calc(100% - 100px)',
-                          md: 'calc(100% - 125px)'
-                        }}
-                        zIndex='2'
-                        width={{ base: '200px', md: '250px' }}
-                        position='absolute'
-                        draggable='false'
-                        loading='lazy'
-                      />
                     </Box>
-                  </Fade>
+                    <Box zIndex='10'>
+                      <Button
+                        onClick={() => props.setIsPreview(false)}
+                        bg='gray.600'
+                        color='yellow.5'
+                        variant='outline'
+                      >
+                        Read More
+                      </Button>
+                    </Box>
+                  </Flex>
+                ) : (
+                  <Box
+                    w='50%'
+                    maxW={{ base: '100%', md: '50%' }}
+                    minW={{ base: '100%', md: '50%' }}
+                  >
+                    <Fade in={true} transition={{ enter: { duration: 1 } }}>
+                      <Box
+                        justifyContent='center'
+                        bgGradient={{
+                          base: 'linear(to-br, rgba(255,255,255,0.1), rgba(255,255,255,0.5))',
+                          md: 'linear(to-br, rgba(255,255,255,0.5), rgba(255,255,255,0.1))'
+                        }}
+                        py='70px'
+                        px='60px'
+                        mt='20px'
+                        borderRadius='10px'
+                        boxShadow={`0px 0px 10px ${colors.yellow[5]}`}
+                        mb='60px'
+                        outline={`1px solid ${colors.yellow[5]}`}
+                        mx={{ base: '10%', md: '0' }}
+                        position='relative'
+                        minH={{ base: '65vh', md: '53vh' }}
+                      >
+                        <Heading
+                          fontSize={{ base: '2xl', md: '4xl' }}
+                          textAlign='center'
+                          color='yellow.5'
+                          textShadow={`0px 2.8px 2.8px ${colors.green[1]}`}
+                          pb='30px'
+                        >
+                          {era.title}
+                        </Heading>
+                        <Text
+                          textAlign='justify'
+                          color='white'
+                          textShadow={`0px 4px 6px ${colors.green[1]}`}
+                          whiteSpace='pre-line'
+                        >
+                          {era.text}
+                        </Text>
+                        <Button
+                          position='absolute'
+                          right='18px'
+                          top='18px'
+                          bg='transparent'
+                          opacity='0.5'
+                          _hover={{
+                            bg: 'transparent',
+                            opacity: '0.8'
+                          }}
+                          onClick={() => props.setIsPreview(true)}
+                          borderRadius='full'
+                          p='0'
+                          zIndex='3'
+                        >
+                          <Icon
+                            as={CgClose}
+                            width='30px'
+                            height='30px'
+                            color='yellow.5'
+                          ></Icon>
+                        </Button>
+                        <Image
+                          src='/images/about-us/spark-edge.png'
+                          top={{
+                            base: 'calc(100% - 100px)',
+                            md: 'calc(100% - 125px)'
+                          }}
+                          left={{
+                            base: 'calc(100% - 100px)',
+                            md: 'calc(100% - 125px)'
+                          }}
+                          zIndex='2'
+                          width={{ base: '200px', md: '250px' }}
+                          position='absolute'
+                          draggable='false'
+                          loading='lazy'
+                        />
+                      </Box>
+                    </Fade>
+                  </Box>
                 )}
                 <Show above='md'>
-                  <Box opacity='70%' px='7%' pb={props.isPreview ? 0 : '50px'}>
+                  <Box
+                    opacity='70%'
+                    px='7%'
+                    w='25%'
+                    minW='25%'
+                    maxW='25%'
+                    pb={props.isPreview ? 0 : '50px'}
+                    // bg='pink'
+                  >
                     <Heading
                       textAlign='center'
                       color='yellow.5'
@@ -373,6 +390,9 @@ export default function HistoryCarousel(props: {
                   </Box>
                 </Show>
               </HStack>
+              <Hide above='md'>
+                <Dots currentSlide={currentSlide} len={history.length} />
+              </Hide>
             </Box>
           ))}
         </Slider>
