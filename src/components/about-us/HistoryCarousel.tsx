@@ -22,28 +22,92 @@ import { CgClose } from 'react-icons/cg';
 
 interface Era {
   title: string;
-  preview: string;
+  preview?: string;
   text: string;
 }
 
 const history: Era[] = [
   {
-    title: 'PERIODE 2000AN',
+    title: 'SEBELUM 2000-AN',
     preview:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      'Pada era ini, OSKM ITB merupakan ajang kaderisasi terpusat yang kental dengan agenda-agenda pergerakan.',
+    text: 'Pada era ini, OSKM ITB merupakan ajang kaderisasi terpusat yang kental dengan agenda-agenda pergerakan sesuai dengan kondisi ekonomi sosial politik pada zaman itu.'
   },
   {
-    title: 'PERIODE 2010AN',
+    title: 'TAHUN 2000',
     preview:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      'Muncul permasalahan terkait legalitas OSKM karena adanya pandangan bahwa kaderisasi di OSKM ITB mengandung unsur kekerasan.',
+    text: 'Muncul permasalahan terkait legalitas OSKM karena adanya pandangan bahwa kaderisasi di OSKM ITB mengandung unsur kekerasan. Sehingga, penyelenggaraan OSKM ITB ilegal dan kehadiran peserta sangat minim.'
   },
   {
-    title: 'PERIODE 2020AN',
+    title: 'TAHUN 2002',
+    preview: 'OSKM ITB 2002 dilegalkan dengan beberapa perubahan.',
+    text: 'OSKM ITB 2002 dilegalkan dengan beberapa perubahan seperti peniadaan acara swasta dan pendekatan kekerasan yang diganti dengan pendekatan disiplin.'
+  },
+  {
+    title: 'TAHUN 2005',
+    preview: 'OSKM kembali di bawah bayang-bayang permasalahan legalitas.',
+    text: 'OSKM kembali di bawah bayang-bayang permasalahan legalitas.'
+  },
+  {
+    title: 'TAHUN 2006',
     preview:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Satuan Akademik dan Kemahasiswaan (PSAK) ITB.',
+    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Satuan Akademik dan Kemahasiswaan (PSAK) ITB.\n\nOSKM dilakukan secara ilegal dan hanya diikuti 136 mahasiswa. Ancaman DO pun menghantui Ketua Kabinet pada saat itu, Ketua OSKM, dan peserta yang mengikutinya.'
+  },
+  {
+    title: 'TAHUN 2007',
+    preview:
+      'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Penerimaan Mahasiswa Baru (PMB) ITB.',
+    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Penerimaan Mahasiswa Baru (PMB) ITB.\n\nOSKM dilegalkan kembali dengan perubahan konsep dan metode karena pertimbangan agar angkatan 2007 dapat berinteraksi dengan seniornya.'
+  },
+  {
+    title: 'TAHUN 2009',
+    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Ruang dan Orientasi KM (PROKM) ITB.'
+  },
+  {
+    title: 'TAHUN 2010',
+    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Inisiasi Keluarga Mahasiswa (INKM) ITB.'
+  },
+  {
+    title: 'TAHUN 2014',
+    text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "Simfoni Pergerakan Untuk Indonesia".'
+  },
+  {
+    title: 'TAHUN 2015',
+    text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "OSKM ITB 2015 sebagai penyadaran akan identitas insan akademis masa depan bangsa".'
+  },
+  {
+    title: 'TAHUN 2016',
+    preview:
+      'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Inisiasi Terpusat Keluarga Mahasiswa (INTEGRASI) ITB.',
+    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Inisiasi Terpusat Keluarga Mahasiswa (INTEGRASI) ITB dengan membawakan visi "KAT ITB 2016 yang melahirkan perintis gerakan berdasarkan empati".'
+  },
+  {
+    title: 'TAHUN 2017',
+    preview:
+      'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Orientasi Studi Keluarga Mahasiswa (OSKM) ITB.',
+    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Orientasi Studi Keluarga Mahasiswa (OSKM) ITB dengan membawakan visi "Mewujudkan mozaik pergerakan untuk Indonesia".'
+  },
+  {
+    title: 'TAHUN 2018',
+    text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "Sebagai sarana inisiasi pembentuk mahasiswa nirmala pemrakarsa pembangunan bangsa".'
+  },
+  {
+    title: 'TAHUN 2019',
+    text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "OSKM ITB 2019 sebagai sarana inisiasi semangat bermimpi untuk Indonesia".'
+  },
+  {
+    title: 'TAHUN 2020',
+    text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "Terciptanya mahasiswa dengan keunikannya masing-masing senantiasa mendefinisikan perannya dan bertanggung jawab terhadap peran tersebut".'
+  },
+  {
+    title: 'TAHUN 2021',
+    text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "KAT ITB sebagai ruang inspirasi bernavigasi budaya dalam mewujudkan kesadaran berkontribusi untuk Indonesia".'
+  },
+  {
+    title: 'TAHUN 2022',
+    text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "Sarana Inisiasi Perubahan Progresif sebagai langkah awal membangun bangsa".'
   }
 ];
 
@@ -206,7 +270,7 @@ export default function HistoryCarousel(props: {
                         pb='30px'
                         pt='35px'
                       >
-                        {era.preview}
+                        {era.preview ? era.preview : era.text}
                       </Text>
                       <Box>
                         <Button
@@ -251,6 +315,7 @@ export default function HistoryCarousel(props: {
                         textAlign='justify'
                         color='white'
                         textShadow={`0px 4px 6px ${colors.green[1]}`}
+                        whiteSpace='pre-line'
                       >
                         {era.text}
                       </Text>
