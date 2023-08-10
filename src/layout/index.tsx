@@ -31,8 +31,7 @@ export default function Layout({ title, children }: Props) {
           </Box>
         )}
       </motion.div>
-      <Footer/>
-      {/* TODO: add footer */}
+      <Footer />
     </>
   );
 }
