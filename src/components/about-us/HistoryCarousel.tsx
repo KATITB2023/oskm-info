@@ -263,10 +263,10 @@ export default function HistoryCarousel(props: {
                     >
                       {era.title}
                     </Heading>
-                    <Box minH='28vh' maxH='30vh' w='100%'>
+                    <Box w='100%'>
                       <Text
                         fontSize={{ base: 'md', lg: 'lg' }}
-                        textAlign='justify'
+                        textAlign='center'
                         color='white'
                         textShadow={`0px 0px 10px ${colors.yellow[5]}`}
                         pb='30px'
@@ -299,16 +299,13 @@ export default function HistoryCarousel(props: {
                           base: 'linear(to-br, rgba(255,255,255,0.1), rgba(255,255,255,0.5))',
                           md: 'linear(to-br, rgba(255,255,255,0.5), rgba(255,255,255,0.1))'
                         }}
-                        py='70px'
+                        pb='90px'
+                        pt='70px'
                         px='60px'
-                        mt='20px'
                         borderRadius='10px'
                         boxShadow={`0px 0px 10px ${colors.yellow[5]}`}
-                        mb='60px'
                         outline={`1px solid ${colors.yellow[5]}`}
-                        mx={{ base: '10%', md: '0' }}
                         position='relative'
-                        minH={{ base: '65vh', md: '53vh' }}
                       >
                         <Heading
                           fontSize={{ base: '2xl', md: '4xl' }}
@@ -320,7 +317,7 @@ export default function HistoryCarousel(props: {
                           {era.title}
                         </Heading>
                         <Text
-                          textAlign='justify'
+                          textAlign='center'
                           color='white'
                           textShadow={`0px 4px 6px ${colors.green[1]}`}
                           whiteSpace='pre-line'
