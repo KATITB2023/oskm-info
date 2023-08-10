@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Box } from '@chakra-ui/react';
 import Navbar from '~/components/Navbar';
+import Footer from '~/components/Footer';
 
 interface Props {
   title?: string;
@@ -30,7 +31,7 @@ export default function Layout({ title, children }: Props) {
           </Box>
         )}
       </motion.div>
-      {/* TODO: add footer */}
+      <Footer />
     </>
   );
 }
