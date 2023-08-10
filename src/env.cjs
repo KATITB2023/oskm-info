@@ -63,7 +63,8 @@ exports.env = createEnv({
   client: {
     NEXT_PUBLIC_API_URL: z.string().url(),
     NEXT_PUBLIC_WS_URL: z.string().url(),
-    NEXT_PUBLIC_BUCKET_API_KEY: z.string().min(1)
+    NEXT_PUBLIC_BUCKET_API_KEY: z.string().min(1),
+    NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: z.string().min(1)
   },
 
   /**
@@ -83,6 +84,8 @@ exports.env = createEnv({
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
     NEXT_PUBLIC_BUCKET_API_KEY: process.env.NEXT_PUBLIC_BUCKET_API_KEY,
+    NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN:
+      process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
     REDIS_URL: process.env.REDIS_URL
   },
   /**
