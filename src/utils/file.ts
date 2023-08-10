@@ -1,23 +1,24 @@
 import axios, { type AxiosProgressEvent } from 'axios';
+import sanitize from 'sanitize-filename';
+import { v4 as uuidv4 } from 'uuid';
 import { env } from '~/env.cjs';
-
-export enum FolderEnum {
-  PROFILE = 'profile',
-  ASSIGNMENT = 'assignment'
-}
-
-export enum AllowableFileTypeEnum {
-  PDF = 'application/pdf',
-  PNG = 'image/png',
-  JPEG = 'image/jpeg'
-}
 
 export enum Lembaga {
   HMJ = 'HMJ',
   UKM = 'UKM',
-  PENGMAS = 'PENGMAS',
-  DLL = 'DLL'
+  BSO = 'BSO',
+  PUSAT = 'PUSAT'
 }
+
+export const sanitizeURL = (url: string) => {
+  const lastPathIndex = url.lastIndexOf('/');
+  const lastPath = url.substring(lastPathIndex + 1);
+
+  const sanitizedLastPath = `${uuidv4()}-${sanitize(lastPath)}`;
+  const sanitizedURL = url.replace(lastPath, sanitizedLastPath);
+
+  return sanitizedURL;
+};
 
 export const uploadFile = async (
   url: string,
@@ -30,25 +31,18 @@ export const uploadFile = async (
 
   await axiosInstance.put<null>(url, data, {
     headers: {
-      'API-KEY': env.NEXT_PUBLIC_BUCKET_API_KEY
+      'api-key': env.NEXT_PUBLIC_BUCKET_API_KEY
     },
     onUploadProgress
   });
 };
 
-export const downloadFile = async (
-  url: string,
-  onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void
-) => {
+export const deleteFile = async (url: string) => {
   const axiosInstance = axios.create();
 
-  const response = await axiosInstance.get<Blob>(url, {
-    responseType: 'blob',
+  await axiosInstance.delete<null>(url, {
     headers: {
-      'API-KEY': env.NEXT_PUBLIC_BUCKET_API_KEY
-    },
-    onDownloadProgress
+      'api-key': env.NEXT_PUBLIC_BUCKET_API_KEY
+    }
   });
-
-  return response.data;
 };

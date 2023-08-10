@@ -14,7 +14,7 @@ export const GotTalent = () => (
     px={5}
   >
     <Image
-      src='/images/spark.png'
+      src='/images/misc/spark.png'
       alt=''
       position='absolute'
       w='30%'
@@ -25,7 +25,7 @@ export const GotTalent = () => (
       loading='lazy'
     />
     <Image
-      src='/images/spark3.png'
+      src='/images/misc/spark3.png'
       alt=''
       position='absolute'
       w='10%'
@@ -36,7 +36,7 @@ export const GotTalent = () => (
       loading='lazy'
     />
     <Image
-      src='/images/ornamen.png'
+      src='/images/misc/ornamen.png'
       alt=''
       position='absolute'
       w='30%'

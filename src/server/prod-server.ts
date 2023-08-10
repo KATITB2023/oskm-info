@@ -7,7 +7,7 @@ import http from "http";
 import next from "next";
 import { Server } from "socket.io";
 import { parse } from "url";
-import parser from "~/server/socket/parser";
+import parser from "socket.io-msgpack-parser";
 import { currentlyTypingSchedule } from "~/server/socket/schedule";
 import {
   getAdapter,
