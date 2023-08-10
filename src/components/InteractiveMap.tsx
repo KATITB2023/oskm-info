@@ -24,50 +24,13 @@ import {
   GeolocateControl,
   FullscreenControl,
   useMap,
-  Marker,
-  Layer,
-  type FillExtrusionLayer
+  Marker
 } from 'react-map-gl';
 import { type MapLocation, type MapPhoto } from '@prisma/client';
 import { api } from '~/utils/api';
 import { env } from '~/env.cjs';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-
-const tileLayer: FillExtrusionLayer = {
-  id: 'add-3d-buildings',
-  source: 'composite',
-  'source-layer': 'building',
-  filter: ['==', 'extrude', 'true'],
-  type: 'fill-extrusion',
-  minzoom: 15,
-  paint: {
-    'fill-extrusion-color': '#aaa',
-
-    // Use an 'interpolate' expression to
-    // add a smooth transition effect to
-    // the buildings as the user zooms in.
-    'fill-extrusion-height': [
-      'interpolate',
-      ['linear'],
-      ['zoom'],
-      15,
-      0,
-      15.05,
-      ['get', 'height']
-    ],
-    'fill-extrusion-base': [
-      'interpolate',
-      ['linear'],
-      ['zoom'],
-      15,
-      0,
-      15.05,
-      ['get', 'min_height']
-    ],
-    'fill-extrusion-opacity': 0.6
-  }
-};
 
 const InteractiveSelect = ({
   placeholder,
@@ -290,7 +253,7 @@ const InteractiveMap = ({
     <Map
       mapboxAccessToken={env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
       mapLib={mapboxgl}
-      mapStyle='mapbox://styles/mapbox/light-v11'
+      mapStyle='mapbox://styles/mapbox/streets-v12'
       style={{
         width: '100vw',
         height: '100vh'
@@ -334,7 +297,6 @@ const InteractiveMap = ({
           onOpen={onOpen}
         />
       ))}
-      <Layer {...tileLayer} />
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent bgGradient='linear(to-br, navy.3, purple.1)'>
