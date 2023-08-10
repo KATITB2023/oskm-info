@@ -71,6 +71,12 @@ const InteractiveSelect = ({
       position='absolute'
       top='125px'
       left='25px'
+      fontFamily='SomarRounded-Bold'
+      textColor='white'
+      fontSize='16px'
+      fontWeight='700'
+      fontStyle='normal'
+      lineHeight='150%'
       onChange={(e) => {
         setSelectedCampus(e.target.value);
       }}
@@ -85,14 +91,7 @@ const InteractiveSelect = ({
       }}
     >
       {getCampusesQuery.data?.map((map) => (
-        <option
-          key={map.id}
-          value={map.campus}
-          style={{
-            background: 'gray.600',
-            color: 'white'
-          }}
-        >
+        <option key={map.id} value={map.campus}>
           {map.campus}
         </option>
       ))}
@@ -300,7 +299,18 @@ const InteractiveMap = ({
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent bgGradient='linear(to-br, navy.3, purple.1)'>
-          <ModalHeader color='white'>{selectedLocation?.title}</ModalHeader>
+          <ModalHeader
+            color='white'
+            textAlign='center'
+            fontFamily='Bodwars'
+            fontSize='48px'
+            fontStyle='normal'
+            fontWeight='400'
+            lineHeight='120%'
+            textTransform='uppercase'
+          >
+            {selectedLocation?.title}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {selectedLocation && (
