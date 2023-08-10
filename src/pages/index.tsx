@@ -1,7 +1,7 @@
 import { type NextPage } from 'next';
 import { Flex } from '@chakra-ui/react';
 import Layout from '~/layout';
-import ImageBox from '~/components/ImageBox'
+import ImageBox from '~/components/ImageBox';
 
 const Home: NextPage = () => {
   return (
@@ -20,9 +20,19 @@ const Home: NextPage = () => {
         px={6}
       >
         {/* jumbotron */}
-        {/* timleine */}  
-        <ImageBox title='OUR SPONSORS' object='SPONSORS' contact='loremipsum@gmail.com' image='/images/bg-sponsor.png'/>
-        <ImageBox title='OUR MEDIA PARTNER' object='MEDIA&nbsp;PARTNER' contact='+62-812-9237-2312' image='/images/bg-media-partner.png'/>      
+        {/* timleine */}
+        {/* <ImageBox
+          title='OUR SPONSORS'
+          object='SPONSORS'
+          contact='loremipsum@gmail.com'
+          image='/images/bg-sponsor.png'
+        />
+        <ImageBox
+          title='OUR MEDIA PARTNER'
+          object='MEDIA&nbsp;PARTNER'
+          contact='+62-812-9237-2312'
+          image='/images/bg-media-partner.png'
+        /> */}
       </Flex>
     </Layout>
   );
