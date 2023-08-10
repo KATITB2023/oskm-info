@@ -28,10 +28,22 @@ export default function Element(props: {
       marginTop={{ base: '-5%', lg: '-20%' }}
       marginBottom={{ base: '-25%', lg: '-5%' }}
     >
+      <Flex position='absolute'>
+        <svg height='200%' width=''>
+          <line
+            x1={windowWidth >= 1024 ? '90%' : '30%'}
+            y1='0%'
+            x2={windowWidth >= 1024 ? '90%' : '30%'}
+            y2='50%'
+            stroke='#FF93D1'
+            strokeWidth={windowWidth >= 1024 ? '4' : '3'}
+          />
+        </svg>
+      </Flex>
       {props.exp == 'day' && (
         <>
           <Text
-            whiteSpace='nowrap'
+            whiteSpace='normal'
             fontFamily='SomarRounded-Bold'
             fontSize={{ base: '10', lg: '24' }}
             position='absolute'
@@ -49,7 +61,7 @@ export default function Element(props: {
             />
           </svg>
           <Text
-            whiteSpace='nowrap'
+            whiteSpace='normal'
             fontFamily='SomarRounded-Bold'
             fontSize={{ base: '10', lg: '24' }}
             position='absolute'
@@ -63,7 +75,7 @@ export default function Element(props: {
       {props.exp == 'time' && (
         <>
           <Text
-            whiteSpace='nowrap'
+            whiteSpace='normal'
             fontFamily='SomarRounded-Bold'
             fontSize={{ base: '8', lg: '18' }}
             position='absolute'
@@ -81,7 +93,7 @@ export default function Element(props: {
             />
           </svg>
           <Text
-            whiteSpace='nowrap'
+            whiteSpace='normal'
             fontFamily='SomarRounded-Bold'
             fontSize={{ base: '8', lg: '18' }}
             position='absolute'
