@@ -151,7 +151,7 @@ export default function HistoryCarousel(props: {
     <Box>
       <Flex
         justifyContent='center'
-        pb={props.isPreview ? '75px' : '30px'}
+        pb={props.isPreview ? '55px' : '10px'}
         pt={{ base: '200px', md: props.isPreview ? '250px' : '200px' }}
         px='20%'
       >
@@ -301,6 +301,9 @@ export default function HistoryCarousel(props: {
                         pb='90px'
                         pt='70px'
                         px='60px'
+                        mt='20px'
+                        mb={{ base: '30px', md: '0' }}
+                        mx={{ base: '10%', md: '0' }}
                         borderRadius='10px'
                         boxShadow={`0px 0px 10px ${colors.yellow[5]}`}
                         outline={`1px solid ${colors.yellow[5]}`}
