@@ -1,7 +1,7 @@
 import Layout from '~/layout';
 import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
-import MerchCard from './merchcard';
+import MerchCard from '../../components/merch/merchcard';
 
 export default function Merch() {
   return (
@@ -65,6 +65,7 @@ export default function Merch() {
             left='0'
             top={{ base: '0rem', md: '7rem' }}
             zIndex='0'
+            draggable='false'
           />
 
           <Image
@@ -75,6 +76,7 @@ export default function Merch() {
             top={{ base: '35rem', md: '30rem' }}
             left={{ base: '0', md: '0' }}
             zIndex='0'
+            draggable='false'
           />
 
           <Image
@@ -84,6 +86,7 @@ export default function Merch() {
             position='absolute'
             bottom={{ base: '-150rem', md: '-120rem', xl: '-100rem' }}
             zIndex='0'
+            draggable='false'
           />
 
           <Image
@@ -94,6 +97,7 @@ export default function Merch() {
             bottom={{ base: '-135rem', md: '-90rem', xl: '-75rem' }}
             zIndex='0'
             right='0'
+            draggable='false'
           />
 
           <Flex
@@ -112,6 +116,7 @@ export default function Merch() {
                 top={{ base: '-18rem', md: '-16rem' }}
                 left={{ base: '-6rem', md: '-10rem' }}
                 zIndex='1'
+                draggable='false'
               />
               <Image
                 src='/images/merch-moon-star-2.png'
@@ -121,6 +126,7 @@ export default function Merch() {
                 top={{ base: '-18rem', md: '-13rem' }}
                 left={{ base: '0rem', md: '-2rem' }}
                 zIndex='1'
+                draggable='false'
               />
               <Image
                 src='/images/merch-half-moon.png'
@@ -130,6 +136,7 @@ export default function Merch() {
                 top={{ base: '-10rem', md: '-10rem' }}
                 left={{ base: '-9rem', md: '-20rem' }}
                 zIndex='0'
+                draggable='false'
               />
               <Image
                 src='/images/merch-star.png'
@@ -139,6 +146,7 @@ export default function Merch() {
                 top={{ base: '15rem', md: '-10rem' }}
                 right={{ base: '-12rem', md: '-25rem' }}
                 zIndex='0'
+                draggable='false'
               />
 
               <Text color='#FFF' fontFamily='SomarRounded-Regular'>
@@ -196,6 +204,7 @@ export default function Merch() {
                 top={{ base: '0rem', md: '1rem' }}
                 left={{ base: '-7rem', md: '-10rem' }}
                 zIndex='0'
+                draggable='false'
               />
 
               <Image
@@ -206,6 +215,7 @@ export default function Merch() {
                 top={{ base: '15rem', md: '30rem' }}
                 left={{ base: '-7rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
+                draggable='false'
               />
 
               <MerchCard
@@ -237,6 +247,7 @@ export default function Merch() {
                 top={{ base: '14rem', md: '30rem' }}
                 right={{ base: '-6rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
+                draggable='false'
               />
 
               <Image
@@ -247,6 +258,7 @@ export default function Merch() {
                 top={{ base: '18rem', md: '-13rem' }}
                 left={{ base: '5rem', md: '-2rem' }}
                 zIndex='1'
+                draggable='false'
               />
             </Box>
             <MerchCard
@@ -267,6 +279,7 @@ export default function Merch() {
                 top={{ base: '-6rem', md: '30rem' }}
                 left={{ base: '-8rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
+                draggable='false'
               />
               <MerchCard
                 title='Gantungan Kunci'
@@ -287,6 +300,7 @@ export default function Merch() {
                 top={{ base: '8rem', md: '30rem' }}
                 right={{ base: '6rem', md: '-15rem' }}
                 zIndex='0'
+                draggable='false'
               />
               <MerchCard
                 title='Stiker'
