@@ -299,8 +299,7 @@ export default function Merch() {
                 title='Gantungan Kunci'
                 price={8000}
                 productImages={[
-                  '/images/merch/merch-ganci.png',
-                  '/images/merch/merch-sticker.png'
+                  '/images/merch/merch-ganci.png'
                 ]}
                 spaceImage='/images/merch/merch-bulan-1.png'
                 productWidth=''
@@ -323,7 +322,7 @@ export default function Merch() {
                 title='Stiker'
                 price={10000}
                 spaceImage='/images/merch/merch-bulan-2.png'
-                productImages={['/images/merch/merch-sticker.png']}
+                productImages={['/images/merch/merch-sticker.png', '/images/merch/merch-sticker-2.png']}
                 productWidth=''
                 spaceWidth=''
               />
