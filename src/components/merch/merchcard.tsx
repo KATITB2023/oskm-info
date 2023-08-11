@@ -99,13 +99,17 @@ export default function MerchCard(props: MerchCardProps) {
             textShadow='0px 4px 30px #8D47E5'
             marginBottom='1rem'
             textAlign='center'
-            paddingX ='1rem'
+            paddingX='1rem'
           >
             {title}
           </Text>
 
           <Text color='#FFF' fontFamily='SomarRounded-Regular' fontSize='16px'>
-            {price}/pcs
+            {new Intl.NumberFormat('id-ID', {
+              style: 'currency',
+              currency: 'IDR'
+            }).format(price)}{' '}
+            / pcs
           </Text>
           <Button
             padding={{ base: '0.8rem 0.8rem', md: '1.5rem 1.5rem' }}

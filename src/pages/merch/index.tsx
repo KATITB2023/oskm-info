@@ -48,6 +48,17 @@ export default function Merch() {
           />
 
           <Image
+            src='/images/merch/merch-aurora.png'
+            alt='aurora'
+            w={{ base: '300px', md: '500px' }}
+            position='absolute'
+            left='0'
+            top={{ base: '0rem', md: '250rem' }}
+            zIndex='0'
+            draggable='false'
+          />
+
+          <Image
             src='/images/merch/merch-small-sparks.png'
             alt='small-sparks'
             w={{ base: '200px', md: '300px' }}
@@ -56,6 +67,18 @@ export default function Merch() {
             left={{ base: '0', md: '0' }}
             zIndex='0'
             draggable='false'
+          />
+
+          <Image
+            src='/images/merch/merch-small-sparks.png'
+            alt='small-sparks'
+            w={{ base: '200px', md: '300px' }}
+            position='absolute'
+            top={{ base: '35rem', md: '130rem' }}
+            right={{ base: '0', md: '0' }}
+            zIndex='0'
+            draggable='false'
+            transform='scaleX(-1)'
           />
 
           <Image
@@ -75,8 +98,9 @@ export default function Merch() {
             position='absolute'
             bottom={{ base: '-135rem', md: '-90rem', xl: '-75rem' }}
             zIndex='0'
-            right='0'
+            left='0'
             draggable='false'
+            transform='scaleX(-1)'
           />
 
           <Image
@@ -84,11 +108,10 @@ export default function Merch() {
             alt='small-rocks'
             w={{ base: '50%', md: '50%' }}
             position='absolute'
-            bottom={{ base: '-185rem', md: '-140rem', xl: '-135rem' }}
-            left ={{ base: '0', md: '0', xl: '0rem' }}
+            bottom={{ base: '-185rem', md: '-140rem', xl: '-175rem' }}
+            right={{ base: '0', md: '0', xl: '0rem' }}
             zIndex='0'
             draggable='false'
-            transform='scaleX(-1)'
           />
 
           <Flex
@@ -292,7 +315,7 @@ export default function Merch() {
                 w={{ base: '300px', md: '100%' }}
                 position='absolute'
                 top={{ base: '8rem', md: '30rem' }}
-                right={{ base: '6rem', md: '-15rem' }}
+                right={{ base: '6rem', md: '-40rem' }}
                 zIndex='0'
                 draggable='false'
               />
@@ -345,14 +368,27 @@ export default function Merch() {
               productWidth='350px'
               spaceWidth=''
             />
-            <MerchCard
-              title='Pulpen'
-              price={7000}
-              productImages={['/images/merch/merch-pulpen.png']}
-              spaceImage='/images/merch/merch-bulan-1.png'
-              productWidth='250px'
-              spaceWidth=''
-            />
+
+            <Box position='relative'>
+              <Image
+                src='/images/merch/merch-yellow-comet.png'
+                alt='yellow-comet'
+                w={{ base: '400px' }}
+                position='absolute'
+                top={{ base: '0rem', md: '1rem' }}
+                left={{ base: '-7rem', md: '-10rem' }}
+                zIndex='0'
+                draggable='false'
+              />
+              <MerchCard
+                title='Pulpen'
+                price={7000}
+                productImages={['/images/merch/merch-pulpen.png']}
+                spaceImage='/images/merch/merch-bulan-1.png'
+                productWidth='250px'
+                spaceWidth=''
+              />
+            </Box>
             <MerchCard
               title='Notebook'
               price={35000}
@@ -361,6 +397,7 @@ export default function Merch() {
               productWidth='250px'
               spaceWidth=''
             />
+
             <MerchCard
               title='Gelang'
               price={17000}
