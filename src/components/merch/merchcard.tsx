@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 interface MerchCardProps {
   title: string;
   price: number;
-  
+
   productImages: string[];
   secondImage?: string;
   spaceImage: string;
@@ -30,13 +30,12 @@ export default function MerchCard(props: MerchCardProps) {
 
   const handleMouseEnter = () => {
     setIsHover(true);
-  }
+  };
 
   const handleMouseLeave = () => {
     setIsHover(false);
     setImageIndex(0);
-
-  }
+  };
 
   useEffect(() => {
     if (isHover) {
@@ -54,17 +53,29 @@ export default function MerchCard(props: MerchCardProps) {
     }
   }, [isHover]);
 
-
-  const itemList = ['Totebag','Gelang', 'Kaos', 'Hoodie', 'Pouch', 'Pulpen', 'Notebook'];
-  const longTitle = ['Gantungan Kunci', 'Anti-Dingin Kit', 'Anti- Rempong Kit', 'Anti-Panas Kit','Bestseller Kit']
+  const itemList = [
+    'Totebag',
+    'Gelang',
+    'Kaos',
+    'Hoodie',
+    'Pouch',
+    'Pulpen',
+    'Notebook'
+  ];
+  const longTitle = [
+    'Gantungan Kunci',
+    'Anti-Dingin Kit',
+    'Anti- Rempong Kit',
+    'Anti-Panas Kit',
+    'Bestseller Kit'
+  ];
   const isInItemList = (item: string) => {
     //buat foto yang ga pure png, jdi perlu dikasi margin top
     return itemList.includes(item);
-  }
+  };
   const isInLongTitle = (item: string) => {
     return longTitle.includes(item);
-  }
-
+  };
 
   return (
     <Flex height={{ base: '350px', md: '600px' }}>
@@ -107,18 +118,19 @@ export default function MerchCard(props: MerchCardProps) {
           <Text color='#FFF' fontFamily='SomarRounded-Regular' fontSize='16px'>
             {new Intl.NumberFormat('id-ID', {
               style: 'currency',
-              currency: 'IDR'
+              currency: 'IDR',
+              minimumFractionDigits: 0
             }).format(price)}{' '}
             / pcs
           </Text>
-          <Button
+          {/* <Button
             padding={{ base: '0.8rem 0.8rem', md: '1.5rem 1.5rem' }}
             fontFamily='SomarRounded-Regular'
             zIndex='10'
             mb={{ base: '0.5rem', md: '0' }}
           >
             Buy Now
-          </Button>
+          </Button> */}
           <Box
             zIndex='3'
             _hover={{
@@ -138,6 +150,8 @@ export default function MerchCard(props: MerchCardProps) {
                   alt='merch-mug'
                   w={{ base: '100%', md: '120px' }}
                   zIndex='3'
+                  draggable='false'
+                  loading='lazy'
                 />
               )}
               <Image
@@ -145,6 +159,8 @@ export default function MerchCard(props: MerchCardProps) {
                 alt='merch-mug'
                 w={{ base: '90%', md: productWidth }}
                 zIndex='3'
+                draggable='false'
+                loading='lazy'
               />
             </Flex>
           </Box>
@@ -159,6 +175,8 @@ export default function MerchCard(props: MerchCardProps) {
                 ? { base: '-6rem', md: '-9rem' }
                 : { base: '-6rem', md: '-7rem' }
             }
+            draggable='false'
+            loading='lazy'
           />
 
           <Image
@@ -168,6 +186,8 @@ export default function MerchCard(props: MerchCardProps) {
             zIndex='2'
             bottom='0'
             w='10000px'
+            loading='lazy'
+            draggable='false'
           />
         </Flex>
       </Card>

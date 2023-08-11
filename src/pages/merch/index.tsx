@@ -2,24 +2,23 @@ import Layout from '~/layout';
 import { Box, Flex, Grid, Text, Image } from '@chakra-ui/react';
 import { Button } from '@chakra-ui/react';
 import MerchCard from '../../components/merch/merchcard';
+import Link from 'next/link';
 
 export default function Merch() {
   return (
     <>
       <Layout title='Merch'>
         <Flex
-          height='100vh'
-          position='absolute'
+          position='relative'
           w='100%'
           inset='0'
           flexDirection='column'
           gap='5rem'
+          overflow='hidden'
           backgroundImage='/images/merch/merch-blur.png'
           backgroundRepeat='no-repeat'
           alignItems='center'
           backgroundPosition='center center'
-          overflowY='scroll'
-          overflowX='hidden'
           paddingTop='10rem'
           backgroundSize={{ base: 'initial', lg: 'cover' }}
         >
@@ -45,6 +44,7 @@ export default function Merch() {
             top={{ base: '0rem', md: '7rem' }}
             zIndex='0'
             draggable='false'
+            loading='lazy'
           />
 
           <Image
@@ -56,6 +56,7 @@ export default function Merch() {
             top={{ base: '0rem', md: '250rem' }}
             zIndex='0'
             draggable='false'
+            loading='lazy'
           />
 
           <Image
@@ -67,6 +68,7 @@ export default function Merch() {
             left={{ base: '0', md: '0' }}
             zIndex='0'
             draggable='false'
+            loading='lazy'
           />
 
           <Image
@@ -74,10 +76,11 @@ export default function Merch() {
             alt='small-sparks'
             w={{ base: '200px', md: '300px' }}
             position='absolute'
-            top={{ base: '35rem', md: '130rem' }}
+            top={{ base: '35rem', md: '100rem' }}
             right={{ base: '0', md: '0' }}
             zIndex='0'
             draggable='false'
+            loading='lazy'
             transform='scaleX(-1)'
           />
 
@@ -86,9 +89,10 @@ export default function Merch() {
             alt='large-rocks'
             w={{ base: '100%', md: '100%' }}
             position='absolute'
-            bottom={{ base: '-530rem', md: '-420rem', xl: '-300rem' }}
+            bottom='0'
             zIndex='0'
             draggable='false'
+            loading='lazy'
           />
 
           <Image
@@ -96,10 +100,11 @@ export default function Merch() {
             alt='small-rocks'
             w={{ base: '50%', md: '50%' }}
             position='absolute'
-            bottom={{ base: '-135rem', md: '-90rem', xl: '-75rem' }}
+            bottom='50%'
             zIndex='0'
             left='0'
             draggable='false'
+            loading='lazy'
             transform='scaleX(-1)'
           />
 
@@ -108,10 +113,11 @@ export default function Merch() {
             alt='small-rocks'
             w={{ base: '50%', md: '50%' }}
             position='absolute'
-            bottom={{ base: '-185rem', md: '-140rem', xl: '-175rem' }}
+            bottom='25%'
             right={{ base: '0', md: '0', xl: '0rem' }}
             zIndex='0'
             draggable='false'
+            loading='lazy'
           />
 
           <Flex
@@ -131,6 +137,7 @@ export default function Merch() {
                 left={{ base: '-6rem', md: '-10rem' }}
                 zIndex='1'
                 draggable='false'
+                loading='lazy'
               />
               <Image
                 src='/images/merch/merch-moon-star-2.png'
@@ -141,6 +148,7 @@ export default function Merch() {
                 left={{ base: '0rem', md: '-2rem' }}
                 zIndex='1'
                 draggable='false'
+                loading='lazy'
               />
               <Image
                 src='/images/merch/merch-half-moon.png'
@@ -151,6 +159,7 @@ export default function Merch() {
                 left={{ base: '-9rem', md: '-20rem' }}
                 zIndex='0'
                 draggable='false'
+                loading='lazy'
               />
               <Image
                 src='/images/merch/merch-star.png'
@@ -161,43 +170,62 @@ export default function Merch() {
                 right={{ base: '-12rem', md: '-25rem' }}
                 zIndex='0'
                 draggable='false'
+                loading='lazy'
               />
 
               <Text color='#FFF' fontFamily='SomarRounded-Regular'>
                 Tokopedia
               </Text>
-              <Button
-                padding='1.5rem 3.5rem'
-                fontFamily='SomarRounded-Regular'
-                variant='outline'
-                zIndex='1'
+              <Link
+                href='https://tokopedia.link/kVlNjtyNbCb'
+                target='_blank'
+                rel='noopener noreferrer'
               >
-                Ganesha Goods
-              </Button>
+                <Button
+                  padding='1.5rem 3.5rem'
+                  fontFamily='SomarRounded-Regular'
+                  variant='outline'
+                  zIndex='1'
+                >
+                  Ganesha Goods
+                </Button>
+              </Link>
             </Flex>
             <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
               <Text color='#FFF' fontFamily='SomarRounded-Regular'>
                 Pre-Order
               </Text>
-              <Button
-                padding='1.5rem 3.5rem'
-                fontFamily='SomarRounded-Regular'
-                variant='outline'
+              <Link
+                href='https://go.oskmitb.com/POMerchOSKM'
+                target='_blank'
+                rel='noopener noreferrer'
               >
-                Order Now !
-              </Button>
+                <Button
+                  padding='1.5rem 3.5rem'
+                  fontFamily='SomarRounded-Regular'
+                  variant='outline'
+                >
+                  Order Now !
+                </Button>
+              </Link>
             </Flex>
             <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
               <Text color='#FFF' fontFamily='SomarRounded-Regular'>
                 Instagram
               </Text>
-              <Button
-                padding='1.5rem 3.5rem'
-                fontFamily='SomarRounded-Regular'
-                variant='outline'
+              <Link
+                href='https://www.instagram.com/ganeshagoods/'
+                target='_blank'
+                rel='noopener noreferrer'
               >
-                @ganeshagoods
-              </Button>
+                <Button
+                  padding='1.5rem 3.5rem'
+                  fontFamily='SomarRounded-Regular'
+                  variant='outline'
+                >
+                  @ganeshagoods
+                </Button>
+              </Link>
             </Flex>
           </Flex>
 
@@ -219,6 +247,7 @@ export default function Merch() {
                 left={{ base: '-7rem', md: '-10rem' }}
                 zIndex='0'
                 draggable='false'
+                loading='lazy'
               />
 
               <Image
@@ -230,6 +259,7 @@ export default function Merch() {
                 left={{ base: '-7rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
                 draggable='false'
+                loading='lazy'
               />
 
               <MerchCard
@@ -262,6 +292,7 @@ export default function Merch() {
                 right={{ base: '-6rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
                 draggable='false'
+                loading='lazy'
               />
 
               <Image
@@ -273,6 +304,7 @@ export default function Merch() {
                 left={{ base: '5rem', md: '-2rem' }}
                 zIndex='1'
                 draggable='false'
+                loading='lazy'
               />
             </Box>
             <MerchCard
@@ -294,13 +326,12 @@ export default function Merch() {
                 left={{ base: '-8rem', sm: '-10rem', md: '0' }}
                 zIndex='0'
                 draggable='false'
+                loading='lazy'
               />
               <MerchCard
                 title='Gantungan Kunci'
                 price={8000}
-                productImages={[
-                  '/images/merch/merch-ganci.png'
-                ]}
+                productImages={['/images/merch/merch-ganci.png']}
                 spaceImage='/images/merch/merch-bulan-1.png'
                 productWidth=''
                 spaceWidth='200px'
@@ -317,12 +348,16 @@ export default function Merch() {
                 right={{ base: '6rem', md: '-40rem' }}
                 zIndex='0'
                 draggable='false'
+                loading='lazy'
               />
               <MerchCard
                 title='Stiker'
                 price={10000}
                 spaceImage='/images/merch/merch-bulan-2.png'
-                productImages={['/images/merch/merch-sticker.png', '/images/merch/merch-sticker-2.png']}
+                productImages={[
+                  '/images/merch/merch-sticker.png',
+                  '/images/merch/merch-sticker-2.png'
+                ]}
                 productWidth=''
                 spaceWidth=''
               />
@@ -378,6 +413,7 @@ export default function Merch() {
                 left={{ base: '-7rem', md: '-10rem' }}
                 zIndex='0'
                 draggable='false'
+                loading='lazy'
               />
               <MerchCard
                 title='Pulpen'
