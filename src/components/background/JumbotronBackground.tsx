@@ -22,52 +22,52 @@ const JumbotronBackground = () => {
       <Image
         src='/images/space-object/dust.png'
         alt=''
-        top='0'
-        left='15%'
-        w='65%'
+        top={{ base: '20%', lg: '0' }}
+        left={{ base: '0', lg: '15%' }}
+        w={{ base: '700px', lg: '65%' }}
       />
       <Image src='/images/misc/spark3.png' alt='' top='15%' left='10%' w='5%' />
       <Image
         src='/images/jumbotron/asteroid.png'
         alt=''
-        bottom='0'
+        bottom='-20%'
         right='0'
-        w='10%'
+        w={{ base: '125px', lg: '10%' }}
       />
       <Image
         src='/images/jumbotron/blue-planet.png'
         alt=''
         bottom='20%'
         left='0'
-        w='12%'
+        w={{ base: '150px', lg: '12%' }}
       />
       <Image
         src='/images/jumbotron/komet.png'
         alt=''
         top='5%'
         right='0'
-        w='15%'
+        w={{ base: '125px', lg: '15%' }}
       />
       <Image
         src='/images/jumbotron/spark-kicik.png'
         alt=''
-        bottom='-25%'
+        bottom={{ base: '-15%', lg: '-25%' }}
         left='5%'
-        w='25%'
+        w={{ base: '200px', lg: '25%' }}
       />
       <Image
         src='/images/jumbotron/spark-kicik2.png'
         alt=''
         top='0%'
         right='5%'
-        w='30%'
+        w={{ base: '350px', lg: '30%' }}
       />
       <Image
         src='/images/jumbotron/sparkle.png'
         alt=''
         bottom='20%'
         right='5%'
-        w='10%'
+        w={{ base: '150px', lg: '10%' }}
       />
     </Box>
   );

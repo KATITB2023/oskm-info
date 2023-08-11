@@ -3,6 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import Layout from '~/layout';
 import ImageBox from '~/components/ImageBox';
 import Jumbotron from '~/components/home-page/Jumbotron';
+import Timeline from '~/components/home-page/Timeline';
 
 const Home: NextPage = () => {
   return (
@@ -20,8 +21,8 @@ const Home: NextPage = () => {
         gap={5}
       >
         <Jumbotron />
-        {/* timleine */}
-        <ImageBox
+        <Timeline />
+        {/* <ImageBox
           title='OUR SPONSORS'
           object='SPONSORS'
           contact='loremipsum@gmail.com'
@@ -32,7 +33,7 @@ const Home: NextPage = () => {
           object='MEDIA&nbsp;PARTNER'
           contact='+62-812-9237-2312'
           image='/images/bg-media-partner.png'
-        />
+        /> */}
       </Flex>
     </Layout>
   );
