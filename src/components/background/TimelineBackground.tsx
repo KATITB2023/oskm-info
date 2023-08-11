@@ -31,7 +31,7 @@ const TimelineBackground = () => {
         alt=''
         top={{ base: '10%', lg: '20%' }}
         left='0'
-        w={{ base: '150px', lg: '10%' }}
+        w={{ base: '100px', lg: '10%' }}
       />
       <Image
         src='/images/timeline/planet-dudidam.png'

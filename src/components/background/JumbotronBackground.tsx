@@ -24,7 +24,7 @@ const JumbotronBackground = () => {
         alt=''
         top={{ base: '20%', lg: '0' }}
         left={{ base: '0', lg: '15%' }}
-        w={{ base: '300px', lg: '65%' }}
+        w={{ base: '700px', lg: '65%' }}
       />
       <Image src='/images/misc/spark3.png' alt='' top='15%' left='10%' w='5%' />
       <Image
@@ -32,7 +32,7 @@ const JumbotronBackground = () => {
         alt=''
         bottom='-20%'
         right='0'
-        w={{ base: '150px', lg: '10%' }}
+        w={{ base: '125px', lg: '10%' }}
       />
       <Image
         src='/images/jumbotron/blue-planet.png'
