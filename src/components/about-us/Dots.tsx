@@ -5,7 +5,7 @@ export function Dots(props: { currentSlide: number; len: number }) {
   const arr: number[] = [...Array(props.len).keys()];
 
   return (
-    <Flex justifyContent='center' alignItems='center'>
+    <Flex justifyContent='center' alignItems='center' mb='60px'>
       {arr.map((i: number) =>
         i >= props.currentSlide - 1 && i <= props.currentSlide + 1 ? (
           <Circle
