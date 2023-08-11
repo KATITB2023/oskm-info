@@ -133,7 +133,7 @@ const Navbar = () => {
         pos='fixed'
         top='0'
         color='white'
-        zIndex='100'
+        zIndex='200'
         fontSize='14px'
         fontWeight='semibold'
       >
@@ -145,7 +145,7 @@ const Navbar = () => {
             alt=''
           />
         </Box>
-        <Box zIndex='1000'>
+        <Box zIndex='200'>
           <Link href='/'>
             <HStack>
               <Image

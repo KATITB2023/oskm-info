@@ -14,9 +14,7 @@ const Login = ({
   return (
     <Layout title='Login'>
       <Flex
-        position='absolute'
-        top='0'
-        left='0'
+        position='relative'
         width='100%'
         backgroundColor='gray.600'
         zIndex='-100'

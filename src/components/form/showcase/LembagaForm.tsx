@@ -51,13 +51,31 @@ export const LembagaForm = ({
       }
     >
       <VStack spacing={4} mt={5} color='white'>
-        <Box bg='purple.1' px={5} py={3} borderRadius='lg'>
+        <Box bg='purple.1' px={5} py={3} borderRadius='lg' w='100%'>
           <Box as='span'>
-            Sebelum mengisi form di bawah, harap membaca ToR dan SOP yang akan
-            berlaku untuk Festival serta mengisi MoU yang ada di{' '}
+            Sebelum mengisi form di bawah ini, harap untuk mengisi ToR dan SOP
+            yang akan berlaku untuk Festival serta lembaga yang akan
+            berpartisipasi wajib memahami isi MoU Keikutsertaan pada link
+            berikut ini:{' '}
           </Box>
           <Link isExternal href='https://linktr.ee/FestivalITBShowcase2023'>
-            https://linktr.ee/FestivalITBShowcase2023
+            linktr.ee/FestivalITBShowcase2023
+          </Link>
+          <Box>
+            <br />
+            Setelah adanya nama pihak kedua yang akan dicantumkan di MoU, maka
+            file MoU akan dikirim melalui staff inkam dan dikembalikan melalui
+            staff inkam. Staff inkam akan menghubungi pihak kedua yang ingin
+            dicantumkan dalam MoU.
+          </Box>
+        </Box>
+        <Box bg='purple.1' px={5} py={3} borderRadius='lg' w='100%'>
+          <Box as='span'>
+            <b>Lembaga</b> yang ingin ikut serta dalam kegiatan parade dapat
+            mengisi formulir berikut:{' '}
+          </Box>
+          <Link isExternal href='https://go.oskmitb.com/IkutParade'>
+            https://go.oskmitb.com/IkutParade
           </Link>
         </Box>
         <FormControl isInvalid={!!formState.errors.lembaga}>
@@ -138,7 +156,7 @@ export const LembagaForm = ({
           )}
         </FormControl>
         <FormControl isInvalid={!!formState.errors.position}>
-          <FormLabel>Jabatan</FormLabel>
+          <FormLabel>Jabatan Pengisi Form</FormLabel>
           <Input
             placeholder='Ketua'
             {...register('position', {
@@ -154,6 +172,60 @@ export const LembagaForm = ({
             </FormErrorMessage>
           )}
         </FormControl>
+        <FormControl isInvalid={!!formState.errors.secondPartyName}>
+          <FormLabel>Nama Pihak Kedua</FormLabel>
+          <Input
+            placeholder='Nama lengkap pihak kedua yang akan dicantumkan di MoU'
+            {...register('secondPartyName', {
+              required: {
+                value: true,
+                message:
+                  'Harap isi nama pihak kedua yang akan dicantumkan di MoU'
+              }
+            })}
+          />
+          {formState.errors.secondPartyName && (
+            <FormErrorMessage>
+              {formState.errors.secondPartyName.message as string}
+            </FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl isInvalid={!!formState.errors.secondPartyPosition}>
+          <FormLabel>Jabatan Pihak Kedua</FormLabel>
+          <Input
+            placeholder='Jabatan pihak kedua yang akan dicantumkan di MoU'
+            {...register('secondPartyPosition', {
+              required: {
+                value: true,
+                message:
+                  'Harap isi jabatan pihak kedua yang akan dicantumkan di MoU'
+              }
+            })}
+          />
+          {formState.errors.secondPartyPosition && (
+            <FormErrorMessage>
+              {formState.errors.secondPartyPosition.message as string}
+            </FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl isInvalid={!!formState.errors.secondPartyContact}>
+          <FormLabel>Kontak Pihak Kedua</FormLabel>
+          <Input
+            placeholder='Kontak pihak kedua yang akan dicantumkan di MoU'
+            {...register('secondPartyContact', {
+              required: {
+                value: true,
+                message:
+                  'Harap isi kontak pihak kedua yang akan dicantumkan di MoU'
+              }
+            })}
+          />
+          {formState.errors.secondPartyContact && (
+            <FormErrorMessage>
+              {formState.errors.secondPartyContact.message as string}
+            </FormErrorMessage>
+          )}
+        </FormControl>
         <Checkbox
           spacing={4}
           onChange={(e) => setValue('noise', e.target.checked)}
@@ -164,7 +236,7 @@ export const LembagaForm = ({
           sekitarnya untuk mengatur tingkat kebisingan? (dibahas lebih lanjut
           bersama LO masing-masing)
         </Checkbox>
-        <FormControl isInvalid={!!formState.errors.mouPath}>
+        {/* <FormControl isInvalid={!!formState.errors.mouPath}>
           <FormLabel>File MoU</FormLabel>
           <Input
             type='file'
@@ -186,11 +258,11 @@ export const LembagaForm = ({
               {formState.errors.mouPath.message as string}
             </FormErrorMessage>
           )}
-        </FormControl>
+        </FormControl> */}
       </VStack>
       <Flex justifyContent='space-between' mt={7}>
         <Button
-          w='25%'
+          w={{ base: '75px', lg: '25%' }}
           variant='outline'
           alignSelf='center'
           onClick={() => setPage(1)}
@@ -198,7 +270,7 @@ export const LembagaForm = ({
           Back
         </Button>
         <Button
-          w='25%'
+          w={{ base: '75px', lg: '25%' }}
           alignSelf='center'
           type='submit'
           isDisabled={Object.values(formState.errors).length > 0}
