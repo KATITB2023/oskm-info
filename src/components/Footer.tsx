@@ -87,6 +87,7 @@ const Footer = () => {
       backgroundPosition='center'
       backgroundRepeat='no-repeat'
       position='relative'
+      zIndex='200'
     >
       <Image
         src='/images/foot-bintangMini.png'
@@ -118,7 +119,7 @@ const Footer = () => {
             w={{ base: '200px', lg: '175px' }}
           />
         </Flex>
-        <VStack spacing={4}>
+        <VStack spacing={4} alignSelf='center'>
           <HStack spacing={{ lg: 10 }} display={{ base: 'none', lg: 'flex' }}>
             {navURL.map((item, index) => (
               <NavItem key={index} href={item.href} label={item.label} />

@@ -133,7 +133,7 @@ const Navbar = () => {
         pos='fixed'
         top='0'
         color='white'
-        zIndex='100'
+        zIndex='1000'
         fontSize='14px'
         fontWeight='semibold'
       >
