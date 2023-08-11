@@ -2,12 +2,13 @@ import { Flex, Image, Text, Stack, Button, VStack } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import JumbotronBackground from '../background/JumbotronBackground';
+import _ from 'lodash';
 
 interface Props {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  days?: number;
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
 }
 
 export default function Jumbotron() {
@@ -28,12 +29,7 @@ export default function Jumbotron() {
   const targetDate = new Date('2023-08-16T12:45:00.000+07:00').getTime();
   const calculateTimeLeft = () => {
     const difference = targetDate - new Date().getTime();
-    let timeLeft = {
-      days: 0,
-      hours: 0,
-      minutes: 0,
-      seconds: 0
-    };
+    let timeLeft = {};
 
     if (difference > 0) {
       timeLeft = {
@@ -74,7 +70,7 @@ export default function Jumbotron() {
           draggable='false'
           loading='lazy'
           zIndex='10'
-          w='45%'
+          w='60%'
           alt=''
         />
         <Image
@@ -87,25 +83,27 @@ export default function Jumbotron() {
         />
       </VStack>
 
-      <Flex flexDirection='row' gap={10} zIndex='100'>
-        {Object.keys(timeLeft).map((interval, index) => (
-          <Flex flexDir={'column'} key={index} alignItems='center'>
-            <Text
-              fontWeight={700}
-              color='yellow.5'
-              fontSize={{ base: 'xl', md: '3xl' }}
-            >
-              {timeLeft[interval as keyof Props]?.toLocaleString('id-ID', {
-                minimumIntegerDigits: 2,
-                useGrouping: false
-              })}
-            </Text>
-            <Text color='green.4' fontSize={{ base: 'sm', md: 'md' }}>
-              {interval.toUpperCase()}
-            </Text>
-          </Flex>
-        ))}
-      </Flex>
+      {!_.isEmpty(timeLeft) && (
+        <Flex flexDirection='row' gap={10} zIndex='100'>
+          {Object.keys(timeLeft).map((interval, index) => (
+            <Flex flexDir={'column'} key={index} alignItems='center'>
+              <Text
+                fontWeight={700}
+                color='yellow.5'
+                fontSize={{ base: 'xl', md: '3xl' }}
+              >
+                {timeLeft[interval as keyof Props]?.toLocaleString('id-ID', {
+                  minimumIntegerDigits: 2,
+                  useGrouping: false
+                })}
+              </Text>
+              <Text color='green.4' fontSize={{ base: 'sm', md: 'md' }}>
+                {interval.toUpperCase()}
+              </Text>
+            </Flex>
+          ))}
+        </Flex>
+      )}
       <Stack direction={'row'} spacing={{ base: 2, md: 4 }} zIndex='100'>
         <Button>Explore Now!</Button>
         <Button variant='outline' onClick={() => void handleGetRequest()}>
