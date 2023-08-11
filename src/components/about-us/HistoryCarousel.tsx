@@ -215,8 +215,7 @@ export default function HistoryCarousel(props: {
         )}
         <Slider
           {...settings}
-          // autoplay={props.isPreview}
-          autoplay={false}
+          autoplay={props.isPreview}
           ref={(slider) => setSlider(slider)}
         >
           {history.map((era, index) => (
