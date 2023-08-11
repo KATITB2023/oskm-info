@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 interface MerchCardProps {
   title: string;
   price: number;
-  productImage: string;
+  
   productImages: string[];
   secondImage?: string;
   spaceImage: string;
@@ -18,10 +18,8 @@ export default function MerchCard(props: MerchCardProps) {
   const {
     title,
     price,
-    productImage,
     spaceImage,
     productImages,
-    productLink,
     productWidth,
     spaceWidth,
     secondImage

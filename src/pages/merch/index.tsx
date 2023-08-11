@@ -212,7 +212,6 @@ export default function Merch() {
               <MerchCard
                 title='Mug'
                 price={22000}
-                productImage='/images/merch/merch-mug.png'
                 spaceImage='/images/merch/merch-asteroid-1.png'
                 productImages={['/images/merch/merch-mug.png']}
                 productWidth='178px'
@@ -224,7 +223,6 @@ export default function Merch() {
               <MerchCard
                 title='Lanyard'
                 price={18000}
-                productImage='/images/merch/merch-lanyard-1.png'
                 productImages={['/images/merch/merch-lanyard-1.png']}
                 secondImage='/images/merch/merch-lanyard-2.png'
                 spaceImage='/images/merch/merch-asteroid-2.png'
@@ -257,7 +255,6 @@ export default function Merch() {
             <MerchCard
               title='Korek Api'
               price={15000}
-              productImage='/images/merch/merch-korek-api.png'
               spaceImage='/images/merch/merch-asteroid-3.png'
               productImages={['/images/merch/merch-korek-api.png']}
               productWidth='40px'
@@ -278,7 +275,6 @@ export default function Merch() {
               <MerchCard
                 title='Gantungan Kunci'
                 price={8000}
-                productImage='/images/merch/merch-ganci.png'
                 productImages={[
                   '/images/merch/merch-ganci.png',
                   '/images/merch/merch-sticker.png'
@@ -303,7 +299,6 @@ export default function Merch() {
               <MerchCard
                 title='Stiker'
                 price={10000}
-                productImage='/images/merch/merch-sticker.png'
                 spaceImage='/images/merch/merch-bulan-2.png'
                 productImages={['/images/merch/merch-sticker.png']}
                 productWidth=''
@@ -313,7 +308,6 @@ export default function Merch() {
             <MerchCard
               title='Kipas'
               price={12000}
-              productImage='/images/merch/merch-kipas.png'
               spaceImage='/images/merch/merch-bulan-3.png'
               productImages={['/images/merch/merch-kipas.png']}
               productWidth='150px'
@@ -322,7 +316,6 @@ export default function Merch() {
             <MerchCard
               title='Hoodie'
               price={160000}
-              productImage=''
               productImages={[
                 '/images/merch/merch-white-hoodie.png',
                 '/images/merch/merch-black-hoodie.png'
@@ -335,7 +328,6 @@ export default function Merch() {
             <MerchCard
               title='Kaos'
               price={90000}
-              productImage=''
               productImages={[
                 '/images/merch/merch-white-tshirt.png',
                 '/images/merch/merch-black-tshirt.png'
@@ -348,7 +340,6 @@ export default function Merch() {
             <MerchCard
               title='Pouch'
               price={30000}
-              productImage=''
               productImages={['/images/merch/merch-pouch.png']}
               spaceImage='/images/merch/merch-asteroid-3.png'
               productWidth='350px'
@@ -357,7 +348,6 @@ export default function Merch() {
             <MerchCard
               title='Pulpen'
               price={7000}
-              productImage=''
               productImages={['/images/merch/merch-pulpen.png']}
               spaceImage='/images/merch/merch-bulan-1.png'
               productWidth='250px'
@@ -366,7 +356,6 @@ export default function Merch() {
             <MerchCard
               title='Notebook'
               price={35000}
-              productImage=''
               productImages={['/images/merch/merch-notebook.png']}
               spaceImage='/images/merch/merch-bulan-2.png'
               productWidth='250px'
@@ -375,7 +364,6 @@ export default function Merch() {
             <MerchCard
               title='Gelang'
               price={17000}
-              productImage=''
               productImages={['/images/merch/merch-gelang.png']}
               spaceImage='/images/merch/merch-bulan-3.png'
               productWidth='250px'
@@ -385,7 +373,6 @@ export default function Merch() {
             <MerchCard
               title='Totebag'
               price={85000}
-              productImage=''
               productImages={['/images/merch/merch-totebag.png']}
               spaceImage='/images/merch/merch-asteroid-1.png'
               productWidth='250px'
@@ -395,7 +382,6 @@ export default function Merch() {
             <MerchCard
               title='ITB OOTD Kit'
               price={185000}
-              productImage=''
               productImages={['/images/merch/merch-bundle-1.png']}
               spaceImage='/images/merch/merch-asteroid-2.png'
               productWidth='250px'
@@ -405,7 +391,6 @@ export default function Merch() {
             <MerchCard
               title='Anti-Dingin Kit'
               price={220000}
-              productImage=''
               productImages={['/images/merch/merch-bundle-2.png']}
               spaceImage='/images/merch/merch-asteroid-3.png'
               productWidth='250px'
@@ -415,7 +400,6 @@ export default function Merch() {
             <MerchCard
               title='Ngambis Kit'
               price={40000}
-              productImage=''
               productImages={['/images/merch/merch-bundle-3.png']}
               spaceImage='/images/merch/merch-bulan-1.png'
               productWidth='250px'
@@ -425,7 +409,6 @@ export default function Merch() {
             <MerchCard
               title='Anti- Rempong Kit'
               price={45000}
-              productImage=''
               productImages={['/images/merch/merch-bundle-4.png']}
               spaceImage='/images/merch/merch-bulan-2.png'
               productWidth='250px'
@@ -435,7 +418,6 @@ export default function Merch() {
             <MerchCard
               title='Anti-Panas Kit'
               price={25000}
-              productImage=''
               productImages={['/images/merch/merch-bundle-5.png']}
               spaceImage='/images/merch/merch-bulan-3.png'
               productWidth='250px'
@@ -445,7 +427,6 @@ export default function Merch() {
             <MerchCard
               title='Bestseller Kit'
               price={40000}
-              productImage=''
               productImages={['/images/merch/merch-bundle-6.png']}
               spaceImage='/images/merch/merch-asteroid-2.png'
               productWidth='250px'
