@@ -1,9 +1,12 @@
 import { Card, Flex, Text, Image, Button, Box } from '@chakra-ui/react';
+import { set } from 'lodash';
+import { useEffect, useState } from 'react';
 
 interface MerchCardProps {
   title: string;
   price: number;
   productImage: string;
+  productImages: string[];
   secondImage?: string;
   spaceImage: string;
   productWidth: string;
@@ -17,11 +20,53 @@ export default function MerchCard(props: MerchCardProps) {
     price,
     productImage,
     spaceImage,
+    productImages,
     productLink,
     productWidth,
     spaceWidth,
     secondImage
   } = props;
+
+  const [imageIndex, setImageIndex] = useState(0);
+  const [isHover, setIsHover] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHover(true);
+  }
+
+  const handleMouseLeave = () => {
+    setIsHover(false);
+    setImageIndex(0);
+
+  }
+
+  useEffect(() => {
+    if (isHover) {
+      const interval = setInterval(() => {
+        setImageIndex((prevIndex) => {
+          if (prevIndex === productImages.length - 1) {
+            return 0;
+          } else {
+            return prevIndex + 1;
+          }
+        });
+      }, 2000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isHover]);
+
+
+  const itemList = ['Totebag','Gelang', 'Kaos', 'Hoodie', 'Pouch', 'Pulpen', 'Notebook'];
+  const longTitle = ['Gantungan Kunci', 'Anti-Dingin Kit', 'Anti- Rempong Kit', 'Anti-Panas Kit','Bestseller Kit']
+  const isInItemList = (item: string) => {
+    //buat foto yang ga pure png, jdi perlu dikasi margin top
+    return itemList.includes(item);
+  }
+  const isInLongTitle = (item: string) => {
+    return longTitle.includes(item);
+  }
+
 
   return (
     <Flex height={{ base: '350px', md: '600px' }}>
@@ -29,7 +74,7 @@ export default function MerchCard(props: MerchCardProps) {
         borderRadius={{ base: '90px', md: '144px' }}
         width={{ base: '217px', md: '333px' }}
         height={{ base: '278px', md: '427px' }}
-        backgroundImage='/images/merch-card.png'
+        backgroundImage='/images/merch/merch-card.png'
         backgroundSize='cover'
         alignItems='center'
       >
@@ -44,18 +89,19 @@ export default function MerchCard(props: MerchCardProps) {
             color='#FF93D1;'
             fontFamily='Bodwars'
             fontSize={
-              title === 'Gantungan Kunci'
+              isInLongTitle(title)
                 ? { base: '20px', md: '30px' }
                 : { base: '20px', md: '35px' }
             }
             mt={
-              title === 'Gantungan Kunci'
+              isInLongTitle(title)
                 ? { base: '-1rem', md: '-2rem' }
                 : { base: '0rem', md: '0rem' }
             }
             textShadow='0px 4px 30px #8D47E5'
             marginBottom='1rem'
             textAlign='center'
+            paddingX ='1rem'
           >
             {title}
           </Text>
@@ -76,31 +122,28 @@ export default function MerchCard(props: MerchCardProps) {
             _hover={{
               animation: 'hoverEffect 1s infinite alternate' // Apply the keyframe animation
             }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            height={{ base: '150px', md: '180px' }}
           >
             <Flex
-              alignItems='center'
+              mt={isInItemList(title) ? '-10' : '0'}
               justifyContent='center'
-              flexDirection='column'
             >
-              <Flex
-                mt={title === 'Gantungan Kunci' ? '-10' : '0'}
-                justifyContent='center'
-              >
-                {secondImage && (
-                  <Image
-                    src={secondImage}
-                    alt='merch-mug'
-                    w={{ base: '100%', md: '120px' }}
-                    zIndex='3'
-                  />
-                )}
+              {secondImage && (
                 <Image
-                  src={productImage}
+                  src={secondImage}
                   alt='merch-mug'
-                  w={{ base: '70%', md: productWidth }}
+                  w={{ base: '100%', md: '120px' }}
                   zIndex='3'
                 />
-              </Flex>
+              )}
+              <Image
+                src={productImages[imageIndex]}
+                alt='merch-mug'
+                w={{ base: '90%', md: productWidth }}
+                zIndex='3'
+              />
             </Flex>
           </Box>
           <Image
@@ -117,7 +160,7 @@ export default function MerchCard(props: MerchCardProps) {
           />
 
           <Image
-            src='/images/merch-vector.svg'
+            src='/images/merch/merch-vector.svg'
             alt='merch-vector'
             position='absolute'
             zIndex='2'

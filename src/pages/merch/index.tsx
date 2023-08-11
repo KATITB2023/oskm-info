@@ -14,7 +14,7 @@ export default function Merch() {
           inset='0'
           flexDirection='column'
           gap='5rem'
-          backgroundImage='/images/merch-blur.png'
+          backgroundImage='/images/merch/merch-blur.png'
           backgroundRepeat='no-repeat'
           alignItems='center'
           backgroundPosition='center center'
@@ -58,7 +58,7 @@ export default function Merch() {
           </Text>
 
           <Image
-            src='/images/merch-aurora.png'
+            src='/images/merch/merch-aurora.png'
             alt='aurora'
             w={{ base: '300px', md: '500px' }}
             position='absolute'
@@ -69,7 +69,7 @@ export default function Merch() {
           />
 
           <Image
-            src='/images/merch-small-sparks.png'
+            src='/images/merch/merch-small-sparks.png'
             alt='small-sparks'
             w={{ base: '200px', md: '300px' }}
             position='absolute'
@@ -80,17 +80,17 @@ export default function Merch() {
           />
 
           <Image
-            src='/images/merch-large-rocks.png'
+            src='/images/merch/merch-large-rocks.png'
             alt='large-rocks'
             w={{ base: '100%', md: '100%' }}
             position='absolute'
-            bottom={{ base: '-150rem', md: '-120rem', xl: '-100rem' }}
+            bottom={{ base: '-530rem', md: '-420rem', xl: '-300rem' }}
             zIndex='0'
             draggable='false'
           />
 
           <Image
-            src='/images/merch-small-rocks.png'
+            src='/images/merch/merch-small-rocks.png'
             alt='small-rocks'
             w={{ base: '50%', md: '50%' }}
             position='absolute'
@@ -98,6 +98,18 @@ export default function Merch() {
             zIndex='0'
             right='0'
             draggable='false'
+          />
+
+          <Image
+            src='/images/merch/merch-small-rocks.png'
+            alt='small-rocks'
+            w={{ base: '50%', md: '50%' }}
+            position='absolute'
+            bottom={{ base: '-185rem', md: '-140rem', xl: '-135rem' }}
+            left ={{ base: '0', md: '0', xl: '0rem' }}
+            zIndex='0'
+            draggable='false'
+            transform='scaleX(-1)'
           />
 
           <Flex
@@ -109,7 +121,7 @@ export default function Merch() {
           >
             <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
               <Image
-                src='/images/merch-moon-star-1.png'
+                src='/images/merch/merch-moon-star-1.png'
                 alt='half-moon'
                 w={{ base: '300px' }}
                 position='absolute'
@@ -119,7 +131,7 @@ export default function Merch() {
                 draggable='false'
               />
               <Image
-                src='/images/merch-moon-star-2.png'
+                src='/images/merch/merch-moon-star-2.png'
                 alt='half-moon'
                 w={{ base: '300px' }}
                 position='absolute'
@@ -129,7 +141,7 @@ export default function Merch() {
                 draggable='false'
               />
               <Image
-                src='/images/merch-half-moon.png'
+                src='/images/merch/merch-half-moon.png'
                 alt='half-moon'
                 w={{ base: '400px' }}
                 position='absolute'
@@ -139,7 +151,7 @@ export default function Merch() {
                 draggable='false'
               />
               <Image
-                src='/images/merch-star.png'
+                src='/images/merch/merch-star.png'
                 alt='half-moon'
                 w={{ base: '400px' }}
                 position='absolute'
@@ -197,7 +209,7 @@ export default function Merch() {
           >
             <Box position='relative'>
               <Image
-                src='/images/merch-yellow-comet.png'
+                src='/images/merch/merch-yellow-comet.png'
                 alt='yellow-comet'
                 w={{ base: '400px' }}
                 position='absolute'
@@ -208,7 +220,7 @@ export default function Merch() {
               />
 
               <Image
-                src='/images/merch-galaxy-aura.png'
+                src='/images/merch/merch-galaxy-aura.png'
                 alt='small-sparks'
                 w={{ base: '200px', md: '0' }}
                 position='absolute'
@@ -221,9 +233,10 @@ export default function Merch() {
               <MerchCard
                 title='Mug'
                 price={22000}
-                productImage='/images/merch-mug.png'
-                spaceImage='/images/merch-asteroid-1.png'
-                productWidth='180px'
+                productImage='/images/merch/merch-mug.png'
+                spaceImage='/images/merch/merch-asteroid-1.png'
+                productImages={['/images/merch/merch-mug.png']}
+                productWidth='178px'
                 spaceWidth=''
               />
             </Box>
@@ -232,15 +245,16 @@ export default function Merch() {
               <MerchCard
                 title='Lanyard'
                 price={18000}
-                productImage='/images/merch-lanyard-1.png'
-                secondImage='/images/merch-lanyard-2.png'
-                spaceImage='/images/merch-asteroid-2.png'
-                productWidth='39px'
+                productImage='/images/merch/merch-lanyard-1.png'
+                productImages={['/images/merch/merch-lanyard-1.png']}
+                secondImage='/images/merch/merch-lanyard-2.png'
+                spaceImage='/images/merch/merch-asteroid-2.png'
+                productWidth='35px'
                 spaceWidth=''
               />
 
               <Image
-                src='/images/merch-blue-lightning.png'
+                src='/images/merch/merch-blue-lightning.png'
                 alt='small-sparks'
                 w={{ base: '300px', md: '0' }}
                 position='absolute'
@@ -251,7 +265,7 @@ export default function Merch() {
               />
 
               <Image
-                src='/images/merch-moon-star-2.png'
+                src='/images/merch/merch-moon-star-2.png'
                 alt='half-moon'
                 w={{ base: '500px', md: '0' }}
                 position='absolute'
@@ -264,15 +278,16 @@ export default function Merch() {
             <MerchCard
               title='Korek Api'
               price={15000}
-              productImage='/images/merch-korek-api.png'
-              spaceImage='/images/merch-asteroid-3.png'
-              productWidth='46px'
+              productImage='/images/merch/merch-korek-api.png'
+              spaceImage='/images/merch/merch-asteroid-3.png'
+              productImages={['/images/merch/merch-korek-api.png']}
+              productWidth='40px'
               spaceWidth=''
             />
 
             <Box position='relative'>
               <Image
-                src='/images/merch-pink-lightning.png'
+                src='/images/merch/merch-pink-lightning.png'
                 alt='small-sparks'
                 w={{ base: '100%', md: '0' }}
                 position='absolute'
@@ -284,16 +299,20 @@ export default function Merch() {
               <MerchCard
                 title='Gantungan Kunci'
                 price={8000}
-                productImage='/images/merch-ganci.png'
-                spaceImage='/images/merch-bulan-1.png'
-                productWidth='176px'
+                productImage='/images/merch/merch-ganci.png'
+                productImages={[
+                  '/images/merch/merch-ganci.png',
+                  '/images/merch/merch-sticker.png'
+                ]}
+                spaceImage='/images/merch/merch-bulan-1.png'
+                productWidth=''
                 spaceWidth='200px'
               />
             </Box>
 
             <Box position='relative'>
               <Image
-                src='/images/merch-pink-comet.png'
+                src='/images/merch/merch-pink-comet.png'
                 alt='small-sparks'
                 w={{ base: '300px', md: '100%' }}
                 position='absolute'
@@ -305,18 +324,152 @@ export default function Merch() {
               <MerchCard
                 title='Stiker'
                 price={10000}
-                productImage='/images/merch-sticker.png'
-                spaceImage='/images/merch-bulan-2.png'
-                productWidth='135px'
+                productImage='/images/merch/merch-sticker.png'
+                spaceImage='/images/merch/merch-bulan-2.png'
+                productImages={['/images/merch/merch-sticker.png']}
+                productWidth=''
                 spaceWidth=''
               />
             </Box>
             <MerchCard
               title='Kipas'
               price={12000}
-              productImage='/images/merch-kipas.png'
-              spaceImage='/images/merch-bulan-3.png'
-              productWidth='162px'
+              productImage='/images/merch/merch-kipas.png'
+              spaceImage='/images/merch/merch-bulan-3.png'
+              productImages={['/images/merch/merch-kipas.png']}
+              productWidth='150px'
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Hoodie'
+              price={160000}
+              productImage=''
+              productImages={[
+                '/images/merch/merch-white-hoodie.png',
+                '/images/merch/merch-black-hoodie.png'
+              ]}
+              spaceImage='/images/merch/merch-asteroid-1.png'
+              productWidth='350px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='Kaos'
+              price={90000}
+              productImage=''
+              productImages={[
+                '/images/merch/merch-white-tshirt.png',
+                '/images/merch/merch-black-tshirt.png'
+              ]}
+              spaceImage='/images/merch/merch-asteroid-2.png'
+              productWidth='350px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='Pouch'
+              price={30000}
+              productImage=''
+              productImages={['/images/merch/merch-pouch.png']}
+              spaceImage='/images/merch/merch-asteroid-3.png'
+              productWidth='350px'
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Pulpen'
+              price={7000}
+              productImage=''
+              productImages={['/images/merch/merch-pulpen.png']}
+              spaceImage='/images/merch/merch-bulan-1.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Notebook'
+              price={35000}
+              productImage=''
+              productImages={['/images/merch/merch-notebook.png']}
+              spaceImage='/images/merch/merch-bulan-2.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+            <MerchCard
+              title='Gelang'
+              price={17000}
+              productImage=''
+              productImages={['/images/merch/merch-gelang.png']}
+              spaceImage='/images/merch/merch-bulan-3.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='Totebag'
+              price={85000}
+              productImage=''
+              productImages={['/images/merch/merch-totebag.png']}
+              spaceImage='/images/merch/merch-asteroid-1.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='ITB OOTD Kit'
+              price={185000}
+              productImage=''
+              productImages={['/images/merch/merch-bundle-1.png']}
+              spaceImage='/images/merch/merch-asteroid-2.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='Anti-Dingin Kit'
+              price={220000}
+              productImage=''
+              productImages={['/images/merch/merch-bundle-2.png']}
+              spaceImage='/images/merch/merch-asteroid-3.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='Ngambis Kit'
+              price={40000}
+              productImage=''
+              productImages={['/images/merch/merch-bundle-3.png']}
+              spaceImage='/images/merch/merch-bulan-1.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='Anti- Rempong Kit'
+              price={45000}
+              productImage=''
+              productImages={['/images/merch/merch-bundle-4.png']}
+              spaceImage='/images/merch/merch-bulan-2.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='Anti-Panas Kit'
+              price={25000}
+              productImage=''
+              productImages={['/images/merch/merch-bundle-5.png']}
+              spaceImage='/images/merch/merch-bulan-3.png'
+              productWidth='250px'
+              spaceWidth=''
+            />
+
+            <MerchCard
+              title='Bestseller Kit'
+              price={40000}
+              productImage=''
+              productImages={['/images/merch/merch-bundle-6.png']}
+              spaceImage='/images/merch/merch-asteroid-2.png'
+              productWidth='250px'
               spaceWidth=''
             />
           </Grid>
