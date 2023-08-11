@@ -1,9 +1,10 @@
 import { type NextPage } from 'next';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import Layout from '~/layout';
 import ImageBox from '~/components/ImageBox';
 import Jumbotron from '~/components/home-page/Jumbotron';
 import Timeline from '~/components/home-page/Timeline';
+import SupportBackground from '~/components/background/SupportBackground';
 
 const Home: NextPage = () => {
   return (
@@ -19,21 +20,32 @@ const Home: NextPage = () => {
         justifyContent='center'
         flexDirection='column'
         gap={5}
+        pb={10}
+        overflow='hidden'
       >
         <Jumbotron />
         <Timeline />
-        {/* <ImageBox
-          title='OUR SPONSORS'
-          object='SPONSORS'
-          contact='loremipsum@gmail.com'
-          image='/images/bg-sponsor.png'
-        />
-        <ImageBox
+        <Box position='relative' w='100%'>
+          <SupportBackground />
+          <ImageBox
+            title='OUR SPONSORS'
+            image='/images/misc/spark.png'
+            type='sponsor'
+          />
+          {/* <ImageBox
           title='OUR MEDIA PARTNER'
           object='MEDIA&nbsp;PARTNER'
           contact='+62-812-9237-2312'
           image='/images/bg-media-partner.png'
         /> */}
+          <ImageBox
+            title='OUR TENANTS'
+            object='TENANTS'
+            contact='+62-878-0868-1581'
+            image='/images/sponsor/bintang-kicil.png'
+            type='tenants'
+          />
+        </Box>
       </Flex>
     </Layout>
   );

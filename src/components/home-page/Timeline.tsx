@@ -49,7 +49,7 @@ export default function Timeline() {
 
   return (
     <>
-      <Box position='relative' w='100%' zIndex='100' pt={20} id='timeline'>
+      <Box position='relative' w='100%' pt={20} id='timeline'>
         <TimelineBackground />
         <Flex px={{ base: 10, lg: 48 }} py={20} flexDir='column' gap={20}>
           <Heading
@@ -57,12 +57,13 @@ export default function Timeline() {
             color='yellow.5'
             textShadow={`0px 0px 10px ${colors.yellow[5]}`}
             textAlign={{ base: 'center', lg: 'left' }}
+            zIndex='10'
           >
             TIMELINE
             <br />
             KAT ITB 2023
           </Heading>
-          <VStack spacing={0} px={{ base: 0, lg: 40 }}>
+          <VStack spacing={0} px={{ base: 0, lg: 40 }} zIndex='10'>
             {timelineDate.map((data: EventProps, indexParent) => (
               <React.Fragment key={data.event}>
                 <HStack
@@ -93,11 +94,16 @@ export default function Timeline() {
                     src={data.image}
                     alt=''
                     draggable='false'
-                    w={{ base: '100px', lg: '150px' }}
+                    w={{
+                      base: indexParent === 1 ? '75px' : '100px',
+                      lg: indexParent === 1 ? '150px' : '250px'
+                    }}
                   />
                   <VStack spacing={0} color='yellow.5'>
-                    <Heading fontSize='xl'>{data.event}</Heading>
-                    <Text fontSize='lg' textAlign='left' w='100%'>
+                    <Heading fontSize={{ base: 'xl', lg: '2xl' }}>
+                      {data.event}
+                    </Heading>
+                    <Text fontSize={{ base: 'lg', lg: 'xl' }} textAlign='left'>
                       {data.date}
                     </Text>
                   </VStack>
@@ -125,7 +131,7 @@ export default function Timeline() {
                           <Image
                             src='/images/timeline/asteroid.png'
                             alt=''
-                            w='50px'
+                            w='60px'
                             transform={
                               indexParent % 2 !== 0 ? 'scaleX(-1)' : ''
                             }

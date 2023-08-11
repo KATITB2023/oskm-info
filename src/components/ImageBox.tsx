@@ -1,71 +1,97 @@
-import { Flex, Center, Image, Text, Box, Heading } from '@chakra-ui/react';
+import { Flex, Image, Text, Heading, VStack } from '@chakra-ui/react';
+import SponsorBackground from './background/SponsorBackground';
+import TenantBackground from './background/TenantBackground';
 
 interface Props {
-  title: string;
-  object: string;
-  contact: string;
+  title?: string;
+  object?: string;
+  contact?: string;
   image: string;
+  type: string;
 }
 
-const ImageBox = ({title, object, contact, image} : Props) => {
-
+const Sponsor = () => {
+  const sponsorList = [
+    'artanusa.svg',
+    'ayamayaman.svg',
+    'bukit-asam.svg',
+    'ready-meal.svg'
+  ];
   return (
-    <Center flexDirection='column'>
+    <Flex
+      flexDirection='row'
+      flexWrap='wrap'
+      gap={16}
+      alignItems='center'
+      justifyContent='center'
+      zIndex='10'
+    >
+      {sponsorList.map((sponsor, index) => (
+        <Image
+          src={`/images/sponsor/${sponsor}`}
+          draggable='false'
+          key={index}
+          alt=''
+        />
+      ))}
+    </Flex>
+  );
+};
+
+const ImageBox = ({ title, object, contact, image, type }: Props) => {
+  return (
+    <VStack spacing={6} pt={12} w='100%'>
       <Heading
-        fontSize={{ base: '2xl', md: '5xl' }}
+        fontSize='4xl'
         color='yellow.5'
         px={4}
-        pt={24}
-        textShadow={{ base: '0px 0px 20px #72D8BA;', md: '0px 0px 20px #72D8BA;' }}
+        textAlign='center'
+        textShadow={{
+          base: '0px 0px 20px #72D8BA;',
+          md: '0px 0px 20px #72D8BA;'
+        }}
+        zIndex='10'
       >
-        { title }
+        {title}
       </Heading>
       <Flex
-        mt='2rem'
-        py='8px'
-        width='95%'
-        justifyContent='space-between'
-        alignItems='center'
-        zIndex='10'
-        pos='relative'
+        bgImage='/images/bg-sponsor.png'
+        bgSize='cover'
+        bgPosition='center'
+        borderRadius='lg'
+        bgColor='navy.1'
+        color='white'
+        py={14}
+        px={12}
         flexDirection='column'
-        color='yellow.5'
+        gap={4}
+        textAlign='center'
+        boxShadow='0px 0px 20px rgba(255, 255, 255, 0.4)'
+        w={{ base: '80%', lg: '80ch' }}
+        position='relative'
       >
-        <Image src={image} alt="Your Image" objectFit="cover" flex="1" />
-        <Box
-          pos='absolute'
-          top='50%'  
-          transform='translate(0%, -50%)'
-          alignItems='center'
-          padding='8'
-        >
-          <Text 
-            fontFamily='Bodwars' 
-            textAlign='center'
-            fontSize={{ base: '20px', sm: '28px', md: '3xl', lg: '5xl' }} 
-            textShadow='0px 0px 20px #72D8BA'
-          >
-            CALLING OUT ALL&nbsp;{ object }
-          </Text>
-          <Text 
-            fontFamily='SomarRounded-Bold' 
-            textAlign='center'
-            top='50%' 
-            fontSize={{ base: '12px', sm: '16px', md: '3xl', lg: '4xl' }} 
-            mt={{ md: '5%'}}
-          >
-            For further information please contact:
-          </Text>
-          <Text 
-            fontFamily='SomarRounded-Bold' 
-            textAlign='center'
-            fontSize={{ base: '12px', sm: '16px', md: '3xl', lg: '4xl' }} 
-          >
-            { contact }
-          </Text>
-        </Box>
+        {type === 'sponsor' && (
+          <>
+            <SponsorBackground image={image} />
+            <Sponsor />
+          </>
+        )}
+        {type === 'tenants' && (
+          <>
+            <TenantBackground image={image} />
+            <Heading fontSize='3xl' letterSpacing={4} zIndex='10'>
+              CALLING OUT ALL&nbsp;{object}
+            </Heading>
+            <Text fontSize='2xl' zIndex='10'>
+              For further information please contact
+            </Text>
+            <Text fontSize='xl' zIndex='10'>
+              {contact}
+            </Text>
+          </>
+        )}
       </Flex>
-    </Center>
+    </VStack>
   );
 };
 

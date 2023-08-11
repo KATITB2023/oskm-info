@@ -116,10 +116,20 @@ export default function Jumbotron() {
       <Stack
         direction={{ base: 'column', lg: 'row' }}
         spacing={{ base: 2, md: 4 }}
-        zIndex='100'
       >
-        <Button onClick={scrollToTimeline}>Explore Now!</Button>
-        <Button variant='outline' onClick={() => void handleGetRequest()}>
+        <Button
+          onClick={scrollToTimeline}
+          fontSize={{ base: 'sm', lg: 'md' }}
+          zIndex='100'
+        >
+          Explore Now!
+        </Button>
+        <Button
+          variant='outline'
+          onClick={() => void handleGetRequest()}
+          fontSize={{ base: 'sm', lg: 'md' }}
+          zIndex='10'
+        >
           Download Guidebook
         </Button>
       </Stack>
