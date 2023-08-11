@@ -1,9 +1,7 @@
 import {
-  Center,
   Flex,
   Box,
   Image,
-  UnorderedList,
   HStack,
   VStack,
   Divider,
@@ -12,9 +10,8 @@ import {
   Grid,
   GridItem
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 interface NavItemProps {
   href: string;
@@ -87,7 +84,7 @@ const Footer = () => {
       backgroundPosition='center'
       backgroundRepeat='no-repeat'
       position='relative'
-      zIndex='200'
+      zIndex='100'
     >
       <Image
         src='/images/foot-bintangMini.png'
@@ -109,7 +106,7 @@ const Footer = () => {
             draggable='false'
             loading='lazy'
             alt=''
-            w={{ base: '50px', lg: '75px' }}
+            w={{ base: '100px', lg: '75px' }}
           />
           <Image
             src='/images/nav-logo.svg'
@@ -121,8 +118,10 @@ const Footer = () => {
         </Flex>
         <VStack spacing={4} alignSelf='center'>
           <HStack spacing={{ lg: 10 }} display={{ base: 'none', lg: 'flex' }}>
-            {navURL.map((item, index) => (
-              <NavItem key={index} href={item.href} label={item.label} />
+            {navURL.map((item) => (
+              <Box key={item.href}>
+                <NavItem href={item.href} label={item.label} />
+              </Box>
             ))}
           </HStack>
           <Grid
@@ -132,18 +131,18 @@ const Footer = () => {
             rowGap={3}
             columnGap={14}
           >
-            {navURL.map((item, index) => (
-              <>
-                <GridItem key={index}>
+            {navURL.map((item) => (
+              <Box key={item.href}>
+                <GridItem>
                   <NavItem href={item.href} label={item.label} />
                 </GridItem>
-              </>
+              </Box>
             ))}
           </Grid>
           <Divider color='gray.600' />
           <HStack spacing={3} alignSelf='flex-start'>
-            {sosmed.map((item, index) => (
-              <Link href={item.href} key={index}>
+            {sosmed.map((item) => (
+              <Link href={item.href} key={item.href}>
                 <Icon
                   as={item.icon}
                   w={5}

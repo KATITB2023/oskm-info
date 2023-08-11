@@ -4,22 +4,6 @@ import { useState, useEffect } from 'react';
 import InitElement from './InitElement';
 
 export default function Timeline() {
-  const [windowWidth, setWindowWidth] = useState(0);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   const datetime = [
     ['time', '12.45', 'Open Gate'],
     ['time', '13.30', 'Opening Ceremony'],
@@ -70,13 +54,13 @@ export default function Timeline() {
 
   return (
     <Flex>
-      <Flex marginTop={{ base: '20%', lg: '3%' }} position='absolute'></Flex>
+      {/* <Flex marginTop={{ base: '20%', lg: '3%' }} position='absolute'></Flex>
       <Flex flexDir={'column'} marginTop={{ base: '2%', lg: '2%' }}>
         <InitElement date='16 Agustus 2023' title='DAY 1'></InitElement>
         {datetime.map((item, index) => (
           <Element key={index} exp={item[0]} date={item[1]} title={item[2]} />
         ))}
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 }

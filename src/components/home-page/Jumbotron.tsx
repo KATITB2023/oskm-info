@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import JumbotronBackground from '../background/JumbotronBackground';
 import _ from 'lodash';
+import { scroller } from 'react-scroll';
 
 interface Props {
   days?: number;
@@ -12,6 +13,9 @@ interface Props {
 }
 
 export default function Jumbotron() {
+  const [timeLeft, setTimeLeft] = useState<Props>();
+  const targetDate = new Date('2023-08-16T12:45:00.000+07:00').getTime();
+
   const handleGetRequest = async () => {
     const guidebookURL = 'https://cdn.oskmitb.com/sop_peserta_oskm.pdf';
     const response = await axios.get(guidebookURL, {
@@ -26,7 +30,6 @@ export default function Jumbotron() {
     link.click();
   };
 
-  const targetDate = new Date('2023-08-16T12:45:00.000+07:00').getTime();
   const calculateTimeLeft = () => {
     const difference = targetDate - new Date().getTime();
     let timeLeft = {};
@@ -43,7 +46,13 @@ export default function Jumbotron() {
     return timeLeft;
   };
 
-  const [timeLeft, setTimeLeft] = useState<Props>(calculateTimeLeft());
+  const scrollToTimeline = () => {
+    scroller.scrollTo('timeline', {
+      duration: 800,
+      delay: 0,
+      smooth: 'easeInOutQuart'
+    });
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -70,7 +79,7 @@ export default function Jumbotron() {
           draggable='false'
           loading='lazy'
           zIndex='10'
-          w='60%'
+          w='50%'
           alt=''
         />
         <Image
@@ -84,13 +93,13 @@ export default function Jumbotron() {
       </VStack>
 
       {!_.isEmpty(timeLeft) && (
-        <Flex flexDirection='row' gap={10} zIndex='100'>
+        <Flex flexDirection='row' gap={{ base: 2, lg: 10 }} zIndex='100'>
           {Object.keys(timeLeft).map((interval, index) => (
             <Flex flexDir={'column'} key={index} alignItems='center'>
               <Text
                 fontWeight={700}
                 color='yellow.5'
-                fontSize={{ base: 'xl', md: '3xl' }}
+                fontSize={{ base: '2xl', md: '3xl' }}
               >
                 {timeLeft[interval as keyof Props]?.toLocaleString('id-ID', {
                   minimumIntegerDigits: 2,
@@ -104,8 +113,12 @@ export default function Jumbotron() {
           ))}
         </Flex>
       )}
-      <Stack direction={'row'} spacing={{ base: 2, md: 4 }} zIndex='100'>
-        <Button>Explore Now!</Button>
+      <Stack
+        direction={{ base: 'column', lg: 'row' }}
+        spacing={{ base: 2, md: 4 }}
+        zIndex='100'
+      >
+        <Button onClick={scrollToTimeline}>Explore Now!</Button>
         <Button variant='outline' onClick={() => void handleGetRequest()}>
           Download Guidebook
         </Button>
