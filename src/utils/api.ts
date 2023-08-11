@@ -4,13 +4,13 @@
  *
  * We also create a few inference helpers for input and output types.
  */
-import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
-import { loggerLink } from "@trpc/client/links/loggerLink";
-import { createTRPCNext } from "@trpc/next";
-import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
-import superjson from "superjson";
-import { env } from "~/env.cjs";
-import { type AppRouter } from "~/server/api/root";
+import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
+import { loggerLink } from '@trpc/client/links/loggerLink';
+import { createTRPCNext } from '@trpc/next';
+import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
+import { env } from '~/env.cjs';
+import { type AppRouter } from '~/server/api/root';
+import { serializer } from '~/server/serializer';
 
 /** A set of type-safe react-query hooks for your tRPC API. */
 export const api = createTRPCNext<AppRouter>({
@@ -21,7 +21,7 @@ export const api = createTRPCNext<AppRouter>({
        *
        * @see https://trpc.io/docs/data-transformers
        */
-      transformer: superjson,
+      transformer: serializer,
 
       /**
        * Links used to determine request flow from client to server.
@@ -31,8 +31,8 @@ export const api = createTRPCNext<AppRouter>({
       links: [
         loggerLink({
           enabled: (opts) =>
-            process.env.NODE_ENV === "development" ||
-            (opts.direction === "down" && opts.result instanceof Error),
+            process.env.NODE_ENV === 'development' ||
+            (opts.direction === 'down' && opts.result instanceof Error)
         }),
         httpBatchLink({
           url: `${env.NEXT_PUBLIC_API_URL}/api/trpc`,
@@ -42,11 +42,11 @@ export const api = createTRPCNext<AppRouter>({
             // On ssr, forward client's headers to the server
             return {
               ...ctx.req.headers,
-              "x-ssr": "1",
+              'x-ssr': '1'
             };
-          },
-        }),
-      ],
+          }
+        })
+      ]
     };
   },
   /**
@@ -54,7 +54,7 @@ export const api = createTRPCNext<AppRouter>({
    *
    * @see https://trpc.io/docs/nextjs#ssr-boolean-default-false
    */
-  ssr: false,
+  ssr: false
 });
 
 /**

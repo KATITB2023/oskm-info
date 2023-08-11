@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import type { PrismaClient } from "@prisma/client";
-import type { z } from "zod";
-import type { SocketClientInServer, SocketServer } from "~/server/socket/setup";
-import { prisma } from "~/server/db";
+import type { PrismaClient } from '@prisma/client';
+import type { z } from 'zod';
+import type { SocketClientInServer, SocketServer } from '~/server/socket/setup';
+import { prisma } from '~/server/db';
 
 export type SocketResponse<Data = unknown, Error = unknown> =
   | { success: false; error?: Error }
@@ -73,7 +73,7 @@ export function createEvent<
   {
     name,
     input,
-    authRequired,
+    authRequired
   }: {
     name: EventName;
     input?: InputSchema;
@@ -81,7 +81,7 @@ export function createEvent<
   },
   handler: ({
     ctx,
-    input,
+    input
   }: {
     ctx: {
       io: SocketServer;
@@ -97,14 +97,14 @@ export function createEvent<
       // @ts-expect-error - This is a valid event name
       async (data: unknown, callback?: (response: SocketResponse) => void) => {
         if (authRequired && !socket.data.session) {
-          callback?.({ success: false, error: "Unauthenticated" });
+          callback?.({ success: false, error: 'Unauthenticated' });
           return;
         }
 
         const validation: z.SafeParseReturnType<unknown, unknown> =
           input?.safeParse(data) ?? {
             success: true,
-            data: undefined,
+            data: undefined
           };
 
         if (!validation.success) {
@@ -117,9 +117,9 @@ export function createEvent<
             ctx: {
               io,
               client: socket,
-              prisma,
+              prisma
             },
-            input: validation.data,
+            input: validation.data
           });
           callback?.({ success: true, data: result });
           return;

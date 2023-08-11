@@ -1,10 +1,12 @@
 import { type Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { type AppType } from 'next/app';
-import { api } from '~/utils/api';
-import '~/styles/globals.css';
-import theme from '~/styles/theme';
 import { ChakraProvider } from '@chakra-ui/react';
+import { MapProvider } from 'react-map-gl';
+import { api } from '~/utils/api';
+import theme from '~/styles/theme';
+import Fonts from '~/styles/fonts';
+import '~/styles/globals.css';
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,8 +14,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
+      <Fonts />
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <MapProvider>
+          <Component {...pageProps} />
+        </MapProvider>
       </ChakraProvider>
     </SessionProvider>
   );
