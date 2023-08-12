@@ -302,7 +302,7 @@ export default function HistoryCarousel(props: {
                         pt='70px'
                         px='60px'
                         mt='20px'
-                        mb={{ base: '30px', md: '0' }}
+                        mb={{ base: '30px', md: '60px' }}
                         mx={{ base: '10%', md: '0' }}
                         borderRadius='10px'
                         boxShadow={`0px 0px 10px ${colors.yellow[5]}`}
