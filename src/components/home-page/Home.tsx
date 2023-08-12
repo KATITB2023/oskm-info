@@ -25,12 +25,17 @@ const Home: NextPage = () => {
       >
         <Jumbotron />
         <Timeline />
-        <Box position='relative' w='100%'>
+        <Box position='relative' w='100%' zIndex='1'>
           <SupportBackground />
           <ImageBox
             title='OUR SPONSORS'
             image='/images/misc/spark.png'
             type='sponsor'
+          />
+          <ImageBox
+            title='OUR MEDIA PARTNERS'
+            image='/images/misc/spark.png'
+            type='medpar'
           />
           {/* <ImageBox
           title='OUR MEDIA PARTNER'

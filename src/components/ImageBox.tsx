@@ -10,13 +10,9 @@ interface Props {
   type: string;
 }
 
-const Sponsor = () => {
-  const sponsorList = [
-    'artanusa.svg',
-    'ayamayaman.svg',
-    'bukit-asam.svg',
-    'ready-meal.svg'
-  ];
+const SponsorMedpar = (props: { type: 'sponsor' | 'medpar' }) => {
+  const sponsorList = ['sponsor.png'];
+  const medparList = ['medpar.png'];
   return (
     <Flex
       flexDirection='row'
@@ -26,14 +22,23 @@ const Sponsor = () => {
       justifyContent='center'
       zIndex='10'
     >
-      {sponsorList.map((sponsor, index) => (
-        <Image
-          src={`/images/sponsor/${sponsor}`}
-          draggable='false'
-          key={index}
-          alt=''
-        />
-      ))}
+      {props.type === 'sponsor'
+        ? sponsorList.map((sponsor, index) => (
+            <Image
+              src={`/images/sponsor/${sponsor}`}
+              draggable='false'
+              key={index}
+              alt=''
+            />
+          ))
+        : medparList.map((medpar, index) => (
+            <Image
+              src={`/images/sponsor/${medpar}`}
+              draggable='false'
+              key={index}
+              alt=''
+            />
+          ))}
     </Flex>
   );
 };
@@ -73,7 +78,13 @@ const ImageBox = ({ title, object, contact, image, type }: Props) => {
         {type === 'sponsor' && (
           <>
             <SponsorBackground image={image} />
-            <Sponsor />
+            <SponsorMedpar type='sponsor' />
+          </>
+        )}
+        {type === 'medpar' && (
+          <>
+            <SponsorBackground image={image} />
+            <SponsorMedpar type='medpar' />
           </>
         )}
         {type === 'tenants' && (
