@@ -23,6 +23,7 @@ export function Dots(props: { currentSlide: number; len: number }) {
             bg='yellow.5'
             mx='5px'
             boxShadow={`0px 0px 10px ${colors.green[3]}`}
+            key={i}
             opacity='0.5'
           />
         ) : null
