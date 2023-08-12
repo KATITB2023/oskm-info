@@ -8,7 +8,7 @@ export const ShowCase = () => {
 
   return (
     <Flex
-      backgroundImage='/images/bg-coming-soon.png'
+      backgroundImage='/images/background/bg.png'
       backgroundSize='cover'
       backgroundPosition='center'
       backgroundRepeat='no-repeat'
@@ -19,7 +19,7 @@ export const ShowCase = () => {
       px={5}
     >
       <Image
-        src='/images/spark.png'
+        src='/images/misc/spark.png'
         alt=''
         position='absolute'
         w='30%'
@@ -30,7 +30,7 @@ export const ShowCase = () => {
         loading='lazy'
       />
       <Image
-        src='/images/spark3.png'
+        src='/images/misc/spark3.png'
         alt=''
         position='absolute'
         w='10%'
@@ -41,7 +41,7 @@ export const ShowCase = () => {
         loading='lazy'
       />
       <Image
-        src='/images/ornamen.png'
+        src='/images/misc/ornamen.png'
         alt=''
         position='absolute'
         w='30%'
