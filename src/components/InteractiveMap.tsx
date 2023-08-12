@@ -86,7 +86,7 @@ const InteractiveSelect = ({
       }}
       css={{
         option: {
-          background: '#2F2E2E'
+          background: '#2B0792'
         }
       }}
     >
@@ -254,7 +254,7 @@ const InteractiveMap = ({
       mapLib={mapboxgl}
       mapStyle='mapbox://styles/mapbox/streets-v12'
       style={{
-        width: '100vw',
+        width: '100%',
         height: '100vh'
       }}
       onMove={(e) => setViewState(e.viewState)}

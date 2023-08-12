@@ -2,10 +2,11 @@ import { type NextPage } from 'next';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Layout from '~/layout';
-import { Maintenance } from '~/components/Maintenance';
+import { LoadingSuspense } from '~/components/Loading';
 
 const InteractiveMap = dynamic(() => import('~/components/InteractiveMap'), {
-  ssr: false
+  ssr: false,
+  loading: () => <LoadingSuspense />
 });
 
 const InteractiveMapPage: NextPage = () => {
@@ -23,11 +24,10 @@ const InteractiveMapPage: NextPage = () => {
 
   return (
     <Layout title='Interactive Map'>
-      {/* <InteractiveMap
+      <InteractiveMap
         inputSelectedCampus={inputSelectedCampus}
         inputSelectedLocationName={inputSelectedLocationName}
-      /> */}
-      <Maintenance />
+      />
     </Layout>
   );
 };
