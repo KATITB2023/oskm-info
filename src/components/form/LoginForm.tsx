@@ -57,14 +57,7 @@ const LoginForm = ({
       isClosable: true,
       position: 'top'
     });
-    handleRedirect();
-  };
-
-  const handleRedirect = () => {
-    const role = session?.user.role;
-    role === UserRole.MENTOR
-      ? void router.push('/attendance')
-      : void router.push('/live');
+    void router.push('/');
   };
 
   const handleError = (message: string) => {
@@ -108,7 +101,7 @@ const LoginForm = ({
       alignItems='center'
       gap='3rem'
       position='relative'
-      zIndex='1'
+      zIndex='10'
     >
       <Heading
         size={{ base: 'xl', md: '3xl' }}
