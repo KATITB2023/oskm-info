@@ -173,7 +173,7 @@ export default function Merch() {
                 loading='lazy'
               />
 
-              <Text color='#FFF' fontFamily='SomarRounded-Regular'>
+              {/* <Text color='#FFF' fontFamily='SomarRounded-Regular'>
                 Tokopedia
               </Text>
               <Link
@@ -189,14 +189,14 @@ export default function Merch() {
                 >
                   Ganesha Goods
                 </Button>
-              </Link>
+              </Link> */}
             </Flex>
             <Flex flexDirection='column' alignItems='center' gap='0.5rem'>
               <Text color='#FFF' fontFamily='SomarRounded-Regular'>
-                Pre-Order
+                Linktree
               </Text>
               <Link
-                href='https://go.oskmitb.com/POMerchOSKM'
+                href='https://linktr.ee/ganeshagoods.itb'
                 target='_blank'
                 rel='noopener noreferrer'
               >
@@ -205,7 +205,7 @@ export default function Merch() {
                   fontFamily='SomarRounded-Regular'
                   variant='outline'
                 >
-                  Order Now !
+                  Ganesha Goods
                 </Button>
               </Link>
             </Flex>

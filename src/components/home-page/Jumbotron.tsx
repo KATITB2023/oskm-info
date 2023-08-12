@@ -17,7 +17,7 @@ export default function Jumbotron() {
   const targetDate = new Date('2023-08-16T12:45:00.000+07:00').getTime();
 
   const handleGetRequest = async () => {
-    const guidebookURL = 'https://cdn.oskmitb.com/sop_peserta_oskm.pdf';
+    const guidebookURL = 'https://cdn.oskmitb.com/website_guidebook.pdf';
     const response = await axios.get(guidebookURL, {
       responseType: 'blob'
     });
@@ -25,7 +25,7 @@ export default function Jumbotron() {
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'SOP Peserta OSKM.pdf');
+    link.setAttribute('download', 'User Guidebook Website OSKM 2023.pdf');
     document.body.appendChild(link);
     link.click();
   };
