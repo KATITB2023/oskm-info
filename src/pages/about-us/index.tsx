@@ -1,10 +1,14 @@
-import { Maintenance } from '~/components/Maintenance';
-import Layout from '~/layout';
+import dynamic from 'next/dynamic';
+import { LoadingSuspense } from '~/components/Loading';
 
-const AboutUsPage = () => (
-  <Layout title='About Us'>
-    <Maintenance />
-  </Layout>
+const SuspenseComponent = dynamic(
+  () => import('~/components/about-us/AboutUs'),
+  {
+    ssr: false,
+    loading: () => <LoadingSuspense />
+  }
 );
 
-export default AboutUsPage;
+export default function AboutUs() {
+  return <SuspenseComponent />;
+}

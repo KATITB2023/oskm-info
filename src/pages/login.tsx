@@ -12,14 +12,11 @@ const Login = ({
   csrfToken
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
-    <Layout title='Login'>
+    <Layout title='Login' withFooter={false}>
       <Flex
-        position='absolute'
-        top='0'
-        left='0'
+        position='relative'
         width='100%'
         backgroundColor='gray.600'
-        zIndex='-100'
         minHeight='100vh'
       >
         <Flex

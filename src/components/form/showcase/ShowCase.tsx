@@ -4,7 +4,7 @@ import { SecondForm } from './SecondForm';
 
 export const ShowCase = () => {
   const daftarUnit =
-    new Date('Aug 6, 2023 23:59:59 GMT+0700').getTime() > new Date().getTime();
+    new Date('Aug 10, 2023 23:59:59 GMT+0700').getTime() > new Date().getTime();
 
   return (
     <Flex

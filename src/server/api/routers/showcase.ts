@@ -92,12 +92,28 @@ export const showcaseRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         nim: z.string(),
+        fakultas: z.string(),
+        jurusan: z.string(),
+        angkatan: z.string(),
+        lineId: z.string(),
+        waNumber: z.string(),
         lembaga: z.nativeEnum(Lembaga),
         lembagaName: z.string(),
         position: z.string(),
-        lineId: z.string(),
-        waNumber: z.string(),
-        mouPath: z.string()
+        secondPartyName: z.string(),
+        secondPartyPosition: z.string(),
+        secondPartyContact: z.string(),
+        noise: z.boolean(),
+        mouPath: z.string(),
+        kaos: z
+          .object({
+            size: z.string(),
+            sleeve: z.string()
+          })
+          .array(),
+        total: z.number(),
+        method: z.string(),
+        proofPath: z.string()
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -115,7 +131,7 @@ export const showcaseRouter = createTRPCRouter({
       }
 
       const pastDeadline =
-        new Date('Aug 6, 2023 23:59:59 GMT+0700').getTime() <
+        new Date('Aug 10, 2023 23:59:59 GMT+0700').getTime() <
         new Date().getTime();
       if (pastDeadline) {
         throw new TRPCError({
@@ -128,12 +144,23 @@ export const showcaseRouter = createTRPCRouter({
         data: {
           name: input.name,
           nim: input.nim,
+          fakultas: input.fakultas,
+          jurusan: input.jurusan,
+          angkatan: input.angkatan,
+          lineId: input.lineId,
+          waNumber: input.waNumber,
           lembaga: input.lembaga,
           lembagaName: input.lembagaName,
           position: input.position,
-          lineId: input.lineId,
-          waNumber: input.waNumber,
-          mouPath: input.mouPath
+          secondPartyName: input.secondPartyName,
+          secondPartyPosition: input.secondPartyPosition,
+          secondPartyContact: input.secondPartyContact,
+          noise: input.noise,
+          mouPath: input.mouPath,
+          kaos: input.kaos,
+          total: input.total,
+          method: input.method,
+          proofPath: input.proofPath
         }
       });
 

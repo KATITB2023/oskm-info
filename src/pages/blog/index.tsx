@@ -1,10 +1,11 @@
-import { Maintenance } from '~/components/Maintenance';
-import Layout from '~/layout';
+import dynamic from 'next/dynamic';
+import { LoadingSuspense } from '~/components/Loading';
 
-const BlogPage = () => (
-  <Layout title='Blog'>
-    <Maintenance />
-  </Layout>
-);
+const SuspenseComponent = dynamic(() => import('~/components/Blog'), {
+  ssr: false,
+  loading: () => <LoadingSuspense />
+});
 
-export default BlogPage;
+export default function Blog() {
+  return <SuspenseComponent />;
+}

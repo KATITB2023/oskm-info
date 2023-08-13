@@ -1,6 +1,7 @@
 import { createTRPCRouter } from '~/server/api/trpc';
 import { messageRouter } from './routers/message';
 import { showcaseRouter } from './routers/showcase';
+import { interactiveMapRouter } from './routers/interactive-map';
 import { chatbotRouter } from '~/server/api/routers/chatbot';
 
 /**
@@ -11,7 +12,8 @@ import { chatbotRouter } from '~/server/api/routers/chatbot';
 export const appRouter = createTRPCRouter({
   chatbot: chatbotRouter,
   message: messageRouter,
-  showcase: showcaseRouter
+  showcase: showcaseRouter,
+  interactiveMap: interactiveMapRouter
 });
 
 // export type definition of API
