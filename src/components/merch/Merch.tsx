@@ -15,7 +15,10 @@ export default function Merch() {
           flexDirection='column'
           gap='5rem'
           overflow='hidden'
-          backgroundImage={{base : '/images/merch/merch-mobile.png' , lg : '/images/merch/merch-blur.png'}}
+          backgroundImage={{
+            base: '/images/merch/merch-mobile.png',
+            lg: '/images/merch/merch-blur.png'
+          }}
           backgroundRepeat='no-repeat'
           alignItems='center'
           backgroundPosition='center center'
@@ -204,7 +207,7 @@ export default function Merch() {
                   padding='1.5rem 3.5rem'
                   fontFamily='SomarRounded-Regular'
                   variant='outline'
-                  zIndex='1'
+                  zIndex='10'
                 >
                   Ganesha Goods
                 </Button>
@@ -223,6 +226,7 @@ export default function Merch() {
                   padding='1.5rem 3.5rem'
                   fontFamily='SomarRounded-Regular'
                   variant='outline'
+                  zIndex='10'
                 >
                   @ganeshagoods
                 </Button>
@@ -237,6 +241,7 @@ export default function Merch() {
               lg: 'repeat(3, 1fr)'
             }}
             gap='5rem'
+            zIndex='10'
           >
             <Box position='relative'>
               <Image
