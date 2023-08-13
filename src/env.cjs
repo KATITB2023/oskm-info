@@ -53,6 +53,8 @@ exports.env = createEnv({
     ),
     // IF REDIS_URL is not set, will not using redis (memory cache)
     REDIS_URL: z.string().url(),
+    GHOST_CONTENT_API: z.string().min(1),
+    GHOST_ADMIN_API: z.string().min(1),
     OPENAI_API_KEY: z.string()
   },
 
@@ -88,6 +90,8 @@ exports.env = createEnv({
     NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN:
       process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
     REDIS_URL: process.env.REDIS_URL,
+    GHOST_CONTENT_API: process.env.GHOST_CONTENT_API,
+    GHOST_ADMIN_API: process.env.GHOST_ADMIN_API,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY
   },
   /**
