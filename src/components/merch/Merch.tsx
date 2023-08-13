@@ -15,12 +15,12 @@ export default function Merch() {
           flexDirection='column'
           gap='5rem'
           overflow='hidden'
-          backgroundImage='/images/merch/merch-blur.png'
+          backgroundImage={{base : '/images/merch/merch-mobile.png' , lg : '/images/merch/merch-blur.png'}}
           backgroundRepeat='no-repeat'
           alignItems='center'
           backgroundPosition='center center'
           paddingTop='10rem'
-          backgroundSize={{ base: 'initial', lg: 'cover' }}
+          backgroundSize={{ base: 'cover', lg: 'cover' }}
         >
           <Text
             fontSize={{ base: '50px', md: '100px' }}
@@ -204,6 +204,7 @@ export default function Merch() {
                   padding='1.5rem 3.5rem'
                   fontFamily='SomarRounded-Regular'
                   variant='outline'
+                  zIndex='1'
                 >
                   Ganesha Goods
                 </Button>
