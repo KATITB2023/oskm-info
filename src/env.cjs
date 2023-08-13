@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { createEnv } = require('@t3-oss/env-nextjs');
-const { z } = require('zod');
+const { createEnv } = require("@t3-oss/env-nextjs");
+const { z } = require("zod");
 
 exports.env = createEnv({
   /**
@@ -10,9 +10,9 @@ exports.env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().url(),
-    NODE_ENV: z.enum(['development', 'test', 'production']),
+    NODE_ENV: z.enum(["development", "test", "production"]),
     NEXTAUTH_SECRET:
-      process.env.NODE_ENV === 'production'
+      process.env.NODE_ENV === "production"
         ? z.string().min(1)
         : z.string().min(1).optional(),
     NEXTAUTH_URL: z.preprocess(
@@ -55,6 +55,7 @@ exports.env = createEnv({
     REDIS_URL: z.string().url(),
     GHOST_CONTENT_API: z.string().min(1),
     GHOST_ADMIN_API: z.string().min(1),
+    VECTOR_INDEX_PATH: z.string(),
     OPENAI_API_KEY: z.string()
   },
 
@@ -92,6 +93,7 @@ exports.env = createEnv({
     REDIS_URL: process.env.REDIS_URL,
     GHOST_CONTENT_API: process.env.GHOST_CONTENT_API,
     GHOST_ADMIN_API: process.env.GHOST_ADMIN_API,
+    VECTOR_INDEX_PATH: process.env.VECTOR_INDEX_PATH,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY
   },
   /**

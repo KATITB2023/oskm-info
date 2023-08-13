@@ -1,8 +1,6 @@
-import { createAdapter } from "@socket.io/redis-streams-adapter";
 import type { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import type { Server, Socket } from "socket.io";
-import { type Message } from "@prisma/client";
 import type { ServerEventsResolver } from "~/server/socket/helper";
 import { messageEvent } from "~/server/socket/events/message";
 import { ConversationSummaryMemory } from "langchain/memory";
