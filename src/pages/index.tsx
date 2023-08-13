@@ -1,15 +1,11 @@
-import { type NextPage } from 'next';
-import Layout from '~/layout';
+import dynamic from 'next/dynamic';
+import { LoadingSuspense } from '~/components/Loading';
 
-const Home: NextPage = () => {
-  return (
-    <Layout>
-      {/* jumbotron */}
-      {/* timleine */}
-      {/* sponsor */}
-      {/* medpar */}
-    </Layout>
-  );
-};
+const SuspenseComponent = dynamic(() => import('~/components/home-page/Home'), {
+  ssr: false,
+  loading: () => <LoadingSuspense />
+});
 
-export default Home;
+export default function Home() {
+  return <SuspenseComponent />;
+}

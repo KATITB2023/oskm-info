@@ -12,10 +12,11 @@ import {
   MenuButton,
   MenuList,
   Icon,
-  type As
+  type As,
+  Avatar
 } from '@chakra-ui/react';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   MdAssuredWorkload,
   MdShoppingBag,
@@ -26,6 +27,7 @@ import {
 } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { RxHamburgerMenu } from 'react-icons/rx';
+import { useSession } from 'next-auth/react';
 
 interface LiItemProps {
   href: string;
@@ -106,12 +108,8 @@ const DeskLiItem = ({ href, itemName }: LiItemProps) => {
 };
 
 const Navbar = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-
-  // contoh
-  const handleLogin = () => {
-    setIsLogin(!isLogin);
-  };
+  const { data: session } = useSession();
+  const isLogin = session?.user;
 
   return (
     <Center>
@@ -133,7 +131,7 @@ const Navbar = () => {
         pos='fixed'
         top='0'
         color='white'
-        zIndex='100'
+        zIndex='200'
         fontSize='14px'
         fontWeight='semibold'
       >
@@ -145,7 +143,7 @@ const Navbar = () => {
             alt=''
           />
         </Box>
-        <Box zIndex='1000'>
+        <Box zIndex='200'>
           <Link href='/'>
             <HStack>
               <Image
@@ -174,17 +172,12 @@ const Navbar = () => {
             <DeskLiItem href='/merch' itemName='Merchandise' />
             <DeskLiItem href='/interactive-map' itemName='Interactive Map' />
             <DeskLiItem href='/blog' itemName='Blog' />
-            <Box onClick={handleLogin}>
-              {isLogin ? (
-                <Link href='https://google.com'>
-                  <Button variant='solid'>Space Log</Button>
-                </Link>
-              ) : (
-                <Link href='/login'>
-                  <Button variant='outline'>Login</Button>
-                </Link>
-              )}
-            </Box>
+            <Link href='https://app.oskmitb.com'>
+              <Button variant='solid'>Space Log</Button>
+            </Link>
+            {/* <Link href='/login'>
+              <Button variant='outline'>Login</Button>
+            </Link> */}
           </HStack>
         </UnorderedList>
         <Box display={{ base: 'block', lg: 'none' }}>
@@ -231,21 +224,12 @@ const Navbar = () => {
                 itemIcon={MdMap}
               />
               <MobLiItem href='/blog' itemName='Blog' itemIcon={MdNewspaper} />
-              <Box onClick={handleLogin}>
-                {isLogin ? (
-                  <MobLiItem
-                    href='/https://google.com'
-                    itemName='Spacelog'
-                    itemIcon={MdRocketLaunch}
-                  />
-                ) : (
-                  <MobLiItem
-                    href='/login'
-                    itemName='Login'
-                    itemIcon={MdLogin}
-                  />
-                )}
-              </Box>
+              <MobLiItem
+                href='https://app.oskmitb.com'
+                itemName='Spacelog'
+                itemIcon={MdRocketLaunch}
+              />
+              {/* <MobLiItem href='/login' itemName='Login' itemIcon={MdLogin} /> */}
             </MenuList>
           </Menu>
         </Box>

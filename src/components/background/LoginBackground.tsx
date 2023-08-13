@@ -93,7 +93,7 @@ const LoginBackground = () => {
       inset='0'
       margin='auto'
       overflow='hidden'
-      zIndex='-10'
+      zIndex='1'
     >
       <Image
         src='/images/login/moon-bg.png'

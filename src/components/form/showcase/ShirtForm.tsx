@@ -18,7 +18,8 @@ import {
   useDisclosure,
   UnorderedList,
   ListItem,
-  useToast
+  useToast,
+  HStack
 } from '@chakra-ui/react';
 import { type BaseSyntheticEvent } from 'react';
 import {
@@ -28,10 +29,11 @@ import {
   type Control,
   type UseFormSetValue,
   Controller,
-  type SubmitHandler
+  type SubmitHandler,
+  useFieldArray
 } from 'react-hook-form';
 import { type ShirtFormValues } from './FirstForm';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaPlus, FaMinus } from 'react-icons/fa';
 
 interface Props {
   control: Control<ShirtFormValues>;
@@ -54,6 +56,11 @@ export const ShirtForm = ({
   loading,
   setPage
 }: Props) => {
+  const { fields, append, remove } = useFieldArray({
+    name: 'kaos',
+    control
+  });
+
   const sizeArr = ['S', 'M', 'L', 'XL', 'XXL', 'XXXL', 'XXXXL', 'XXXXXL'];
   const sleeveArr = ['Pendek', 'Panjang'];
   const methodArr = [
@@ -93,122 +100,131 @@ export const ShirtForm = ({
       >
         <VStack spacing={4} mt={5} color='white'>
           <Box bg='purple.1' px={5} py={3} borderRadius='lg'>
-            Setiap penjaga booth ITB SHOWCASE WAJIB membeli kaos dan landyard
-            seharga RpXXX. Terdapat biaya tambahan untuk kaos lengan panjang
-            sebesar Rp 10.000 dan penambahan biaya untuk kaos dengan ukuran
-            selain S-XL, yaitu sebesar Rp5.000 untuk XXL-XXXL dan Rp 10.000
-            untuk XXXXL-XXXXXL
+            Setiap penjaga booth ITB SHOWCASE WAJIB membeli kaos dan lanyard
+            seharga Rp 115.000. Terdapat biaya tambahan untuk kaos lengan
+            panjang sebesar Rp 10.000 dan penambahan biaya untuk kaos dengan
+            ukuran selain S-XL, yaitu sebesar Rp5.000 untuk XXL-XXXL dan Rp
+            10.000 untuk XXXXL-XXXXXL. Untuk informasi terkait PO baju, dapat
+            menghubungi Naveen: naveennaomi
           </Box>
           <Image src='/size-chart.png' alt='chart' draggable='false' />
-          <FormControl isInvalid={!!formState.errors.sizeKaos}>
-            <FormLabel>Size Kaos</FormLabel>
-            <Controller
-              control={control}
-              name='sizeKaos'
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Size tidak boleh kosong'
-                }
-              }}
-              render={() => (
-                <Select
-                  variant='filled'
-                  bg='gray.600'
-                  color='white'
-                  w='full'
-                  borderColor='gray.400'
-                  onChange={(e) => setValue('sizeKaos', e.target.value)}
-                  transition='all 0.2s ease-in-out'
-                  _hover={{
-                    opacity: 0.8
-                  }}
-                  _focus={{
-                    background: 'gray.600',
-                    borderColor: 'gray.400',
-                    color: 'white'
-                  }}
-                  css={{
-                    option: {
-                      background: '#2F2E2E'
-                    }
-                  }}
-                >
-                  {sizeArr.map((size, index) => (
-                    <option
-                      style={{
-                        background: 'gray.600',
-                        color: 'white'
-                      }}
-                      key={index}
-                      value={size}
-                    >
-                      {size}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            />
-            {formState.errors.sizeKaos && (
+          <FormControl isInvalid={!!formState.errors.kaos}>
+            <FormLabel>
+              <Flex flexDir='row' gap={2} alignItems='center'>
+                <Box>Kaos</Box>
+                {fields.length > 2 && (
+                  <Button
+                    size='sm'
+                    alignSelf='center'
+                    onClick={() => void remove(fields.length - 1)}
+                    variant='outline'
+                  >
+                    <FaMinus size={12} />
+                  </Button>
+                )}
+              </Flex>
+            </FormLabel>
+            <Flex flexDirection='column' gap={1}>
+              {fields.map((field, index) => (
+                <Controller
+                  key={field.id}
+                  control={control}
+                  name={`kaos.${index}`}
+                  render={() => (
+                    <HStack spacing={2}>
+                      <Select
+                        variant='filled'
+                        bg='gray.600'
+                        color='white'
+                        w='full'
+                        borderColor='gray.400'
+                        onChange={(e) =>
+                          setValue(`kaos.${index}.size`, e.target.value)
+                        }
+                        transition='all 0.2s ease-in-out'
+                        _hover={{
+                          opacity: 0.8
+                        }}
+                        _focus={{
+                          background: 'gray.600',
+                          borderColor: 'gray.400',
+                          color: 'white'
+                        }}
+                        css={{
+                          option: {
+                            background: '#2F2E2E'
+                          }
+                        }}
+                      >
+                        {sizeArr.map((size, index) => (
+                          <option
+                            style={{
+                              background: 'gray.600',
+                              color: 'white'
+                            }}
+                            key={index}
+                            value={size}
+                          >
+                            {size}
+                          </option>
+                        ))}
+                      </Select>
+                      <Select
+                        variant='filled'
+                        bg='gray.600'
+                        color='white'
+                        w='full'
+                        borderColor='gray.400'
+                        onChange={(e) =>
+                          setValue(`kaos.${index}.sleeve`, e.target.value)
+                        }
+                        transition='all 0.2s ease-in-out'
+                        _hover={{
+                          opacity: 0.8
+                        }}
+                        _focus={{
+                          background: 'gray.600',
+                          borderColor: 'gray.400',
+                          color: 'white'
+                        }}
+                        css={{
+                          option: {
+                            background: '#2F2E2E'
+                          }
+                        }}
+                      >
+                        {sleeveArr.map((sleeve, index) => (
+                          <option
+                            style={{
+                              background: 'gray.600',
+                              color: 'white'
+                            }}
+                            key={index}
+                            value={sleeve}
+                          >
+                            {sleeve}
+                          </option>
+                        ))}
+                      </Select>
+                    </HStack>
+                  )}
+                />
+              ))}
+            </Flex>
+            {formState.errors.kaos && (
               <FormErrorMessage>
-                {formState.errors.sizeKaos.message as string}
+                {formState.errors.kaos.message as string}
               </FormErrorMessage>
             )}
-          </FormControl>
-          <FormControl isInvalid={!!formState.errors.sleeveKaos}>
-            <FormLabel>Sleeve Kaos</FormLabel>
-            <Controller
-              control={control}
-              name='sleeveKaos'
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Sleeve tidak boleh kosong'
-                }
-              }}
-              render={() => (
-                <Select
-                  variant='filled'
-                  bg='gray.600'
-                  color='white'
-                  w='full'
-                  borderColor='gray.400'
-                  onChange={(e) => setValue('sleeveKaos', e.target.value)}
-                  transition='all 0.2s ease-in-out'
-                  _hover={{
-                    opacity: 0.8
-                  }}
-                  _focus={{
-                    background: 'gray.600',
-                    borderColor: 'gray.400',
-                    color: 'white'
-                  }}
-                  css={{
-                    option: {
-                      background: '#2F2E2E'
-                    }
-                  }}
-                >
-                  {sleeveArr.map((sleeve, index) => (
-                    <option
-                      style={{
-                        background: 'gray.600',
-                        color: 'white'
-                      }}
-                      key={index}
-                      value={sleeve}
-                    >
-                      {sleeve}
-                    </option>
-                  ))}
-                </Select>
-              )}
-            />
-            {formState.errors.sleeveKaos && (
-              <FormErrorMessage>
-                {formState.errors.sleeveKaos.message as string}
-              </FormErrorMessage>
-            )}
+            <Button
+              mt={2}
+              size='sm'
+              w='100%'
+              onClick={() => void append({ size: 'S', sleeve: 'Pendek' })}
+              variant='outline'
+            >
+              <FaPlus size={18} />
+            </Button>
           </FormControl>
           <FormControl isInvalid={!!formState.errors.total}>
             <FormLabel>Total</FormLabel>
@@ -332,7 +348,7 @@ export const ShirtForm = ({
         </VStack>
         <Flex justifyContent='space-between' mt={7}>
           <Button
-            w='25%'
+            w={{ base: '75px', lg: '25%' }}
             variant='outline'
             alignSelf='center'
             onClick={() => setPage(2)}
@@ -340,7 +356,7 @@ export const ShirtForm = ({
             Back
           </Button>
           <Button
-            w='25%'
+            w={{ base: '75px', lg: '25%' }}
             alignSelf='center'
             isLoading={loading}
             loadingText='Submitting'
