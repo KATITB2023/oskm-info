@@ -46,6 +46,20 @@ export const messageEvent = createEvent(
       await setUserTries(id);
     }
 
+    // setTimeout(() => {
+    //   ctx.io.emit("question", {
+    //     questionId: input.questionId,
+    //     role: QuestionRole.CHATBOT,
+    //     message:
+    //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mattis ex eget justo pharetra, ut ornare sem ultricies. Proin rutrum vestibulum massa eu vehicula. Maecenas et arcu orci. Sed vulputate at nisi non euismod. Etiam suscipit enim diam, a ultricies felis ultricies ultricies. Aliquam porttitor purus vitae elit vulputate rutrum. Suspendisse scelerisque mauris at arcu facilisis, a euismod quam condimentum. Sed id placerat orci, non pretium enim. Nulla interdum turpis non elementum blandit. Aenean porttitor est at nisi tristique dapibus.",
+    //     chatHistory: input.chatHistory
+    //   });
+    // }, 2000);
+
+    // if (!canAsk) {
+    //   throw new Error("Limit reached");
+    // }
+
     if (canAsk) {
       const model = new ChatOpenAI({
         temperature: 0.3,
@@ -80,11 +94,11 @@ export const messageEvent = createEvent(
       );
 
       const prompt_template = `You are an article list assistant that are given a context, a following conversation, and a follow up input.
-      {context}
-      Chat History:
-      {chat_history}
-      Follow Up Input: {question}
-      AI:`;
+        {context}
+        Chat History:
+        {chat_history}
+        Follow Up Input: {question}
+        AI:`;
 
       const custom_prompt = new PromptTemplate({
         inputVariables: ["context", "chat_history", "question"],
