@@ -52,13 +52,24 @@ export const cmsRouter = createTRPCRouter({
 
   adminGetArticlesBySlug: adminProcedure
     .input(z.object({ slug: z.string() }))
-    .query(async ({ input }) => {
-      return await contentApi.posts.read(
+    .query(async ({ ctx, input }) => {
+      const content = await contentApi.posts.read(
         { slug: input.slug },
         {
           fields: ['id', 'slug', 'title', 'html', 'feature_image']
         }
       );
+
+      const metadata = await ctx.prisma.article.findFirst({
+        where: {
+          id: content.id
+        }
+      });
+
+      return {
+        content: content,
+        metadata: metadata
+      };
     }),
 
   adminAddNewArticle: adminProcedure
