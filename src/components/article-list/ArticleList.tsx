@@ -30,6 +30,7 @@ import { api } from '~/utils/api';
 import type { PostOrPage } from '@tryghost/content-api';
 import { LoadingSuspense } from '~/components/Loading';
 import DropdownFilter from './DropdownFilter';
+import ArticleListBackground from '../background/ArticleListBackGround';
 
 interface PaginatedProps {
   data: PostOrPage[];
@@ -281,9 +282,10 @@ const ArticleList = () => {
 
   return (
     <>
-      <Navbar />
+      <ArticleListBackground/>
       <Box
         paddingTop={{ base: '116px', lg: '164px' }}
+        minH={'2167px'}
       >
         <HStack
           spacing={{ base: '14px', lg: '29px' }}
@@ -306,6 +308,7 @@ const ArticleList = () => {
           marginTop={'37px'}
           maxW={{ base: '240px', lg: '784px' }}
           marginX={'auto'}
+          marginBottom={`${open == false ?  '78px' : '0px'}`}
         >
           <Input
             placeholder='Search article'
@@ -314,6 +317,7 @@ const ArticleList = () => {
             paddingLeft={{ base: '25px', lg: '32px' }}
             paddingRight={{ base: '60px', lg: '67px' }}
             onChange={handleChange}
+            onClick={() => setOpen(false)}
             value={searchQuery}
           />
           <InputRightElement
@@ -347,6 +351,7 @@ const ArticleList = () => {
                   display={'flex'}
                   justifyContent={'center'}
                   alignItems={'center'}
+                  _hover={{opacity: '80%'}}
                   onClick={() => setOpen(!open)}
                 >
                   <Image src='/images/article-blog/button_icon.svg' />

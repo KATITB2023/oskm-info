@@ -27,8 +27,7 @@ const DropdownFilter = ({
         bg='yellow.5'
         color='black'
         position='absolute'
-        bottom={{lg:'-9px'}}
-        top={{base:'33.5px', lg:''}}
+        bottom={{base:'-57.5px', lg:'-9px'}}
         left={{base:'-237px', lg:'37px'}}
         fontFamily='SomarRounded-Bold'
         textColor='black'
@@ -61,7 +60,7 @@ const DropdownFilter = ({
             Z-A
         </option>
         </Select>
-        <Box pos={'absolute'} w={'106px'} top={{base:'0px', lg:'-46px'}} left={'219px'}>
+        <Box zIndex={3} pos={'absolute'} w={'106px'} top={{base:'1px', lg:'-46px'}} left={{base:'-55px', lg:'219px'}}>
             <Image src="./images/article-blog/berekor_1.svg" boxSize='106px' objectFit='contain' />
         </Box>
     </>

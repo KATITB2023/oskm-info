@@ -1,9 +1,10 @@
 import { Maintenance } from '~/components/Maintenance';
 import Layout from '~/layout';
+import ArticleList from './article-list/ArticleList';
 
 const BlogPage = () => (
   <Layout title='Blog'>
-    <Maintenance />
+    <ArticleList/>
   </Layout>
 );
 
