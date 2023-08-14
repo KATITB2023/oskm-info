@@ -1,0 +1,15 @@
+
+
+  .slick-dots li button:before {
+    color: 'grey.300';
+    font-size: 12px;
+  }
+  
+  .slick-dots li button:before:hover {
+    color: 'grey.400';
+  }
+  
+  .slick-dots li.slick-active button:before {
+    color: 'navy.2'
+    @apply text-primaryBlue opacity-100;
+  }

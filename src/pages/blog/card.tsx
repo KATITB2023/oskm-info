@@ -7,18 +7,25 @@ import {
   VStack,
   Button
 } from '@chakra-ui/react';
+import { Nullable } from '@tryghost/content-api';
 import Fonts from '~/styles/fonts';
-const ArticleCard = () => (
+interface CardData {
+  image: Nullable<string>;
+  title: string;
+  text: string
+}
+
+const ArticleCard = (props:CardData) => (
   <Box
     bgGradient={'linear(to-r, #98F9FF, #EABFFF)'}
     w={{ base: '322px', lg: '241px' }}
-    h={{ base: '137.5px', lg: '323px' }}
+    h={{ base: '180px', lg: '323px' }}
     borderRadius={'3xl'}
     alignItems={'center'}
     display={'flex'}
     mx={'auto'}
     justifyContent={'center'}
-    overflow={'hidden'}
+    // overflow={'hidden'}
     p={'1px'}
   >
     <Box
@@ -29,27 +36,30 @@ const ArticleCard = () => (
       overflow={'hidden'}
     >
       <Image
-        src='/images/article-blog/placeholder_pict.svg'
+        src={props.image ?? undefined}
         objectFit={'cover'}
+        h={{base: 'full', lg:'50%'}}
+        w={{base: '85%', lg:'full'}}
+        objectPosition={'center'}
       />
       <Box
         position={'absolute'}
         top={{ base: '0px', lg: '112px' }}
-        left={{ base: '205px', lg: '-1px' }}
+        // left={{ base: '205px', lg: '-1px' }}
+        right={'0px'}
         bgGradient={'linear(to-r, #98F9FF, #EABFFF)'}
-        w={'241px'}
-        h={'211px'}
+        w={{base:'190px', lg:'full'}}
+        h={{base: 'full',lg:'211px'}}
         overflow={'hidden'}
         borderRadius={'3xl'}
         display={'flex'}
         alignItems={'center'}
         justifyContent={'center'}
         padding={'1px'}
-        paddingTop={'1px'}
 
       >
         <Box
-          padding={{ base: '12px', lg: '24px' }}
+          padding={{ base: '11.85px', lg: '24px' }}
           w={'full'}
           h={'full'}
           overflow={'hidden'}
@@ -60,30 +70,27 @@ const ArticleCard = () => (
           alignItems={'center'}
           flexDirection={'column'}
         >
-          <Fonts />
           <Heading
             noOfLines={2}
             color={'white'}
             textAlign={'center'}
             fontSize={'24px'}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-            ipsa, aliquam perferendis nobis minima eligendi neque pariatur
-            facere vitae, harum cum? Maxime ratione fugiat id architecto veniam
-            repellat illum officia.
+            {
+              props.title
+            }
           </Heading>
           <Text
             color={'white'}
             textAlign={'justify'}
-            noOfLines={3}
+            noOfLines={{base: 2, lg: 3}}
             fontSize={'12px'}
           >
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti,
-            alias corporis incidunt adipisci et earum iusto natus distinctio.
-            Minus corrupti voluptate illum distinctio sit fugiat sapiente,
-            reiciendis suscipit fugit quisquam.
+            {
+              props.text
+            }
           </Text>
-          <Button py={'8px'} px={'24px'}>
+          <Button py={{base:'6px', lg:'8px'}} px={{base:'16px', lg:'24px'}}>
             Explore
           </Button>
         </Box>
