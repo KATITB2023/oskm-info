@@ -22,7 +22,7 @@ const SupportBackground = () => {
       <Image
         src='/images/sponsor/spiral.png'
         alt=''
-        top={{ base: '20%', lg: '-10%' }}
+        top={{ base: '20%', lg: '10%' }}
         right='0'
         w={{ base: '300px', lg: '500px' }}
       />

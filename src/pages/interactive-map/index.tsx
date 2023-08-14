@@ -23,7 +23,7 @@ const InteractiveMapPage: NextPage = () => {
       : router.query.locationName;
 
   return (
-    <Layout title='Interactive Map'>
+    <Layout title='Interactive Map' withFooter={false}>
       <InteractiveMap
         inputSelectedCampus={inputSelectedCampus}
         inputSelectedLocationName={inputSelectedLocationName}
