@@ -9,7 +9,6 @@ const BlogPage = () => {
   const { slug } = router.query;
 
   console.log(slug)
-
   return (
     <Layout title='Blog Detail'>
       <Flex
@@ -22,6 +21,7 @@ const BlogPage = () => {
         alignItems='center'
         flexDirection='column'
         overflow='hidden'
+        position='relative'
       >
         <Image 
           src='/images/blog/dummy-image.png'
