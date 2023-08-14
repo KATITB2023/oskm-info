@@ -10,7 +10,7 @@ import {
 import { Nullable } from '@tryghost/content-api';
 import Fonts from '~/styles/fonts';
 interface CardData {
-  image: Nullable<string>;
+  image: Nullable<string> | undefined ;
   title: string;
   text: string
 }
