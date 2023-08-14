@@ -43,7 +43,7 @@ export const cmsRouter = createTRPCRouter({
       const content = await contentApi.posts.read(
         { slug: input.slug },
         {
-          fields: ['id', 'slug', 'title', 'html', 'feature_image']
+          fields: ['id', 'slug', 'title', 'html', 'feature_image', 'reading_time']
         }
       );
 
@@ -81,6 +81,28 @@ export const cmsRouter = createTRPCRouter({
           data: {
             likes: {
               increment: 1
+            }
+          }
+        });
+      } catch (error) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'Failed to add like'
+        });
+      }
+    }),
+
+  addArticleDislike: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.article.update({
+          where: {
+            id: input.id
+          },
+          data: {
+            likes: {
+              decrement: 1
             }
           }
         });
