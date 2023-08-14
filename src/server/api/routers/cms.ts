@@ -1,14 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { adminProcedure, createTRPCRouter } from '~/server/api/trpc';
+import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
 import GhostContentAPI from '@tryghost/content-api';
-// @ts-ignore
-import GhostAdminAPI from '@tryghost/admin-api';
 import { env } from '~/env.cjs';
 
 const contentApi = new GhostContentAPI({
@@ -17,14 +10,8 @@ const contentApi = new GhostContentAPI({
   version: 'v5.0'
 });
 
-const adminApi = new GhostAdminAPI({
-  url: 'https://blog.oskmitb.com',
-  key: env.GHOST_ADMIN_API,
-  version: 'v5.0'
-});
-
 export const cmsRouter = createTRPCRouter({
-  adminGetArticlesList: adminProcedure
+  getArticlesList: publicProcedure
     .input(
       z.object({
         searchQuery: z.string().optional(),
@@ -50,123 +37,57 @@ export const cmsRouter = createTRPCRouter({
       return { data, meta: data.meta };
     }),
 
-  adminGetArticlesBySlug: adminProcedure
+  getArticlesBySlug: publicProcedure
     .input(z.object({ slug: z.string() }))
-    .query(async ({ input }) => {
-      return await contentApi.posts.read(
+    .query(async ({ ctx, input }) => {
+      const content = await contentApi.posts.read(
         { slug: input.slug },
         {
           fields: ['id', 'slug', 'title', 'html', 'feature_image']
         }
       );
-    }),
 
-  adminAddNewArticle: adminProcedure
-    .input(
-      z.object({
-        title: z.string(),
-        body: z.string(),
-        featureImage: z.string()
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        await adminApi.posts.add(
-          {
-            title: input.title,
-            html: input.body,
-            feature_image: input.featureImage,
-            status: 'published'
-          },
-          { source: 'html' }
-        );
-
-        return {
-          message: 'Article added successfully'
-        };
-      } catch (error) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to create a new article'
-        });
-      }
-    }),
-
-  adminEditArticle: adminProcedure
-    .input(
-      z.object({
-        slug: z.string(),
-        title: z.string().optional(),
-        body: z.string().optional(),
-        featureImage: z.string().optional()
-      })
-    )
-    .mutation(async ({ input }) => {
-      try {
-        const data = await contentApi.posts.read(
-          { slug: input.slug },
-          {
-            fields: [
-              'id',
-              'slug',
-              'title',
-              'html',
-              'updated_at',
-              'feature_image'
-            ]
+      await ctx.prisma.article.update({
+        where: {
+          id: content.id
+        },
+        data: {
+          views: {
+            increment: 1
           }
-        );
-
-        if (!data) {
-          throw new TRPCError({
-            code: 'BAD_REQUEST',
-            message: 'Cannot find article'
-          });
         }
+      });
 
-        let slug = data.slug;
-        if (input.title) {
-          slug = input.title.toLowerCase().split(' ').join('-');
+      const metadata = await ctx.prisma.article.findFirst({
+        where: {
+          id: content.id
         }
+      });
 
-        await adminApi.posts.edit(
-          {
-            id: data.id,
-            title: input.title ? input.title : data.title,
-            slug: slug,
-            html: input.body ? input.body : data.html,
-            feature_image: input.featureImage
-              ? input.featureImage
-              : data.feature_image,
-            updated_at: data.updated_at
-          },
-          { source: 'html' }
-        );
-
-        return {
-          message: 'Article updated successfully'
-        };
-      } catch (error) {
-        throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to edit the article'
-        });
-      }
+      return {
+        content: content,
+        metadata: metadata
+      };
     }),
 
-  adminDeleteArticle: adminProcedure
-    .input(z.object({ slug: z.string() }))
-    .mutation(async ({ input }) => {
+  addArticleLike: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
       try {
-        await adminApi.posts.delete({ slug: input.slug });
-
-        return {
-          message: 'Article deleted successfully'
-        };
+        await ctx.prisma.article.update({
+          where: {
+            id: input.id
+          },
+          data: {
+            likes: {
+              increment: 1
+            }
+          }
+        });
       } catch (error) {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to delete the article'
+          message: 'Failed to add like'
         });
       }
     })
