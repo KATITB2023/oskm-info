@@ -1,17 +1,17 @@
-import type { GetServerSidePropsContext } from "next";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { type GetServerSidePropsContext } from "next";
 import {
+  getServerSession,
   type NextAuthOptions,
   type DefaultSession,
-  type DefaultUser,
-  getServerSession
+  type DefaultUser
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
-import { type UserRole } from "@prisma/client";
 import { prisma } from "~/server/db";
+import { type UserRole } from "@prisma/client";
 import { env } from "~/env.cjs";
-import { socket } from "~/utils/socket";
+import { TRPCError } from "@trpc/server";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -49,23 +49,55 @@ export const authOptions: NextAuthOptions = {
     maxAge: env.SESSION_MAXAGE
   },
   callbacks: {
-    session: ({ session, token }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: token.id,
-        role: token.role
+    session: async ({ session, token, trigger }) => {
+      const payload = {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          role: token.role
+        }
+      };
+
+      if (trigger === "update") {
+        const profile = await prisma.profile.findUnique({
+          where: {
+            userId: session.user.id
+          }
+        });
+
+        payload.user.name = profile?.name;
+        payload.user.email = profile?.email;
+        payload.user.image = profile?.image;
       }
-    }),
+
+      return payload;
+    },
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.name = user.name;
       }
       return token;
     }
   },
   adapter: PrismaAdapter(prisma),
+  cookies: {
+    sessionToken: {
+      name:
+        env.NODE_ENV === "development"
+          ? "next-auth.session-token"
+          : "__Secure-next-auth.session-token",
+      options: {
+        domain: env.SESSION_COOKIE_DOMAIN,
+        httpOnly: true,
+        maxAge: env.SESSION_MAXAGE,
+        path: "/",
+        secure: true
+      }
+    }
+  },
   providers: [
     /**
      * ...add more providers here.
@@ -98,44 +130,59 @@ export const authOptions: NextAuthOptions = {
         // Add logic here to look up the user from the credentials supplied
         // You can also use the `req` object to access additional parameters
         // return { id: 1, name: "J Smith", email: "jsmith@example" };
-        if (!credentials) throw new Error("Credentials not provided");
+        if (!credentials) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Credentials not provided"
+          });
+        }
 
         const { nim, password } = credentials;
-        if (!nim || !password) throw new Error("NIM or password not provided");
-
+        if (!nim || !password) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "NIM or password not provided"
+          });
+        }
         const user = await prisma.user.findUnique({
           where: {
             nim
-          },
-          select: {
-            id: true,
-            role: true,
-            passwordHash: true
           }
         });
-        if (!user) throw new Error("User not found");
+        if (!user) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "User not found"
+          });
+        }
 
         const isValid = await compare(password, user.passwordHash);
-        if (!isValid) throw new Error("Password is incorrect");
+        if (!isValid) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Password is incorrect"
+          });
+        }
 
-        console.log("DISCONNECTING SOCKET");
-
-        socket.disconnect();
-        socket.connect();
-
-        socket.on("connect", () => {
-          console.log("Connected", socket.id);
+        const profile = await prisma.profile.findUnique({
+          where: {
+            userId: user.id
+          }
         });
-
-        console.log("SOCKET CONNECTED");
 
         return {
           id: user.id,
-          role: user.role
+          role: user.role,
+          name: profile?.name,
+          email: profile?.email,
+          image: profile?.image
         };
       }
     })
-  ]
+  ],
+  pages: {
+    signIn: "/login"
+  }
 };
 
 /**
