@@ -8,11 +8,7 @@ import next from "next";
 import { Server } from "socket.io";
 import { parse } from "url";
 import parser from "socket.io-msgpack-parser";
-import {
-  getAdapter,
-  setupSocket,
-  type SocketServer,
-} from "~/server/socket/setup";
+import { setupSocket, type SocketServer } from "~/server/socket/setup";
 
 const port = parseInt(process.env.PORT || "3000", 10);
 const dev = process.env.NODE_ENV !== "production";
