@@ -10,16 +10,16 @@ import {
   Link,
   VStack,
   useToast
-} from '@chakra-ui/react';
-import { useState } from 'react';
-import { type InferGetServerSidePropsType } from 'next';
-import { useSession, signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { UserRole } from '@prisma/client';
-import { type SubmitHandler, useForm } from 'react-hook-form';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { type getServerSideProps } from '~/pages/login';
-import { colors } from '~/styles/component/colors';
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { type InferGetServerSidePropsType } from "next";
+import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import { UserRole } from "@prisma/client";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { type getServerSideProps } from "~/pages/login";
+import { colors } from "~/styles/component/colors";
 
 interface FormValues {
   password: string;
@@ -41,39 +41,39 @@ const LoginForm = ({
     setError,
     reset
   } = useForm<FormValues>({
-    mode: 'onSubmit',
+    mode: "onSubmit",
     defaultValues: {
-      nim: '',
-      password: ''
+      nim: "",
+      password: ""
     }
   });
 
   const handleLoggedIn = () => {
     toast({
-      title: 'Success',
-      description: 'Berhasil login!',
-      status: 'success',
+      title: "Success",
+      description: "Berhasil login!",
+      status: "success",
       duration: 2000,
       isClosable: true,
-      position: 'top'
+      position: "top"
     });
-    void router.push('/');
+    void router.push("/");
   };
 
   const handleError = (message: string) => {
     toast({
-      title: 'Error',
+      title: "Error",
       description: `${message}`,
-      status: 'error',
+      status: "error",
       duration: 2000,
       isClosable: true,
-      position: 'top'
+      position: "top"
     });
   };
 
   const login: SubmitHandler<FormValues> = async (data: FormValues, event) => {
     event?.preventDefault();
-    const res = await signIn('credentials', {
+    const res = await signIn("credentials", {
       nim: data.nim,
       password: data.password,
       redirect: false,
@@ -82,7 +82,7 @@ const LoginForm = ({
 
     if (res?.error) {
       handleError(res.error);
-      setError('root', { message: res.error });
+      setError("root", { message: res.error });
       reset({}, { keepErrors: true, keepValues: true });
       return;
     }
@@ -104,34 +104,38 @@ const LoginForm = ({
       zIndex='10'
     >
       <Heading
-        size={{ base: 'xl', md: '3xl' }}
+        size={{ base: "xl", md: "3xl" }}
         color='yellow.5'
         textShadow={`0px 0px 10px ${colors.yellow[5]}`}
       >
         LOGIN
       </Heading>
       <form onSubmit={(e) => void handleSubmit(login)(e)}>
-        <input name='csrfToken' type='hidden' defaultValue={csrfToken} />
+        <input
+          name='csrfToken'
+          type='hidden'
+          defaultValue={csrfToken ?? undefined}
+        />
         <VStack spacing={4}>
           <FormControl isInvalid={!!errors.nim}>
             <Input
               type='number'
               placeholder='NIM'
-              {...register('nim', { required: 'NIM tidak boleh kosong' })}
-              size={{ base: 'sm', md: 'md' }}
-              width={{ base: '17.5rem', md: '25rem' }}
+              {...register("nim", { required: "NIM tidak boleh kosong" })}
+              size={{ base: "sm", md: "md" }}
+              width={{ base: "17.5rem", md: "25rem" }}
             />
             <FormErrorMessage>{errors.nim?.message}</FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={!!errors.password}>
             <InputGroup>
               <Input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 placeholder='Password'
-                {...register('password', {
-                  required: 'Password tidak boleh kosong'
+                {...register("password", {
+                  required: "Password tidak boleh kosong"
                 })}
-                size={{ base: 'sm', md: 'md' }}
+                size={{ base: "sm", md: "md" }}
               />
               <InputRightElement
                 display='flex'
@@ -167,7 +171,7 @@ const LoginForm = ({
             isLoading={isSubmitting}
             loadingText='Loading'
             isDisabled={!isDirty || !isValid}
-            size={{ base: 'sm', md: 'md' }}
+            size={{ base: "sm", md: "md" }}
             zIndex='2'
           >
             Login
@@ -175,8 +179,8 @@ const LoginForm = ({
           {/* TODO: Ubah URL staging menjadi production */}
           <Link
             target='_blank'
-            href='https://app.staging.oskmitb.com/forgot-password'
-            fontSize={{ base: 'xs', md: 'sm' }}
+            href='https://app.oskmitb.com/forgot-password'
+            fontSize={{ base: "xs", md: "sm" }}
             zIndex='2'
           >
             Lupa Password?
