@@ -179,7 +179,7 @@ const LoginForm = ({
           {/* TODO: Ubah URL staging menjadi production */}
           <Link
             target='_blank'
-            href='https://app.staging.oskmitb.com/forgot-password'
+            href='https://app.oskmitb.com/forgot-password'
             fontSize={{ base: "xs", md: "sm" }}
             zIndex='2'
           >
