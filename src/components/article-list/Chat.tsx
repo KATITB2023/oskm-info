@@ -17,7 +17,7 @@ import {
   Tooltip,
   Show
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
+
 import { useEffect, useRef, useState } from "react";
 import useSubscription from "~/hooks/useSubscription";
 import { v4 as uuidv4 } from "uuid";
@@ -27,6 +27,8 @@ import { z } from "zod";
 import { type QuestionData } from "~/server/socket/setup";
 import { HiMinus } from "react-icons/hi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 enum QuestionRole {
   USER = "User",
@@ -47,7 +49,6 @@ type FormValues = z.infer<typeof schema>;
 
 const Chat = () => {
   const { data: session } = useSession();
-
   const isLg = useBreakpointValue({ base: false, lg: true });
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -149,7 +150,8 @@ const Chat = () => {
           placement='top'
           fontSize={"18px"}
           p={2}
-          bgColor={"rgba(17, 117, 132, 0.50)"}
+          bgColor={"rgba(17, 117, 132, 1)"}
+          borderRadius={"10px"}
         >
           <Image
             src='images/chat/bot-gif.gif'
@@ -170,7 +172,8 @@ const Chat = () => {
           placement='bottom'
           fontSize={"18px"}
           p={2}
-          bgColor={"rgba(17, 117, 132, 0.50)"}
+          bgColor={"rgba(17, 117, 132, 1)"}
+          borderRadius={"10px"}
         >
           <Image
             src='images/chat/bot-gif.gif'
@@ -194,162 +197,184 @@ const Chat = () => {
           position={"relative"}
           h={"40rem"}
         >
-          {session ? (
-            <>
-              <Flex direction={"column"} zIndex={1}>
-                <Flex h={"full"} w={"full"}>
-                  <Image
-                    borderRadius={"20px 20px 0px 20px"}
-                    src='images/chat/spiral.png'
-                    alt='spiral'
-                    position={"absolute"}
-                    loading='lazy'
-                  />
-                  <Image
-                    src='images/chat/spiral top.png'
-                    alt='spiral'
-                    position={"absolute"}
-                    loading='lazy'
-                    right={5}
-                  />
-                  <Image
-                    src='images/chat/moon.png'
-                    alt='moon'
-                    position={"absolute"}
-                    bottom={0}
-                    right={0}
-                    loading='lazy'
-                  />
+          <Flex direction={"column"} zIndex={1}>
+            <Flex h={"full"} w={"full"}>
+              <Image
+                borderRadius={"20px 20px 0px 20px"}
+                src='images/chat/spiral.png'
+                alt='spiral'
+                position={"absolute"}
+                loading='lazy'
+              />
+              <Image
+                src='images/chat/spiral top.png'
+                alt='spiral'
+                position={"absolute"}
+                loading='lazy'
+                right={5}
+              />
+              <Image
+                src='images/chat/moon.png'
+                alt='moon'
+                position={"absolute"}
+                bottom={0}
+                right={0}
+                loading='lazy'
+              />
+            </Flex>
+          </Flex>
+          <Flex h={"full"} w={"full"} direction={"column"} zIndex={2}>
+            <Flex
+              bgColor={"rgba(29, 2, 99, 0.40)"}
+              justifyContent={"end"}
+              color={"white"}
+              p={"1rem"}
+            >
+              <Icon
+                as={HiMinus}
+                width={25}
+                height={25}
+                onClick={onClose}
+                _hover={{ cursor: "pointer" }}
+              />
+            </Flex>
+            {session ? (
+              <Flex
+                overflowY={"auto"}
+                direction={"column"}
+                h={"full"}
+                p={"1rem"}
+                rowGap={"1rem"}
+                ref={messageContainer}
+              >
+                <Flex
+                  direction={"column"}
+                  alignItems={"center"}
+                  mx={"1rem"}
+                  rowGap={"10px"}
+                >
+                  <Image src='images/chat/mascot.png' alt='mascot' w='12rem' />
+                  <Text
+                    bgColor={"rgba(17, 117, 132, 0.50)"}
+                    p={"1rem"}
+                    color={"white"}
+                    borderRadius={"10px 10px 10px 10px"}
+                    boxShadow={"0px 4px 11px 0px rgba(0, 0, 0, 0.25)"}
+                    textAlign={"center"}
+                  >
+                    Welcome to OSKM Interactive Bot. Ask me any questions
+                  </Text>
+                </Flex>
+                <Flex direction={"column"} h={"full"} paddingY={"1rem"}>
+                  {messages?.map((item) => (
+                    <Flex
+                      as={"article"}
+                      key={item.id}
+                      direction={"column"}
+                      rowGap={"0.25rem"}
+                      bgColor={
+                        item.sender === QuestionRole.USER
+                          ? "rgba(255, 255, 255, 0.50)"
+                          : "rgba(17, 117, 132, 0.50)"
+                      }
+                      color={
+                        item.sender === QuestionRole.USER ? "black" : "white"
+                      }
+                      padding={"10px"}
+                      borderRadius={
+                        item.sender === QuestionRole.USER
+                          ? "10px 10px 0px 10px"
+                          : "10px 10px 10px 0px"
+                      }
+                      boxShadow={
+                        item.sender === QuestionRole.USER
+                          ? ""
+                          : "0px 4px 11px 0px rgba(0, 0, 0, 0.25)"
+                      }
+                      width={"75%"}
+                      placeSelf={
+                        item.sender === QuestionRole.USER ? "end" : "start"
+                      }
+                      alignItems={
+                        item.sender === QuestionRole.USER ? "end" : "start"
+                      }
+                      marginBottom={"28px"}
+                    >
+                      <Text
+                        as={"p"}
+                        whiteSpace={"pre-line"}
+                        lineHeight={"1.25"}
+                      >
+                        {item.message}
+                      </Text>
+                    </Flex>
+                  ))}
                 </Flex>
               </Flex>
-              <Flex h={"full"} w={"full"} direction={"column"} zIndex={2}>
+            ) : (
+              <Flex
+                w='full'
+                h='full'
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
                 <Flex
-                  bgColor={"rgba(29, 2, 99, 0.40)"}
-                  justifyContent={"end"}
-                  color={"white"}
-                  p={"1rem"}
-                >
-                  <Icon
-                    as={HiMinus}
-                    width={25}
-                    height={25}
-                    onClick={onClose}
-                    _hover={{ cursor: "pointer" }}
-                  />
-                </Flex>
-
-                <Flex
-                  overflowY={"auto"}
+                  w='60%'
+                  bgColor={"rgba(1, 1, 1, 0.22)"}
+                  h='60%'
+                  borderRadius={"30px"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  textAlign={"center"}
+                  p='2rem'
                   direction={"column"}
-                  h={"full"}
-                  p={"1rem"}
-                  rowGap={"1rem"}
-                  ref={messageContainer}
+                  rowGap={12}
                 >
-                  <Flex
-                    direction={"column"}
-                    alignItems={"center"}
-                    mx={"1rem"}
-                    rowGap={"10px"}
-                  >
-                    <Image
-                      src='images/chat/mascot.png'
-                      alt='mascot'
-                      w='12rem'
-                    />
-                    <Text
-                      bgColor={"rgba(17, 117, 132, 0.50)"}
-                      p={"1rem"}
-                      color={"white"}
-                      borderRadius={"10px 10px 10px 10px"}
-                      boxShadow={"0px 4px 11px 0px rgba(0, 0, 0, 0.25)"}
-                      textAlign={"center"}
-                    >
-                      Welcome to OSKM Interactive Bot. Ask me any questions
-                    </Text>
-                  </Flex>
-                  <Flex direction={"column"} h={"full"} paddingY={"1rem"}>
-                    {messages?.map((item) => (
-                      <Flex
-                        as={"article"}
-                        key={item.id}
-                        direction={"column"}
-                        rowGap={"0.25rem"}
-                        bgColor={
-                          item.sender === QuestionRole.USER
-                            ? "rgba(255, 255, 255, 0.50)"
-                            : "rgba(17, 117, 132, 0.50)"
-                        }
-                        color={
-                          item.sender === QuestionRole.USER ? "black" : "white"
-                        }
-                        padding={"10px"}
-                        borderRadius={
-                          item.sender === QuestionRole.USER
-                            ? "10px 10px 0px 10px"
-                            : "10px 10px 10px 0px"
-                        }
-                        boxShadow={
-                          item.sender === QuestionRole.USER
-                            ? ""
-                            : "0px 4px 11px 0px rgba(0, 0, 0, 0.25)"
-                        }
-                        width={"75%"}
-                        placeSelf={
-                          item.sender === QuestionRole.USER ? "end" : "start"
-                        }
-                        alignItems={
-                          item.sender === QuestionRole.USER ? "end" : "start"
-                        }
-                        marginBottom={"28px"}
-                      >
-                        <Text
-                          as={"p"}
-                          whiteSpace={"pre-line"}
-                          lineHeight={"1.25"}
-                        >
-                          {item.message}
-                        </Text>
-                      </Flex>
-                    ))}
-                  </Flex>
-                </Flex>
-                {!canAsk && (
-                  <Alert status='error'>
-                    <AlertIcon />
-                    <AlertTitle>You have reached your daily limit</AlertTitle>
-                  </Alert>
-                )}
-                <Flex
-                  bgColor={"rgba(29, 2, 99, 0.25)"}
-                  as={"form"}
-                  w={"full"}
-                  columnGap={"1rem"}
-                  p={"0.5rem 2rem"}
-                  onSubmit={void handleSubmit(onSubmit)}
-                >
-                  <Textarea
-                    placeholder='Type here...'
-                    background={"transparent"}
-                    outline={"none"}
-                    border={"none"}
-                    rows={1}
-                    color={"white"}
-                    resize={"none"}
-                    autoFocus
-                    onKeyDown={onKeyDownCustom}
-                    disabled={!canAsk}
-                    {...register("text")}
-                  />
-                  <Button type='submit' variant={"unstyled"} color={"white"}>
-                    <IoPaperPlaneOutline size={25} />
+                  <Text color={"white"}>
+                    Please login to your account to access the chatbot
+                  </Text>
+                  <Button fontFamily='SomarRounded-Bold'>
+                    <Link href='/login'>Login</Link>
                   </Button>
                 </Flex>
               </Flex>
-            </>
-          ) : (
-            <Flex>Please log in</Flex>
-          )}
+            )}
+
+            {!canAsk && (
+              <Alert status='error'>
+                <AlertIcon />
+                <AlertTitle>You have reached your daily limit</AlertTitle>
+              </Alert>
+            )}
+
+            {session && (
+              <Flex
+                bgColor={"rgba(29, 2, 99, 0.25)"}
+                as={"form"}
+                w={"full"}
+                columnGap={"1rem"}
+                p={"0.5rem 2rem"}
+                onSubmit={void handleSubmit(onSubmit)}
+              >
+                <Textarea
+                  placeholder='Type here...'
+                  background={"transparent"}
+                  outline={"none"}
+                  border={"none"}
+                  rows={1}
+                  color={"white"}
+                  resize={"none"}
+                  autoFocus
+                  onKeyDown={onKeyDownCustom}
+                  disabled={!canAsk}
+                  {...register("text")}
+                />
+                <Button type='submit' variant={"unstyled"} color={"white"}>
+                  <IoPaperPlaneOutline size={25} />
+                </Button>
+              </Flex>
+            )}
+          </Flex>
         </ModalContent>
       </Modal>
     </>

@@ -4,7 +4,7 @@ import type { Server, Socket } from "socket.io";
 import type { ServerEventsResolver } from "~/server/socket/helper";
 import { messageEvent } from "~/server/socket/events/message";
 import { ConversationSummaryMemory } from "langchain/memory";
-import { OpenAI } from "langchain";
+import { OpenAI } from "langchain/llms/openai";
 
 /**
  * @description server events are events that are emmited from the client to the server.
