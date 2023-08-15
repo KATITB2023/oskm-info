@@ -12,6 +12,7 @@ import { prisma } from "~/server/db";
 import { type UserRole } from "@prisma/client";
 import { env } from "~/env.cjs";
 import { TRPCError } from "@trpc/server";
+import { socket } from "~/utils/socket";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -163,6 +164,9 @@ export const authOptions: NextAuthOptions = {
             message: "Password is incorrect"
           });
         }
+
+        socket.disconnect();
+        socket.connect();
 
         const profile = await prisma.profile.findUnique({
           where: {

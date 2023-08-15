@@ -46,20 +46,6 @@ export const messageEvent = createEvent(
       await setUserTries(id);
     }
 
-    // setTimeout(() => {
-    //   ctx.io.emit("question", {
-    //     questionId: input.questionId,
-    //     role: QuestionRole.CHATBOT,
-    //     message:
-    //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mattis ex eget justo pharetra, ut ornare sem ultricies. Proin rutrum vestibulum massa eu vehicula. Maecenas et arcu orci. Sed vulputate at nisi non euismod. Etiam suscipit enim diam, a ultricies felis ultricies ultricies. Aliquam porttitor purus vitae elit vulputate rutrum. Suspendisse scelerisque mauris at arcu facilisis, a euismod quam condimentum. Sed id placerat orci, non pretium enim. Nulla interdum turpis non elementum blandit. Aenean porttitor est at nisi tristique dapibus.",
-    //     chatHistory: input.chatHistory
-    //   });
-    // }, 2000);
-
-    // if (!canAsk) {
-    //   throw new Error("Limit reached");
-    // }
-
     if (canAsk) {
       const model = new ChatOpenAI({
         temperature: 0.3,
