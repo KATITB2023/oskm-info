@@ -4,13 +4,14 @@ import {
   type NextAuthOptions,
   type DefaultSession,
   type DefaultUser,
-  getServerSession,
+  getServerSession
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 import { type UserRole } from "@prisma/client";
 import { prisma } from "~/server/db";
 import { env } from "~/env.cjs";
+import { socket } from "~/utils/socket";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -40,12 +41,12 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   session: {
-    strategy: "jwt",
+    strategy: "jwt"
   },
   jwt: {
     // The maximum age of the NextAuth.js issued JWT in seconds.
     // Defaults to `session.maxAge`.
-    maxAge: env.SESSION_MAXAGE,
+    maxAge: env.SESSION_MAXAGE
   },
   callbacks: {
     session: ({ session, token }) => ({
@@ -53,8 +54,8 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: token.id,
-        role: token.role,
-      },
+        role: token.role
+      }
     }),
     jwt: ({ token, user }) => {
       if (user) {
@@ -62,7 +63,7 @@ export const authOptions: NextAuthOptions = {
         token.role = user.role;
       }
       return token;
-    },
+    }
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -85,13 +86,13 @@ export const authOptions: NextAuthOptions = {
         nim: {
           label: "NIM",
           type: "text",
-          placeholder: "13520065",
+          placeholder: "13520065"
         },
         password: {
           label: "Password",
           type: "password",
-          placeholder: "password",
-        },
+          placeholder: "password"
+        }
       },
       async authorize(credentials) {
         // Add logic here to look up the user from the credentials supplied
@@ -104,26 +105,37 @@ export const authOptions: NextAuthOptions = {
 
         const user = await prisma.user.findUnique({
           where: {
-            nim,
+            nim
           },
           select: {
             id: true,
             role: true,
-            passwordHash: true,
-          },
+            passwordHash: true
+          }
         });
         if (!user) throw new Error("User not found");
 
         const isValid = await compare(password, user.passwordHash);
         if (!isValid) throw new Error("Password is incorrect");
 
+        console.log("DISCONNECTING SOCKET");
+
+        socket.disconnect();
+        socket.connect();
+
+        socket.on("connect", () => {
+          console.log("Connected", socket.id);
+        });
+
+        console.log("SOCKET CONNECTED");
+
         return {
           id: user.id,
-          role: user.role,
+          role: user.role
         };
-      },
-    }),
-  ],
+      }
+    })
+  ]
 };
 
 /**
