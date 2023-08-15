@@ -14,10 +14,11 @@ const ArticleListBackground = () => {
       backgroundRepeat='no-repeat'
     >
       <Image
+        alt=''
         draggable='false'
         opacity={'50%'}
         loading='lazy'
-        src='/images/article-blog/komet2.svg'
+        src='/images/article-blog/komet2.png'
         objectFit={'cover'}
         position={'absolute'}
         top={'-11%'}
@@ -27,6 +28,7 @@ const ArticleListBackground = () => {
         height={{ base: '19.861%', lg: '50%' }}
       />
       <Image
+        alt=''
         draggable='false'
         opacity={'50%'}
         loading='lazy'
@@ -40,10 +42,11 @@ const ArticleListBackground = () => {
         height={{ base: '19.861%', lg: '60%' }}
       />
       <Image
+        alt=''
         draggable='false'
         opacity={'50%'}
         loading='lazy'
-        src='/images/article-blog/ornamen_horizontal_bebatuan_2.svg'
+        src='/images/article-blog/ornamen_horizontal_bebatuan_2.png'
         objectFit={'fill'}
         position={'absolute'}
         top={'17%'}
@@ -52,21 +55,23 @@ const ArticleListBackground = () => {
         height={{ base: '19.861%', lg: '48%' }}
       />
       <Image
+        alt=''
         zIndex={-100}
         width={{ base: '19.861%', lg: '100%' }}
         height={{ base: '19.861%', lg: '63%' }}
         position={'absolute'}
-        bottom={'9%'}
+        bottom={'0%'}
         right={'0%'}
         draggable='false'
         opacity={'50%'}
         loading='lazy'
-        src='/images/article-blog/spark_kicik5.svg'
+        src='/images/article-blog/spark_kicik5.png'
         objectFit={'cover'}
       />
       <Image
+        alt=''
         zIndex={-100}
-        width={{ base: '19.861%', lg: '100%' }}
+        width='100%'
         height={{ base: '19.861%', lg: '63%' }}
         position={'absolute'}
         bottom={'-2%'}
@@ -74,7 +79,7 @@ const ArticleListBackground = () => {
         draggable='false'
         opacity={'50%'}
         loading='lazy'
-        src='/images/article-blog/ornamen_horizontal_bebatuan_1.svg'
+        src='/images/article-blog/ornamen_horizontal_bebatuan_1.png'
         objectFit={'fill'}
       />
     </Box>
