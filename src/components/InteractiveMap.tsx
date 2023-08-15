@@ -2,18 +2,20 @@ import { type Dispatch, useState, type SetStateAction, useEffect } from 'react';
 import {
   Button,
   Image,
-  Link,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Select,
   Text,
   useDisclosure,
-  useToast
+  useToast,
+  keyframes,
+  useBreakpointValue,
+  VStack,
+  Heading,
+  HStack,
+  Box
 } from '@chakra-ui/react';
 import mapboxgl from 'mapbox-gl';
 import {
@@ -30,7 +32,9 @@ import { type MapLocation, type MapPhoto } from '@prisma/client';
 import { api } from '~/utils/api';
 import { env } from '~/env.cjs';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import Slider from 'react-slick';
+import { Dots } from './about-us/Dots';
+import MapModalBackground from './background/MapModalBackground';
 
 const InteractiveSelect = ({
   placeholder,
@@ -118,6 +122,14 @@ const InteractiveMarker = ({
   onOpen: () => void;
 }) => {
   const { current: map } = useMap();
+  const scaling = keyframes`
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.2);
+    }
+`;
 
   return (
     <Marker
@@ -146,6 +158,10 @@ const InteractiveMarker = ({
         w='125px'
         draggable='false'
         loading='lazy'
+        _hover={{
+          cursor: 'pointer',
+          animation: `${scaling} 0.5s ease-in-out infinite alternate`
+        }}
       />
     </Marker>
   );
@@ -219,6 +235,10 @@ const InteractiveMap = ({
       })
     | undefined
   >();
+  const [slider, setSlider] = useState<Slider | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const isLg = useBreakpointValue({ base: false, lg: true });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -226,6 +246,20 @@ const InteractiveMap = ({
   const getLocationsQuery = api.interactiveMap.getLocations.useQuery({
     campus: selectedCampus
   });
+
+  const settings = {
+    dots: false,
+    arrows: false,
+    fade: true,
+    infinite: true,
+    speed: 500,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    beforeChange: (prev: number, next: number) => {
+      setCurrentSlide(next);
+    }
+  };
 
   const onCopyButtonClick = () => {
     if (!selectedLocation) return;
@@ -296,49 +330,151 @@ const InteractiveMap = ({
           onOpen={onOpen}
         />
       ))}
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} size='2xl'>
         <ModalOverlay />
-        <ModalContent bgGradient='linear(to-br, navy.3, purple.1)'>
-          <ModalHeader
+        <ModalContent
+          bg='navy.1'
+          containerProps={{
+            alignItems: 'center',
+            justifyContent: isLg ? 'flex-end' : 'center',
+            px: isLg ? '2rem' : '1rem'
+          }}
+          maxH='80vh'
+        >
+          <ModalBody
             color='white'
-            textAlign='center'
-            fontFamily='Bodwars'
-            fontSize='48px'
-            fontStyle='normal'
-            fontWeight='400'
-            lineHeight='120%'
-            textTransform='uppercase'
+            position='relative'
+            px={10}
+            pt={16}
+            pb={6}
+            overflowY='scroll'
+            sx={{
+              '&::-webkit-scrollbar': {
+                borderRadius: '144px',
+                bg: 'transparent'
+              },
+              '&::-webkit-scrollbar-track': {
+                borderRadius: '144px',
+                bg: 'transparent'
+              },
+              '&::-webkit-scrollbar-thumb': {
+                borderRadius: '144px'
+              }
+            }}
           >
-            {selectedLocation?.title}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+            <MapModalBackground />
             {selectedLocation && (
-              <>
-                <Text color='white'>{selectedLocation.subtitle}</Text>
-                <Text color='white'>{selectedLocation.description}</Text>
-                <Text color='white'>
-                  <Link
-                    href={encodeURI(
-                      `${env.NEXT_PUBLIC_API_URL}/interactive-map?campus=${selectedCampus}&locationName=${selectedLocation.title}`
-                    )}
-                    isExternal
+              <VStack spacing={6} zIndex='10' alignItems='flex-start'>
+                <VStack spacing={1} alignSelf='center'>
+                  <Heading
+                    textAlign='center'
+                    fontSize='2xl'
+                    fontStyle='normal'
+                    fontWeight='400'
+                    textTransform='uppercase'
                   >
-                    {encodeURI(
-                      `${env.NEXT_PUBLIC_API_URL}/interactive-map?campus=${selectedCampus}&locationName=${selectedLocation.title}`
-                    )}{' '}
-                    <ExternalLinkIcon mx='2px' />
-                  </Link>
-                </Text>
-              </>
+                    {selectedLocation?.title}
+                  </Heading>
+                  <Text textAlign='center' alignSelf='center' fontSize='sm'>
+                    {selectedLocation.subtitle}
+                  </Text>
+                </VStack>
+                {selectedLocation.MapPhoto.length > 1 && (
+                  <>
+                    <Slider
+                      {...settings}
+                      autoplay
+                      ref={(slider) => setSlider(slider)}
+                    >
+                      {selectedLocation.MapPhoto.map((photo) => (
+                        <VStack
+                          spacing={1}
+                          key={photo.id}
+                          alignItems='center'
+                          w='100%'
+                        >
+                          <Box
+                            borderRadius='lg'
+                            p={3}
+                            bg='yellow.5'
+                            w={{ base: '200px', lg: '50%' }}
+                          >
+                            <Image
+                              src={photo.imageUrl}
+                              alt=''
+                              w='100%'
+                              draggable='false'
+                              loading='lazy'
+                              borderRadius='lg'
+                            />
+                          </Box>
+                          <Text textAlign='center'>{photo.caption}</Text>
+                        </VStack>
+                      ))}
+                    </Slider>
+                    <Dots
+                      currentSlide={currentSlide}
+                      len={selectedLocation.MapPhoto.length}
+                    />
+                  </>
+                )}
+                {selectedLocation.MapPhoto.length === 1 && (
+                  <VStack spacing={1} alignItems='center' w='100%'>
+                    <Box
+                      borderRadius='lg'
+                      p={3}
+                      bg='yellow.5'
+                      w={{ base: '200px', lg: '250px' }}
+                    >
+                      <Image
+                        src={selectedLocation.MapPhoto[0]?.imageUrl}
+                        alt=''
+                        w='100%'
+                        draggable='false'
+                        loading='lazy'
+                        borderRadius='lg'
+                      />
+                    </Box>
+                    <Text textAlign='center'>
+                      {selectedLocation.MapPhoto[0]?.caption}
+                    </Text>
+                  </VStack>
+                )}
+                <VStack spacing={1} alignItems='center' w='100%'>
+                  <Box
+                    borderRadius='lg'
+                    p={3}
+                    bg='yellow.5'
+                    w={{ base: '200px', lg: '250px' }}
+                  >
+                    <Image
+                      src='/images/misc/spark3.png'
+                      alt=''
+                      w='100%'
+                      draggable='false'
+                      loading='lazy'
+                      borderRadius='lg'
+                    />
+                  </Box>
+                  <Text textAlign='center'>asdasd</Text>
+                </VStack>
+                <Text>{selectedLocation.description}</Text>
+                <HStack
+                  alignItems='flex-end'
+                  justifyContent='flex-end'
+                  spacing={1}
+                  w='100%'
+                  position='sticky'
+                  bottom='0'
+                >
+                  <Button onClick={onCopyButtonClick}>Share Location</Button>
+                  <Button variant='outline' onClick={onClose}>
+                    Close
+                  </Button>
+                </HStack>
+              </VStack>
             )}
           </ModalBody>
-          <ModalFooter>
-            <Button onClick={onCopyButtonClick} mr={3}>
-              Share Location
-            </Button>
-            <Button onClick={onClose}>Close</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </Map>
