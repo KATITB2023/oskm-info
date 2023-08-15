@@ -159,6 +159,7 @@ const Chat = () => {
             right={10}
             onClick={onOpen}
             _hover={{ cursor: "pointer" }}
+            draggable={false}
           />
         </Tooltip>
       </Show>
@@ -178,6 +179,7 @@ const Chat = () => {
             alt='mascot'
             w='12rem'
             onClick={onOpen}
+            draggable={false}
           />
         </Tooltip>
       </Show>
@@ -203,6 +205,7 @@ const Chat = () => {
                 alt='spiral'
                 position={"absolute"}
                 loading='lazy'
+                draggable={false}
               />
               <Image
                 src='images/chat/spiral top.png'
@@ -210,6 +213,7 @@ const Chat = () => {
                 position={"absolute"}
                 loading='lazy'
                 right={5}
+                draggable={false}
               />
               <Image
                 src='images/chat/moon.png'
@@ -218,6 +222,7 @@ const Chat = () => {
                 bottom={0}
                 right={0}
                 loading='lazy'
+                draggable={false}
               />
             </Flex>
           </Flex>
@@ -251,7 +256,12 @@ const Chat = () => {
                   mx={"1rem"}
                   rowGap={"10px"}
                 >
-                  <Image src='images/chat/mascot.png' alt='mascot' w='12rem' />
+                  <Image
+                    src='images/chat/mascot.png'
+                    alt='mascot'
+                    w='12rem'
+                    draggable={false}
+                  />
                   <Text
                     bgColor={"rgba(17, 117, 132, 0.50)"}
                     p={"1rem"}
@@ -346,31 +356,37 @@ const Chat = () => {
             )}
 
             {session && (
-              <Flex
-                bgColor={"rgba(29, 2, 99, 0.25)"}
-                as={"form"}
-                w={"full"}
-                columnGap={"1rem"}
-                p={"0.5rem 2rem"}
-                onSubmit={void handleSubmit(onSubmit)}
-              >
-                <Textarea
-                  placeholder='Type here...'
-                  background={"transparent"}
-                  outline={"none"}
-                  border={"none"}
-                  rows={1}
-                  color={"white"}
-                  resize={"none"}
-                  autoFocus
-                  onKeyDown={onKeyDownCustom}
-                  disabled={!canAsk}
-                  {...register("text")}
-                />
-                <Button type='submit' variant={"unstyled"} color={"white"}>
-                  <IoPaperPlaneOutline size={25} />
-                </Button>
-              </Flex>
+              <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
+                <Flex
+                  bgColor={"rgba(29, 2, 99, 0.25)"}
+                  as={"form"}
+                  w={"full"}
+                  columnGap={"1rem"}
+                  p={"0.5rem 2rem"}
+                >
+                  <Textarea
+                    placeholder='Type here...'
+                    background={"transparent"}
+                    outline={"none"}
+                    border={"none"}
+                    rows={1}
+                    color={"white"}
+                    resize={"none"}
+                    autoFocus
+                    onKeyDown={onKeyDownCustom}
+                    disabled={!canAsk}
+                    {...register("text")}
+                  />
+                  <Button
+                    type='submit'
+                    variant={"unstyled"}
+                    color={"white"}
+                    isDisabled={!canAsk}
+                  >
+                    <IoPaperPlaneOutline size={25} />
+                  </Button>
+                </Flex>
+              </form>
             )}
           </Flex>
         </ModalContent>

@@ -245,11 +245,7 @@ const ArticleList = () => {
               />
             </Box>
             {openSort && (
-              <DropdownFilter
-                setSortValue={setSortBy}
-                sortValue={sortBy}
-                placeholder='Urutkan Berdasarkan'
-              />
+              <DropdownFilter setSortValue={setSortBy} sortValue={sortBy} />
             )}
           </Flex>
         </Show>
