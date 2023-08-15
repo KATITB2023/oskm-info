@@ -7,6 +7,8 @@ import { api } from '~/utils/api';
 import ReactHtmlParser from 'react-html-parser';
 import { TRPCClientError } from '@trpc/client';
 import { useState } from 'react'
+import CarouselDetail from './article-list/CarouselDetail';
+import type { PostOrPage } from '@tryghost/content-api';
 
 const BlogDetailPage = () => {
   const router = useRouter()
@@ -17,6 +19,16 @@ const BlogDetailPage = () => {
   const blogDetailQuery = api.cms.getArticlesBySlug.useQuery({
     slug: slug as string
   })
+
+  const articleListQuery = api.cms.getArticlesList.useQuery({
+    currentPage: 1,
+    sortBy: 'published_at DESC',
+    limitPerPage: 9,
+    searchQuery: undefined
+  });
+
+  const cardsData = articleListQuery.data;
+  const paginatedData = cardsData?.data || ([] as PostOrPage[]);
 
   const addArticleLikeMutation = api.cms.addArticleLike.useMutation()
   const addArticleDislikeMutation = api.cms.addArticleDislike.useMutation()
@@ -188,6 +200,9 @@ const BlogDetailPage = () => {
                 />
               </Flex>
             </Box>
+            <Flex width='100%' my='14' justifyContent='center'>
+              <CarouselDetail data={paginatedData} />
+            </Flex>
           </Flex>
         </Flex>
       ) : (
