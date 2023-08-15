@@ -23,26 +23,35 @@ import {
   MdMap,
   MdNewspaper,
   MdRocketLaunch,
-  MdLogin
+  MdLogin,
+  MdLogout
 } from "react-icons/md";
 import { useRouter } from "next/router";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface LiItemProps {
   href: string;
   itemName: string;
   itemIcon?: As;
+  isExternal?: boolean;
+  onClick?: () => void;
 }
 
-const MobLiItem = ({ href, itemIcon, itemName }: LiItemProps) => {
+const MobLiItem = ({
+  href,
+  itemIcon,
+  itemName,
+  isExternal = false,
+  onClick
+}: LiItemProps) => {
   const router = useRouter();
   const activeRoute = (routeName: string) => {
-    return router.pathname.includes(routeName);
+    return router.pathname.includes(routeName) && itemName !== "Logout";
   };
 
   return (
-    <Link href={href}>
+    <Link href={href} target={isExternal ? "_blank" : "_self"}>
       <MenuItem
         my='4px'
         bg='transparent'
@@ -61,6 +70,7 @@ const MobLiItem = ({ href, itemIcon, itemName }: LiItemProps) => {
           position: "absolute",
           left: 0
         }}
+        onClick={onClick}
       >
         <HStack spacing={2}>
           <Box>
@@ -172,12 +182,62 @@ const Navbar = () => {
             <DeskLiItem href='/merch' itemName='Merchandise' />
             <DeskLiItem href='/interactive-map' itemName='Interactive Map' />
             <DeskLiItem href='/blog' itemName='Blog' />
-            <Link href='https://app.oskmitb.com'>
-              <Button variant='solid'>Space Log</Button>
-            </Link>
-            <Link href='/login'>
-              <Button variant='outline'>Login</Button>
-            </Link>
+            {isLogin ? (
+              <Menu strategy='fixed'>
+                <MenuButton
+                  as={Button}
+                  variant='none'
+                  padding='0'
+                  _hover={{
+                    color: "yellow.5"
+                  }}
+                  _active={{
+                    color: "yellow.5"
+                  }}
+                >
+                  <Avatar
+                    name={session?.user?.name as string}
+                    _hover={{
+                      opacity: 0.8
+                    }}
+                  />
+                </MenuButton>
+                <MenuList
+                  color='white'
+                  bgImage='/images/nav-bg.png'
+                  bgColor='black'
+                  bgPos='center'
+                  bgRepeat='no-repeat'
+                  bgSize='cover'
+                  border='none'
+                >
+                  <MobLiItem
+                    href='https://app.oskmitb.com'
+                    itemName='Spacelog'
+                    itemIcon={MdRocketLaunch}
+                  />
+                  <MobLiItem
+                    href='/'
+                    itemName='Logout'
+                    itemIcon={MdLogout}
+                    onClick={() =>
+                      void signOut({
+                        callbackUrl: "/"
+                      })
+                    }
+                  />
+                </MenuList>
+              </Menu>
+            ) : (
+              <>
+                <Link href='https://app.oskmitb.com' target='_blank'>
+                  <Button variant='solid'>Space Log</Button>
+                </Link>
+                <Link href='/login'>
+                  <Button variant='outline'>Login</Button>
+                </Link>
+              </>
+            )}
           </HStack>
         </UnorderedList>
         <Box display={{ base: "block", lg: "none" }}>
@@ -228,8 +288,22 @@ const Navbar = () => {
                 href='https://app.oskmitb.com'
                 itemName='Spacelog'
                 itemIcon={MdRocketLaunch}
+                isExternal
               />
-              <MobLiItem href='/login' itemName='Login' itemIcon={MdLogin} />
+              {isLogin ? (
+                <MobLiItem
+                  href='/'
+                  itemName='Logout'
+                  itemIcon={MdLogout}
+                  onClick={() =>
+                    void signOut({
+                      callbackUrl: "/"
+                    })
+                  }
+                />
+              ) : (
+                <MobLiItem href='/login' itemName='Login' itemIcon={MdLogin} />
+              )}
             </MenuList>
           </Menu>
         </Box>
