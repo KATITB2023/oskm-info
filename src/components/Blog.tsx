@@ -1,4 +1,3 @@
-import { Maintenance } from '~/components/Maintenance';
 import Layout from '~/layout';
 import {
   Flex,
@@ -6,22 +5,17 @@ import {
   Box,
   Text,
   Heading,
-  VStack,
-  Button,
   HStack,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Grid,
-  GridItem,
-  AbsoluteCenter,
   Show,
-  Container,
-  Spinner
+  Container
 } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
+import { BiChevronLeft } from 'react-icons/bi';
 import { colors } from '~/styles/component/colors';
 import {
   MdOutlineArrowBackIosNew,
@@ -29,12 +23,11 @@ import {
 } from 'react-icons/md';
 // import { Input } from '~/styles/component/input';
 import ArticleCard from '~/components/article-list/card';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { api } from '~/utils/api';
 import type { PostOrPage } from '@tryghost/content-api';
 import ArticleListBackground from '~/components/background/ArticleListBackGround';
 import DropdownFilter from '~/components/article-list/DropdownFilter';
-import _ from 'lodash';
 
 interface PaginatedProps {
   data: PostOrPage[];
@@ -70,8 +63,6 @@ const Cards: React.FC<PaginatedProps> = ({ data }) => {
     </Grid>
   );
 };
-
-const cardperPage = 16;
 
 const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -246,7 +237,10 @@ const BlogPage = () => {
               _hover={{ cursor: 'pointer' }}
               onClick={() => setOpenSort(!openSort)}
             >
-              <Image src='/images/article-blog/button_icon.svg' />
+              <Image
+                src='/images/article-blog/button_icon.svg'
+                alt='open-sort'
+              />
             </Box>
             {openSort && (
               <DropdownFilter

@@ -1,20 +1,8 @@
-import { ChevronDownIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Select,
-  Image,
-  Menu,
-  MenuList,
-  MenuButton,
-  MenuItem,
-  Flex
-} from '@chakra-ui/react';
-import { Dispatch, SetStateAction } from 'react';
-import { FaChevronDown } from 'react-icons/fa';
+import { Box, Select, Image } from '@chakra-ui/react';
+import type { Dispatch, SetStateAction } from 'react';
 
 const DropdownFilter = ({
   placeholder,
-  sortValue,
   setSortValue
 }: {
   placeholder: string | undefined;

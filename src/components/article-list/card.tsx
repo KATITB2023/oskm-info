@@ -1,15 +1,6 @@
-import {
-  Flex,
-  Image,
-  Box,
-  Text,
-  Heading,
-  VStack,
-  Button
-} from '@chakra-ui/react';
-import { Nullable } from '@tryghost/content-api';
+import { Image, Box, Text, Heading, Button } from '@chakra-ui/react';
+import type { Nullable } from '@tryghost/content-api';
 import Link from 'next/link';
-import Fonts from '~/styles/fonts';
 interface CardData {
   image: Nullable<string> | undefined;
   title: string;
