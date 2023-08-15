@@ -28,7 +28,7 @@ import { type QuestionData } from "~/server/socket/setup";
 import { HiMinus } from "react-icons/hi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import Link from "next/link";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 enum QuestionRole {
   USER = "User",
@@ -48,7 +48,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 const Chat = () => {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
   const isLg = useBreakpointValue({ base: false, lg: true });
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -236,76 +236,80 @@ const Chat = () => {
                 _hover={{ cursor: "pointer" }}
               />
             </Flex>
-            {/* {session ? ( */}
-            <Flex
-              overflowY={"auto"}
-              direction={"column"}
-              h={"full"}
-              p={"1rem"}
-              rowGap={"1rem"}
-              ref={messageContainer}
-            >
+            {session ? (
               <Flex
+                overflowY={"auto"}
                 direction={"column"}
-                alignItems={"center"}
-                mx={"1rem"}
-                rowGap={"10px"}
+                h={"full"}
+                p={"1rem"}
+                rowGap={"1rem"}
+                ref={messageContainer}
               >
-                <Image src='images/chat/mascot.png' alt='mascot' w='12rem' />
-                <Text
-                  bgColor={"rgba(17, 117, 132, 0.50)"}
-                  p={"1rem"}
-                  color={"white"}
-                  borderRadius={"10px 10px 10px 10px"}
-                  boxShadow={"0px 4px 11px 0px rgba(0, 0, 0, 0.25)"}
-                  textAlign={"center"}
+                <Flex
+                  direction={"column"}
+                  alignItems={"center"}
+                  mx={"1rem"}
+                  rowGap={"10px"}
                 >
-                  Welcome to OSKM Interactive Bot. Ask me any questions
-                </Text>
-              </Flex>
-              <Flex direction={"column"} h={"full"} paddingY={"1rem"}>
-                {messages?.map((item) => (
-                  <Flex
-                    as={"article"}
-                    key={item.id}
-                    direction={"column"}
-                    rowGap={"0.25rem"}
-                    bgColor={
-                      item.sender === QuestionRole.USER
-                        ? "rgba(255, 255, 255, 0.50)"
-                        : "rgba(17, 117, 132, 0.50)"
-                    }
-                    color={
-                      item.sender === QuestionRole.USER ? "black" : "white"
-                    }
-                    padding={"10px"}
-                    borderRadius={
-                      item.sender === QuestionRole.USER
-                        ? "10px 10px 0px 10px"
-                        : "10px 10px 10px 0px"
-                    }
-                    boxShadow={
-                      item.sender === QuestionRole.USER
-                        ? ""
-                        : "0px 4px 11px 0px rgba(0, 0, 0, 0.25)"
-                    }
-                    width={"75%"}
-                    placeSelf={
-                      item.sender === QuestionRole.USER ? "end" : "start"
-                    }
-                    alignItems={
-                      item.sender === QuestionRole.USER ? "end" : "start"
-                    }
-                    marginBottom={"28px"}
+                  <Image src='images/chat/mascot.png' alt='mascot' w='12rem' />
+                  <Text
+                    bgColor={"rgba(17, 117, 132, 0.50)"}
+                    p={"1rem"}
+                    color={"white"}
+                    borderRadius={"10px 10px 10px 10px"}
+                    boxShadow={"0px 4px 11px 0px rgba(0, 0, 0, 0.25)"}
+                    textAlign={"center"}
                   >
-                    <Text as={"p"} whiteSpace={"pre-line"} lineHeight={"1.25"}>
-                      {item.message}
-                    </Text>
-                  </Flex>
-                ))}
+                    Welcome to OSKM Interactive Bot. Ask me any questions
+                  </Text>
+                </Flex>
+                <Flex direction={"column"} h={"full"} paddingY={"1rem"}>
+                  {messages?.map((item) => (
+                    <Flex
+                      as={"article"}
+                      key={item.id}
+                      direction={"column"}
+                      rowGap={"0.25rem"}
+                      bgColor={
+                        item.sender === QuestionRole.USER
+                          ? "rgba(255, 255, 255, 0.50)"
+                          : "rgba(17, 117, 132, 0.50)"
+                      }
+                      color={
+                        item.sender === QuestionRole.USER ? "black" : "white"
+                      }
+                      padding={"10px"}
+                      borderRadius={
+                        item.sender === QuestionRole.USER
+                          ? "10px 10px 0px 10px"
+                          : "10px 10px 10px 0px"
+                      }
+                      boxShadow={
+                        item.sender === QuestionRole.USER
+                          ? ""
+                          : "0px 4px 11px 0px rgba(0, 0, 0, 0.25)"
+                      }
+                      width={"75%"}
+                      placeSelf={
+                        item.sender === QuestionRole.USER ? "end" : "start"
+                      }
+                      alignItems={
+                        item.sender === QuestionRole.USER ? "end" : "start"
+                      }
+                      marginBottom={"28px"}
+                    >
+                      <Text
+                        as={"p"}
+                        whiteSpace={"pre-line"}
+                        lineHeight={"1.25"}
+                      >
+                        {item.message}
+                      </Text>
+                    </Flex>
+                  ))}
+                </Flex>
               </Flex>
-            </Flex>
-            {/* ) : (
+            ) : (
               <Flex
                 w='full'
                 h='full'
@@ -332,7 +336,7 @@ const Chat = () => {
                   </Button>
                 </Flex>
               </Flex>
-            )} */}
+            )}
 
             {!canAsk && (
               <Alert status='error'>
@@ -341,33 +345,33 @@ const Chat = () => {
               </Alert>
             )}
 
-            {/* {session && ( */}
-            <Flex
-              bgColor={"rgba(29, 2, 99, 0.25)"}
-              as={"form"}
-              w={"full"}
-              columnGap={"1rem"}
-              p={"0.5rem 2rem"}
-              onSubmit={void handleSubmit(onSubmit)}
-            >
-              <Textarea
-                placeholder='Type here...'
-                background={"transparent"}
-                outline={"none"}
-                border={"none"}
-                rows={1}
-                color={"white"}
-                resize={"none"}
-                autoFocus
-                onKeyDown={onKeyDownCustom}
-                disabled={!canAsk}
-                {...register("text")}
-              />
-              <Button type='submit' variant={"unstyled"} color={"white"}>
-                <IoPaperPlaneOutline size={25} />
-              </Button>
-            </Flex>
-            {/* )} */}
+            {session && (
+              <Flex
+                bgColor={"rgba(29, 2, 99, 0.25)"}
+                as={"form"}
+                w={"full"}
+                columnGap={"1rem"}
+                p={"0.5rem 2rem"}
+                onSubmit={void handleSubmit(onSubmit)}
+              >
+                <Textarea
+                  placeholder='Type here...'
+                  background={"transparent"}
+                  outline={"none"}
+                  border={"none"}
+                  rows={1}
+                  color={"white"}
+                  resize={"none"}
+                  autoFocus
+                  onKeyDown={onKeyDownCustom}
+                  disabled={!canAsk}
+                  {...register("text")}
+                />
+                <Button type='submit' variant={"unstyled"} color={"white"}>
+                  <IoPaperPlaneOutline size={25} />
+                </Button>
+              </Flex>
+            )}
           </Flex>
         </ModalContent>
       </Modal>
