@@ -27,7 +27,7 @@ const Carousel = ({ data }: Props) => {
 
   return (
     <Box
-      width={'calc(100vw - 0.5rem)'}
+      width={{ base: '100vw', lg: 'calc(100vw - 0.5rem)' }}
       maxW={'100vw'}
       h={{ base: '25em', md: '18em', lg: '25em' }}
       position={'relative'}

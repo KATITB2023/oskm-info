@@ -1,5 +1,5 @@
 import Layout from '~/layout';
-import { Text, Grid, Button, Flex, Show } from '@chakra-ui/react';
+import { Text, Grid, Button, Flex } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiChevronLeft } from 'react-icons/bi';
 import { colors } from '~/styles/component/colors';
@@ -34,7 +34,11 @@ const Cards: React.FC<PaginatedProps> = ({ data }) => {
         md: 'repeat(2, 1fr)',
         lg: 'repeat(4, 1fr)'
       }}
-      templateRows={{ base: 'repeat(8, 1fr)', lg: 'repeat(2, 1fr)' }}
+      templateRows={{
+        base: 'repeat(8, 1fr)',
+        md: 'repeat(4, 1fr)',
+        lg: 'repeat(2, 1fr)'
+      }}
       rowGap={{ base: '20px', lg: '50px' }}
       mt={'28px'}
     >
@@ -71,16 +75,15 @@ const ArticleList = () => {
         <Carousel data={paginatedData} />
         <Flex direction='column' rowGap={10} my='2rem'>
           <Cards currentPage={1} data={paginatedData} />
-          <Show above='lg'>
-            <Button w={'fit-content'} mx='auto'>
-              <Link href='/blog/article-list'>
-                <Flex columnGap={3} alignItems={'center'}>
-                  <Text>More Articles</Text>
-                  <AiOutlineArrowRight size={20} />
-                </Flex>
-              </Link>
-            </Button>
-          </Show>
+
+          <Button w={'fit-content'} mx='auto'>
+            <Link href='/blog/article-list'>
+              <Flex columnGap={3} alignItems={'center'}>
+                <Text>More Articles</Text>
+                <AiOutlineArrowRight size={20} />
+              </Flex>
+            </Link>
+          </Button>
         </Flex>
       </Flex>
     </Layout>
