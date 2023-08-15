@@ -1,12 +1,12 @@
-import React from 'react';
-import classes from './carousel.module.css';
-import { Box, IconButton, Flex, Show } from '@chakra-ui/react';
-import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
-import Slider from 'react-slick';
-import { useState, useEffect } from 'react';
-import { colors } from '~/styles/component/colors';
-import type { PostOrPage } from '@tryghost/content-api';
-import ArticleCard from './Card';
+import React from "react";
+import classes from "./carousel.module.css";
+import { Box, IconButton, Flex, Show } from "@chakra-ui/react";
+import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
+import Slider from "react-slick";
+import { useState, useEffect } from "react";
+import { colors } from "~/styles/component/colors";
+import type { PostOrPage } from "@tryghost/content-api";
+import ArticleCard from "~/components/article-list/ArticleCard";
 
 interface Props {
   data: PostOrPage[];
@@ -18,16 +18,16 @@ const CarouselDetail = ({ data }: Props) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setScreenWidth(window.innerWidth)
-    }
-    window.addEventListener('resize', handleResize);
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
 
-    handleResize()
+    handleResize();
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, [window.innerWidth])
+    return () => window.removeEventListener("resize", handleResize);
+  }, [window.innerWidth]);
 
-  console.log(screenWidth)
+  console.log(screenWidth);
 
   const settings = {
     dots: false,
@@ -36,16 +36,30 @@ const CarouselDetail = ({ data }: Props) => {
     speed: 500,
     autoplay: true,
     autoplaySpeed: 5000,
-    slidesToShow: screenWidth <= 1000 ? 1
-      : screenWidth > 1000 && screenWidth <= 1300 ? 2
-      : screenWidth > 1300 ? data.length === 1 ? 1 : data.length === 2 ? 2 : 3 : 3,
+    slidesToShow:
+      screenWidth <= 1000
+        ? 1
+        : screenWidth > 1000 && screenWidth <= 1300
+        ? 2
+        : screenWidth > 1300
+        ? data.length === 1
+          ? 1
+          : data.length === 2
+          ? 2
+          : 3
+        : 3,
     slidesToScroll: 1
   };
 
   return (
     <Box width='100%' position='relative'>
       <Show above='md'>
-        <Flex position='absolute' height='100%' alignItems='center' left='-40px'>
+        <Flex
+          position='absolute'
+          height='100%'
+          alignItems='center'
+          left='-40px'
+        >
           <IconButton
             aria-label='left-arrow'
             variant='ghost'
@@ -74,8 +88,8 @@ const CarouselDetail = ({ data }: Props) => {
           {data.map((content, index) => (
             <ArticleCard
               image={content.feature_image}
-              text={content.plaintext ?? ''}
-              title={content.title ?? ''}
+              text={content.plaintext ?? ""}
+              title={content.title ?? ""}
               slug={content.slug}
               key={index}
             />
@@ -83,7 +97,13 @@ const CarouselDetail = ({ data }: Props) => {
         </Slider>
       </Box>
       <Show above='md'>
-        <Flex position='absolute' right='-40px' top='0' height='100%' alignItems='center'>
+        <Flex
+          position='absolute'
+          right='-40px'
+          top='0'
+          height='100%'
+          alignItems='center'
+        >
           <IconButton
             aria-label='right-arrow'
             variant='ghost'

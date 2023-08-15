@@ -21,7 +21,7 @@ import {
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos
 } from "react-icons/md";
-import ArticleCard from "~/components/article-list/Card";
+import ArticleCard from "~/components/article-list/ArticleCard";
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import type { PostOrPage } from "@tryghost/content-api";

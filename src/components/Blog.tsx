@@ -1,6 +1,6 @@
 import Layout from "~/layout";
 import { Text, Grid, Button, Flex } from "@chakra-ui/react";
-import ArticleCard from "~/components/article-list/Card";
+import ArticleCard from "~/components/article-list/ArticleCard";
 import { api } from "~/utils/api";
 import type { PostOrPage } from "@tryghost/content-api";
 import ArticleListBackground from "~/components/background/ArticleListBackGround";
