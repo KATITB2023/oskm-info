@@ -80,51 +80,6 @@ const CarouselDetail = ({ data }: Props) => {
               key={index}
             />
           ))}
-          {data.map((content, index) => (
-            <ArticleCard
-              image={content.feature_image}
-              text={content.plaintext ?? ''}
-              title={content.title ?? ''}
-              slug={content.slug}
-              key={index}
-            />
-          ))}
-          {data.map((content, index) => (
-            <ArticleCard
-              image={content.feature_image}
-              text={content.plaintext ?? ''}
-              title={content.title ?? ''}
-              slug={content.slug}
-              key={index}
-            />
-          ))}
-          {data.map((content, index) => (
-            <ArticleCard
-              image={content.feature_image}
-              text={content.plaintext ?? ''}
-              title={content.title ?? ''}
-              slug={content.slug}
-              key={index}
-            />
-          ))}
-          {data.map((content, index) => (
-            <ArticleCard
-              image={content.feature_image}
-              text={content.plaintext ?? ''}
-              title={content.title ?? ''}
-              slug={content.slug}
-              key={index}
-            />
-          ))}
-          {data.map((content, index) => (
-            <ArticleCard
-              image={content.feature_image}
-              text={content.plaintext ?? ''}
-              title={content.title ?? ''}
-              slug={content.slug}
-              key={index}
-            />
-          ))}
         </Slider>
       </Box>
       <Show above='md'>
