@@ -15,6 +15,7 @@ export const cmsRouter = createTRPCRouter({
     .input(
       z.object({
         searchQuery: z.string().optional(),
+        sortBy: z.string().optional(),
         currentPage: z.number(),
         limitPerPage: z.number()
       })
@@ -31,7 +32,9 @@ export const cmsRouter = createTRPCRouter({
           'reading_time',
           'feature_image'
         ],
-        filter: input.searchQuery ? `title:~'${input.searchQuery}'` : undefined
+        filter: input.searchQuery ? `title:~'${input.searchQuery}'` : undefined,
+        order: input.sortBy,
+        formats: ['html', 'plaintext']
       });
 
       return { data, meta: data.meta };
@@ -43,7 +46,14 @@ export const cmsRouter = createTRPCRouter({
       const content = await contentApi.posts.read(
         { slug: input.slug },
         {
-          fields: ['id', 'slug', 'title', 'html', 'feature_image', 'reading_time']
+          fields: [
+            'id',
+            'slug',
+            'title',
+            'html',
+            'feature_image',
+            'reading_time'
+          ]
         }
       );
 

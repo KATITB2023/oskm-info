@@ -1,34 +1,44 @@
-import { Box, Select, Image } from "@chakra-ui/react";
-import { Dispatch, SetStateAction } from "react";
+import { ChevronDownIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Select,
+  Image,
+  Menu,
+  MenuList,
+  MenuButton,
+  MenuItem,
+  Flex
+} from '@chakra-ui/react';
+import { Dispatch, SetStateAction } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
 
 const DropdownFilter = ({
-    placeholder,
-    sortValue,
-    setSortValue
-  }: {
-    placeholder: string | undefined;
-    sortValue: string;
-    setSortValue: Dispatch<SetStateAction<string>>;
-  }) => {
-    // const getCampusesQuery = api.interactiveMap.getCampuses.useQuery();
-    // const getCampusInfoQuery = api.interactiveMap.getCampusInfo.useQuery({
-    //   campus: selectedCampus
-    // });
-    return (
-    <>
-        <Select
-        zIndex={2}
-        placeholder={placeholder}
+  placeholder,
+  sortValue,
+  setSortValue
+}: {
+  placeholder: string | undefined;
+  sortValue: string;
+  setSortValue: Dispatch<SetStateAction<string>>;
+}) => {
+  const menuItem = [
+    { text: 'Terbaru', value: 'published_at DESC', selected: false },
+    { text: 'Rekomendasi', value: 'published_at ASC', selected: false },
+    { text: 'A-Z', value: 'title ASC', selected: false },
+    { text: 'Z-A', value: 'title DESC', selected: false }
+  ];
+  return (
+    <Box pos={'relative'}>
+      <Select
         onChange={(e) => {
-            setSortValue(e.target.value)
+          setSortValue(e.target.value);
         }}
+        placeholder={placeholder}
+        borderRadius={'10px'}
         width='259px'
         height='40px'
         bg='yellow.5'
         color='black'
-        position='absolute'
-        bottom={{base:'-57.5px', lg:'-9px'}}
-        left={{base:'-237px', lg:'37px'}}
         fontFamily='SomarRounded-Bold'
         textColor='black'
         fontSize='16px'
@@ -38,33 +48,33 @@ const DropdownFilter = ({
         transition='all 0.2s ease-in-out'
         border={'none'}
         _hover={{
-            opacity: 0.8
+          opacity: 0.8
         }}
         css={{
-            option: {
+          option: {
             background: '#FFFC83',
             hover: '#FFBE3B'
-            }
+          }
         }}
-        >
-        <option value="terbaru">
-            Terbaru
-        </option>
-        <option value="rekomendasi">
-            Rekomendasi
-        </option>
-        <option value="a-z">
-            A-Z
-        </option>
-        <option value="z-a">
-            Z-A
-        </option>
-        </Select>
-        <Box zIndex={3} pos={'absolute'} w={'106px'} top={{base:'1px', lg:'-46px'}} left={{base:'-55px', lg:'219px'}}>
-            <Image src="./images/article-blog/berekor_1.svg" boxSize='106px' objectFit='contain' />
-        </Box>
-    </>
-    );
-  };
+      >
+        {menuItem.map((menu) => {
+          return (
+            <option key={menu.value} value={menu.value}>
+              {menu.text}
+            </option>
+          );
+        })}
+      </Select>
+      <Box zIndex={3} pos={'absolute'} top={'-40px'} right={'-40px'}>
+        <Image
+          src='./images/article-blog/berekor_1.svg'
+          alt='option image'
+          boxSize='106px'
+          objectFit='contain'
+        />
+      </Box>
+    </Box>
+  );
+};
 
-  export default DropdownFilter;
+export default DropdownFilter;
