@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import { useState, useEffect } from 'react';
 import { colors } from '~/styles/component/colors';
 import type { PostOrPage } from '@tryghost/content-api';
-import ArticleCard from './card';
+import ArticleCard from './Card';
 
 interface Props {
   data: PostOrPage[];
