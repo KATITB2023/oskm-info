@@ -1,11 +1,10 @@
-import React from 'react';
-import classes from './carousel.module.css';
-import { Box, IconButton, Heading, Text, Flex, Show } from '@chakra-ui/react';
-import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
-import Slider from 'react-slick';
-import { useState } from 'react';
-import { colors } from '~/styles/component/colors';
-import type { PostOrPage } from '@tryghost/content-api';
+import React from "react";
+import { Box, IconButton, Heading, Text, Flex, Show } from "@chakra-ui/react";
+import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
+import Slider from "react-slick";
+import { useState } from "react";
+import { colors } from "~/styles/component/colors";
+import type { PostOrPage } from "@tryghost/content-api";
 
 interface Props {
   data: PostOrPage[];
@@ -27,13 +26,13 @@ const Carousel = ({ data }: Props) => {
 
   return (
     <Box
-      width={{ base: '100vw', lg: 'calc(100vw - 0.5rem)' }}
-      maxW={'100vw'}
-      h={{ base: '25em', md: '18em', lg: '25em' }}
-      position={'relative'}
+      width={{ base: "100vw", lg: "calc(100vw - 0.5rem)" }}
+      maxW={"100vw"}
+      h={{ base: "25em", md: "18em", lg: "25em" }}
+      position={"relative"}
     >
       <Show above='md'>
-        <Box position={'absolute'} top={'50%'} left={'70px'}>
+        <Box position={"absolute"} top={"50%"} left={"70px"}>
           <IconButton
             aria-label='left-arrow'
             variant='ghost'
@@ -48,9 +47,9 @@ const Carousel = ({ data }: Props) => {
         </Box>
       </Show>
       <Box
-        h={{ base: '350px', lg: '540px' }}
-        maxW={'full'}
-        overflow={'visible'}
+        h={{ base: "350px", lg: "540px" }}
+        maxW={"full"}
+        overflow={"visible"}
       >
         <link
           rel='stylesheet'
@@ -65,23 +64,23 @@ const Carousel = ({ data }: Props) => {
         <Slider {...settings} ref={setSlider}>
           {data.map((content, index) => (
             <Box
-              w={'100%'}
-              height={{ base: '25em', md: '18em', lg: '25em' }}
+              w={"100%"}
+              height={{ base: "25em", md: "18em", lg: "25em" }}
               key={index}
-              bgImage={`url(${content.feature_image ?? ''})`}
+              bgImage={`url(${content.feature_image ?? ""})`}
               bgPosition='center'
-              bgSize={'cover'}
+              bgSize={"cover"}
               bgRepeat='no-repeat'
-              textColor={'white'}
+              textColor={"white"}
             >
               <Box
                 width='100vw'
-                height={{ base: '25em', md: '18em', lg: '25em' }}
-                paddingX={{ base: '38px', lg: '258px' }}
-                paddingTop={{ base: '232px', lg: '75px' }}
-                paddingBottom={{ base: '20px', lg: '75px' }}
+                height={{ base: "25em", md: "18em", lg: "25em" }}
+                paddingX={{ base: "38px", lg: "258px" }}
+                paddingTop={{ base: "232px", lg: "75px" }}
+                paddingBottom={{ base: "20px", lg: "75px" }}
               >
-                <Flex flexDir={'column'} justifyContent={'end'} h={'full'}>
+                <Flex flexDir={"column"} justifyContent={"end"} h={"full"}>
                   <Heading>{content.title}</Heading>
                   <Text noOfLines={2}>{content.plaintext}</Text>
                 </Flex>
@@ -91,7 +90,7 @@ const Carousel = ({ data }: Props) => {
         </Slider>
       </Box>
       <Show above='md'>
-        <Box position={'absolute'} top={'50%'} right={'70px'}>
+        <Box position={"absolute"} top={"50%"} right={"70px"}>
           <IconButton
             aria-label='right-arrow'
             variant='ghost'

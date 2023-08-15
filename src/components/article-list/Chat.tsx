@@ -17,7 +17,6 @@ import {
   Tooltip,
   Show
 } from "@chakra-ui/react";
-import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import useSubscription from "~/hooks/useSubscription";
@@ -46,8 +45,8 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-const Chat: NextPage = () => {
-  const session = useSession({ required: true });
+const Chat = () => {
+  const { data: session } = useSession();
 
   const isLg = useBreakpointValue({ base: false, lg: true });
 
@@ -122,7 +121,7 @@ const Chat: NextPage = () => {
       }
     });
 
-    if (session.data) {
+    if (session) {
       messageEmit.mutate({
         questionId: uuidv4(),
         role: QuestionRole.USER,
