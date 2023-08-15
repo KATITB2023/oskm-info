@@ -8,7 +8,6 @@ import next from "next";
 import { Server } from "socket.io";
 import { parse } from "url";
 import parser from "socket.io-msgpack-parser";
-import { currentlyTypingSchedule } from "~/server/socket/schedule";
 import {
   getAdapter,
   setupSocket,
@@ -20,7 +19,7 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-void app.prepare().then(async () => {
+void app.prepare().then(() => {
   const server = http.createServer((req, res) => {
     const proto = req.headers["x-forwarded-proto"];
     if (proto && proto === "http") {
@@ -32,7 +31,7 @@ void app.prepare().then(async () => {
           : req.headers.url) ?? "";
 
       res.writeHead(303, {
-        location: `https://${host}${url}`,
+        location: `https://${host}${url}`
       });
       res.end();
 
@@ -45,14 +44,10 @@ void app.prepare().then(async () => {
 
   const io: SocketServer = new Server(server, {
     parser,
-    adapter: await getAdapter(),
-    transports: ["websocket"],
+    transports: ["websocket"]
   });
 
   setupSocket(io);
-
-  // Start Schedule
-  currentlyTypingSchedule.start();
 
   console.log(
     `Server listening at http://localhost:${port} as ${
@@ -62,9 +57,6 @@ void app.prepare().then(async () => {
 
   process.on("SIGTERM", () => {
     console.log("SIGTERM");
-
-    // Stop schedule
-    currentlyTypingSchedule.stop();
   });
 
   server.listen(port);

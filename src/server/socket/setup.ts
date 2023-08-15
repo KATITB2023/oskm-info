@@ -1,13 +1,10 @@
-import { createAdapter } from "@socket.io/redis-streams-adapter";
 import type { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import type { Server, Socket } from "socket.io";
-import { type Message } from "@prisma/client";
 import type { ServerEventsResolver } from "~/server/socket/helper";
-import { setupScheduleSocket } from "~/server/socket/schedule";
-import { Redis } from "~/server/redis";
-import { isTypingEvent, messageEvent } from "~/server/socket/events/message";
-import { addUserSockets, removeUserSockets } from "~/server/socket/room";
+import { messageEvent } from "~/server/socket/events/message";
+import { ConversationSummaryMemory } from "langchain/memory";
+import { OpenAI } from "langchain";
 
 /**
  * @description server events are events that are emmited from the client to the server.
@@ -17,7 +14,7 @@ import { addUserSockets, removeUserSockets } from "~/server/socket/room";
  * @summary
  * DONT FORGET TO ADD THE EVENT TO THIS ARRAY
  */
-const serverEvents = [messageEvent, isTypingEvent] as const;
+const serverEvents = [messageEvent] as const;
 
 /**
  * @description
@@ -26,6 +23,18 @@ const serverEvents = [messageEvent, isTypingEvent] as const;
  * From backend, all of the events are created by using `createEvent` function.
  */
 export type ClientToServerEvents = ServerEventsResolver<typeof serverEvents>;
+
+enum QuestionRole {
+  USER = "User",
+  CHATBOT = "OSKM GPT"
+}
+
+export interface QuestionData {
+  questionId: string;
+  role: QuestionRole;
+  message: string;
+  chatHistory: string;
+}
 
 /**
  * @description
@@ -50,9 +59,7 @@ export type ClientToServerEvents = ServerEventsResolver<typeof serverEvents>;
  * ```
  */
 export type ServerToClientEvents = {
-  hello: (name: string) => void;
-  whoIsTyping: (data: string[]) => void;
-  add: (post: Message) => void;
+  question: (data: QuestionData) => void;
 };
 
 interface InterServerEvents {
@@ -70,6 +77,7 @@ interface InterServerEvents {
  */
 export type SocketData<AuthRequired = false> = {
   session: AuthRequired extends true ? Session : Session | null;
+  memory: ConversationSummaryMemory;
 };
 
 /**
@@ -118,12 +126,18 @@ export type SocketClientInServer<AuthRequired = false> = Socket<
   SocketData<AuthRequired>
 >;
 
+const memory = new ConversationSummaryMemory({
+  memoryKey: "chat_history",
+  llm: new OpenAI({ modelName: "gpt-3.5-turbo", temperature: 0 }),
+  inputKey: "question"
+});
+
 export function setupSocket(io: SocketServer) {
-  setupScheduleSocket(io);
   io.use((socket, next) => {
     getSession({ req: socket.request })
       .then((session) => {
         socket.data.session = session;
+        socket.data.memory = memory;
         next();
       })
       .catch(next);
@@ -133,19 +147,6 @@ export function setupSocket(io: SocketServer) {
   io.on("connection", (socket) => {
     if (socket.data.session) {
       serverEvents.forEach((event) => event(io, socket));
-      const socketId = socket.id;
-      const userId = socket.data.session.user.id;
-
-      void addUserSockets(userId, socketId);
-
-      socket.on("disconnect", () => {
-        void removeUserSockets(userId, socketId);
-      });
     }
   });
-}
-
-export async function getAdapter() {
-  const redisClient = await Redis.getClient();
-  return createAdapter(redisClient);
 }

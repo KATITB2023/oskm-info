@@ -124,6 +124,7 @@ export function createEvent<
           callback?.({ success: true, data: result });
           return;
         } catch (error) {
+          console.log(error, "ERROR");
           callback?.({ success: false, error });
           return;
         }
