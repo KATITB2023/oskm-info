@@ -4,7 +4,6 @@ import { LoadingSuspense } from '~/components/Loading';
 const SuspenseComponent = dynamic(
   () => import('~/components/about-us/AboutUs'),
   {
-    ssr: false,
     loading: () => <LoadingSuspense />
   }
 );
