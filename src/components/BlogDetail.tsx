@@ -163,6 +163,7 @@ const BlogDetailPage = () => {
             </Flex>
             <Box
               textAlign='justify'
+              sx={{ '& img': { display:'block', margin: '20px auto', loading: 'lazy' }}}
             >
               {ReactHtmlParser(blogDetail.content.html ? blogDetail.content.html : '')}
             </Box>
