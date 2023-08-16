@@ -66,8 +66,8 @@ const ImageBox = ({ title, object, contact, image, type }: Props) => {
         borderRadius='lg'
         bgColor='navy.1'
         color='white'
-        py={14}
-        px={12}
+        py={{ base: 6, lg: 14 }}
+        px={{ base: 4, lg: 12 }}
         flexDirection='column'
         gap={4}
         textAlign='center'

@@ -14,53 +14,63 @@ import {
   Icon,
   type As,
   Avatar
-} from '@chakra-ui/react';
-import Link from 'next/link';
-import React from 'react';
+} from "@chakra-ui/react";
+import Link from "next/link";
+import React from "react";
 import {
   MdAssuredWorkload,
   MdShoppingBag,
   MdMap,
   MdNewspaper,
   MdRocketLaunch,
-  MdLogin
-} from 'react-icons/md';
-import { useRouter } from 'next/router';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { useSession } from 'next-auth/react';
+  MdLogin,
+  MdLogout
+} from "react-icons/md";
+import { useRouter } from "next/router";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { signOut, useSession } from "next-auth/react";
 
 interface LiItemProps {
   href: string;
   itemName: string;
   itemIcon?: As;
+  isExternal?: boolean;
+  onClick?: () => void;
 }
 
-const MobLiItem = ({ href, itemIcon, itemName }: LiItemProps) => {
+const MobLiItem = ({
+  href,
+  itemIcon,
+  itemName,
+  isExternal = false,
+  onClick
+}: LiItemProps) => {
   const router = useRouter();
   const activeRoute = (routeName: string) => {
-    return router.pathname.includes(routeName);
+    return router.pathname.includes(routeName) && itemName !== "Logout";
   };
 
   return (
-    <Link href={href}>
+    <Link href={href} target={isExternal ? "_blank" : "_self"}>
       <MenuItem
         my='4px'
         bg='transparent'
         pos='relative'
-        color={activeRoute(href) ? 'yellow.5' : '#ffffff'}
+        color={activeRoute(href) ? "yellow.5" : "#ffffff"}
         _hover={{
-          color: 'yellow.5',
-          _after: { height: '100%' }
+          color: "yellow.5",
+          _after: { height: "100%" }
         }}
         _after={{
           content: '""',
-          display: 'block',
-          width: '2px',
-          height: activeRoute(href) ? '100%' : 0,
-          background: 'yellow.5',
-          position: 'absolute',
+          display: "block",
+          width: "2px",
+          height: activeRoute(href) ? "100%" : 0,
+          background: "yellow.5",
+          position: "absolute",
           left: 0
         }}
+        onClick={onClick}
       >
         <HStack spacing={2}>
           <Box>
@@ -83,20 +93,20 @@ const DeskLiItem = ({ href, itemName }: LiItemProps) => {
     <Link href={href}>
       <HStack
         pos='relative'
-        color={activeRoute(href) ? 'yellow.5' : '#ffffff'}
+        color={activeRoute(href) ? "yellow.5" : "#ffffff"}
         _hover={{
-          color: 'yellow.5',
-          transition: 'width 0.3s',
-          _after: { width: '100%' }
+          color: "yellow.5",
+          transition: "width 0.3s",
+          _after: { width: "100%" }
         }}
         _after={{
           content: '""',
-          display: 'block',
-          width: activeRoute(href) ? '100%' : 0,
-          height: '2px',
-          background: 'yellow.5',
-          transition: 'width .3s',
-          position: 'absolute',
+          display: "block",
+          width: activeRoute(href) ? "100%" : 0,
+          height: "2px",
+          background: "yellow.5",
+          transition: "width .3s",
+          position: "absolute",
           bottom: 0,
           left: 0
         }}
@@ -115,7 +125,7 @@ const Navbar = () => {
     <Center>
       <Flex
         mt='1rem'
-        px={{ base: '3rem', lg: '5rem' }}
+        px={{ base: "3rem", lg: "5rem" }}
         py='8px'
         width='90%'
         bgImage='/images/nav-bg.png'
@@ -148,14 +158,14 @@ const Navbar = () => {
             <HStack>
               <Image
                 src='/images/logo-oskm.png'
-                height={{ base: '38px', lg: '57px' }}
+                height={{ base: "38px", lg: "57px" }}
                 draggable='false'
                 loading='lazy'
                 alt='logo'
               />
               <Image
                 src='/images/nav-logo.svg'
-                height={{ base: '38px', lg: '57px' }}
+                height={{ base: "38px", lg: "57px" }}
                 draggable='false'
                 loading='lazy'
                 alt='logo-teks'
@@ -165,22 +175,72 @@ const Navbar = () => {
         </Box>
         <UnorderedList
           listStyleType='none'
-          display={{ base: 'none', lg: 'block' }}
+          display={{ base: "none", lg: "block" }}
         >
-          <HStack spacing={{ lg: '27px', xl: '45px' }}>
+          <HStack spacing={{ lg: "27px", xl: "45px" }}>
             <DeskLiItem href='/about-us' itemName='About Us' />
             <DeskLiItem href='/merch' itemName='Merchandise' />
             <DeskLiItem href='/interactive-map' itemName='Interactive Map' />
             <DeskLiItem href='/blog' itemName='Blog' />
-            <Link href='https://app.oskmitb.com'>
-              <Button variant='solid'>Space Log</Button>
-            </Link>
-            {/* <Link href='/login'>
-              <Button variant='outline'>Login</Button>
-            </Link> */}
+            {isLogin ? (
+              <Menu strategy='fixed'>
+                <MenuButton
+                  as={Button}
+                  variant='none'
+                  padding='0'
+                  _hover={{
+                    color: "yellow.5"
+                  }}
+                  _active={{
+                    color: "yellow.5"
+                  }}
+                >
+                  <Avatar
+                    name={session?.user?.name as string}
+                    _hover={{
+                      opacity: 0.8
+                    }}
+                  />
+                </MenuButton>
+                <MenuList
+                  color='white'
+                  bgImage='/images/nav-bg.png'
+                  bgColor='black'
+                  bgPos='center'
+                  bgRepeat='no-repeat'
+                  bgSize='cover'
+                  border='none'
+                >
+                  <MobLiItem
+                    href='https://app.oskmitb.com'
+                    itemName='Spacelog'
+                    itemIcon={MdRocketLaunch}
+                  />
+                  <MobLiItem
+                    href='/'
+                    itemName='Logout'
+                    itemIcon={MdLogout}
+                    onClick={() =>
+                      void signOut({
+                        callbackUrl: "/"
+                      })
+                    }
+                  />
+                </MenuList>
+              </Menu>
+            ) : (
+              <>
+                <Link href='https://app.oskmitb.com' target='_blank'>
+                  <Button variant='solid'>Space Log</Button>
+                </Link>
+                <Link href='/login'>
+                  <Button variant='outline'>Login</Button>
+                </Link>
+              </>
+            )}
           </HStack>
         </UnorderedList>
-        <Box display={{ base: 'block', lg: 'none' }}>
+        <Box display={{ base: "block", lg: "none" }}>
           <Menu strategy='fixed'>
             <MenuButton
               as={Button}
@@ -189,10 +249,10 @@ const Navbar = () => {
               border='1px'
               borderRadius='8px'
               _hover={{
-                color: 'yellow.5'
+                color: "yellow.5"
               }}
               _active={{
-                color: 'yellow.5'
+                color: "yellow.5"
               }}
             >
               <Box display='flex' alignItems='center' justifyContent='center'>
@@ -228,8 +288,22 @@ const Navbar = () => {
                 href='https://app.oskmitb.com'
                 itemName='Spacelog'
                 itemIcon={MdRocketLaunch}
+                isExternal
               />
-              {/* <MobLiItem href='/login' itemName='Login' itemIcon={MdLogin} /> */}
+              {isLogin ? (
+                <MobLiItem
+                  href='/'
+                  itemName='Logout'
+                  itemIcon={MdLogout}
+                  onClick={() =>
+                    void signOut({
+                      callbackUrl: "/"
+                    })
+                  }
+                />
+              ) : (
+                <MobLiItem href='/login' itemName='Login' itemIcon={MdLogin} />
+              )}
             </MenuList>
           </Menu>
         </Box>

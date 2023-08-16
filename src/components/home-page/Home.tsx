@@ -37,12 +37,6 @@ const Home: NextPage = () => {
             image='/images/misc/spark.png'
             type='medpar'
           />
-          {/* <ImageBox
-          title='OUR MEDIA PARTNER'
-          object='MEDIA&nbsp;PARTNER'
-          contact='+62-812-9237-2312'
-          image='/images/bg-media-partner.png'
-        /> */}
           <ImageBox
             title='OUR TENANTS'
             object='TENANTS'

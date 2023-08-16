@@ -131,7 +131,7 @@ export const showcaseRouter = createTRPCRouter({
       }
 
       const pastDeadline =
-        new Date('Aug 12, 2023 23:59:59 GMT+0700').getTime() <
+        new Date('Aug 10, 2023 23:59:59 GMT+0700').getTime() <
         new Date().getTime();
       if (pastDeadline) {
         throw new TRPCError({

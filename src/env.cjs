@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { createEnv } = require('@t3-oss/env-nextjs');
-const { z } = require('zod');
+const { createEnv } = require("@t3-oss/env-nextjs");
+const { z } = require("zod");
 
 exports.env = createEnv({
   /**
@@ -10,9 +10,9 @@ exports.env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().url(),
-    NODE_ENV: z.enum(['development', 'test', 'production']),
+    NODE_ENV: z.enum(["development", "test", "production"]),
     NEXTAUTH_SECRET:
-      process.env.NODE_ENV === 'production'
+      process.env.NODE_ENV === "production"
         ? z.string().min(1)
         : z.string().min(1).optional(),
     NEXTAUTH_URL: z.preprocess(
@@ -52,7 +52,11 @@ exports.env = createEnv({
       z.number().int().positive().min(1)
     ),
     // IF REDIS_URL is not set, will not using redis (memory cache)
-    REDIS_URL: z.string().url()
+    REDIS_URL: z.string().url(),
+    GHOST_CONTENT_API: z.string().min(1),
+    VECTOR_INDEX_PATH: z.string(),
+    OPENAI_API_KEY: z.string(),
+    SESSION_COOKIE_DOMAIN: z.string().default("localhost")
   },
 
   /**
@@ -86,7 +90,11 @@ exports.env = createEnv({
     NEXT_PUBLIC_BUCKET_API_KEY: process.env.NEXT_PUBLIC_BUCKET_API_KEY,
     NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN:
       process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
-    REDIS_URL: process.env.REDIS_URL
+    REDIS_URL: process.env.REDIS_URL,
+    GHOST_CONTENT_API: process.env.GHOST_CONTENT_API,
+    VECTOR_INDEX_PATH: process.env.VECTOR_INDEX_PATH,
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    SESSION_COOKIE_DOMAIN: process.env.SESSION_COOKIE_DOMAIN
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
