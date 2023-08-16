@@ -18,7 +18,7 @@ const BlogDetailPage = () => {
 
   const blogDetailQuery = api.cms.getArticlesBySlug.useQuery({
     slug: slug as string
-  })
+  }, { refetchOnWindowFocus: false })
 
   const articleListQuery = api.cms.getArticlesList.useQuery({
     currentPage: 1,
@@ -41,9 +41,10 @@ const BlogDetailPage = () => {
     let result: number = number;
     if (number >= 1000) {
       result = number / 1000;
+      return result.toFixed(1).toString() + 'K';
     }
 
-    return result.toFixed(1).toString() + 'K';
+    return result.toString();
   }
 
   const likeArticle = async () => {
