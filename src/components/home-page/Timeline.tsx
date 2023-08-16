@@ -109,7 +109,7 @@ export default function Timeline() {
                         const year = splitted[2] as string;
                         const time = new Date(
                           `${year}-${month + 1}-${
-                            parseInt(day) + 1
+                            parseInt(day)
                           } 00:00:00 GMT+0700`
                         ).getTime();
                         if (time >= now && title === "") {
