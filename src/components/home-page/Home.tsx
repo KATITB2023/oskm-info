@@ -1,10 +1,10 @@
-import { type NextPage } from 'next';
-import { Box, Flex } from '@chakra-ui/react';
-import Layout from '~/layout';
-import ImageBox from '~/components/ImageBox';
-import Jumbotron from '~/components/home-page/Jumbotron';
-import Timeline from '~/components/home-page/Timeline';
-import SupportBackground from '~/components/background/SupportBackground';
+import { type NextPage } from "next";
+import { Box, Flex } from "@chakra-ui/react";
+import Layout from "~/layout";
+import ImageBox from "~/components/ImageBox";
+import Jumbotron from "~/components/home-page/Jumbotron";
+import Timeline from "~/components/home-page/Timeline";
+import SupportBackground from "~/components/background/SupportBackground";
 
 const Home: NextPage = () => {
   return (

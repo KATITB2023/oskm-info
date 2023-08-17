@@ -38,7 +38,6 @@ function useEmit<
     return new Promise<GetReturn<T>>((resolve, reject) => {
       // @ts-expect-error type lying so inference can be easy
       socket.emit(event, data, (res: SocketResponse) => {
-        console.log(res.success);
         if (res.success) {
           resolve(res.data as GetReturn<T>);
         } else {

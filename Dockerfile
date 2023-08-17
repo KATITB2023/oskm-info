@@ -1,7 +1,7 @@
 ##### DEPENDENCIES
 
 FROM --platform=linux/amd64 node:18-alpine3.17 AS deps
-RUN apk add --no-cache libc6-compat openssl1.1-compat git openssh
+RUN apk add --no-cache libc6-compat openssl1.1-compat git openssh g++ make py3-pip
 # RUN mkdir -p /root/.ssh
 # RUN chmod 0700 /root/.ssh
 # RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
