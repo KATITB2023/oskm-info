@@ -9,14 +9,20 @@ import {
   VStack,
   Flex,
   useToast,
-  Select
-} from '@chakra-ui/react';
-import { TRPCClientError } from '@trpc/client';
-import { type BaseSyntheticEvent, useState, type SyntheticEvent } from 'react';
-import { type SubmitHandler, useForm, Controller } from 'react-hook-form';
-import { api } from '~/utils/api';
-import _ from 'lodash';
-import { ShowCaseSubmitted } from './ShowCaseSubmitted';
+  Select,
+  Image
+} from "@chakra-ui/react";
+import { TRPCClientError } from "@trpc/client";
+import {
+  type BaseSyntheticEvent,
+  useState,
+  type SyntheticEvent,
+  useMemo
+} from "react";
+import { type SubmitHandler, useForm, Controller } from "react-hook-form";
+import { api } from "~/utils/api";
+import _ from "lodash";
+import { ShowCaseSubmitted } from "./ShowCaseSubmitted";
 
 interface FormValues {
   token: string;
@@ -24,15 +30,11 @@ interface FormValues {
 }
 
 export const SecondForm = () => {
-  const [token, setToken] = useState<string>('');
+  const [token, setToken] = useState<string>("");
   const { control, register, formState, setValue, handleSubmit } =
     useForm<FormValues>({
-      mode: 'onChange',
-      delayError: 1000,
-      defaultValues: {
-        token: '',
-        location: ''
-      }
+      mode: "onChange",
+      delayError: 1000
     });
 
   const locationsQuery = api.showcase.getLocation.useQuery({ token: token });
@@ -40,8 +42,18 @@ export const SecondForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState(false);
 
-  const locationsList = locationsQuery.data;
+  const locationsList = locationsQuery.data?.locations?.map((item) =>
+    item.replaceAll("'", "")
+  );
   const toast = useToast();
+
+  const imageSrc = useMemo(() => {
+    if (locationsList?.some((item: string) => item.includes("PE")))
+      return "/pengmas.jpg";
+    if (locationsList && locationsList.length > 0)
+      return "/pameran_festival.png";
+    return null;
+  }, [locationsList]);
 
   const submitSecondShowCase: SubmitHandler<FormValues> = async (
     data: FormValues
@@ -52,24 +64,24 @@ export const SecondForm = () => {
       const result = await registerLocation.mutateAsync(data);
 
       toast({
-        title: 'Success',
+        title: "Success",
         description: result.message,
-        status: 'success',
+        status: "success",
         duration: 3000,
         isClosable: true,
-        position: 'top'
+        position: "top"
       });
       setSuccess(true);
     } catch (error: unknown) {
       if (!(error instanceof TRPCClientError)) throw error;
 
       toast({
-        title: 'Error',
+        title: "Error",
         description: error.message,
-        status: 'error',
+        status: "error",
         duration: 3000,
         isClosable: true,
-        position: 'top'
+        position: "top"
       });
     }
 
@@ -92,10 +104,10 @@ export const SecondForm = () => {
       color='yellow.3'
       maxH='70vh'
       overflowY='auto'
-      w={{ base: '80%', lg: '700px' }}
+      w={{ base: "80%", lg: "700px" }}
       sx={{
-        '&::-webkit-scrollbar': {
-          width: '0'
+        "&::-webkit-scrollbar": {
+          width: "0"
         }
       }}
     >
@@ -117,10 +129,10 @@ export const SecondForm = () => {
             <FormLabel>Token</FormLabel>
             <Input
               placeholder='Masukkan token'
-              {...register('token', {
+              {...register("token", {
                 required: {
                   value: true,
-                  message: 'Token tidak boleh kosong'
+                  message: "Token tidak boleh kosong"
                 },
                 onChange: _.debounce(
                   (e: SyntheticEvent) =>
@@ -135,46 +147,50 @@ export const SecondForm = () => {
               </FormErrorMessage>
             )}
           </FormControl>
+          {imageSrc && <Image src={imageSrc} alt='' draggable='false' />}
           <FormControl isInvalid={!!formState.errors.location}>
             <FormLabel>Lokasi</FormLabel>
             <Controller
               control={control}
               name='location'
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Lokasi tidak boleh kosong'
-                }
-              }}
+              // rules={{
+              //   required: {
+              //     value: true,
+              //     message: "Lokasi tidak boleh kosong"
+              //   }
+              // }}
+              defaultValue={locationsList ? locationsList[0] : ""}
               render={() => (
                 <Select
+                  onChange={(e) => {
+                    setValue("location", `'${e.target.value}'`);
+                  }}
                   variant='filled'
                   bg='gray.600'
                   color='white'
                   w='full'
                   borderColor='gray.400'
-                  onChange={(e) => setValue('location', e.target.value)}
                   transition='all 0.2s ease-in-out'
                   _hover={{
                     opacity: 0.8
                   }}
                   _focus={{
-                    background: 'gray.600',
-                    borderColor: 'gray.400',
-                    color: 'white'
+                    background: "gray.600",
+                    borderColor: "gray.400",
+                    color: "white"
                   }}
                   css={{
                     option: {
-                      background: '#2F2E2E'
+                      background: "#2F2E2E"
                     }
                   }}
                 >
                   {locationsList ? (
-                    locationsList.locations.map((location, index) => (
+                    locationsList.map((location, index) => (
                       <option
                         style={{
-                          background: 'gray.600',
-                          color: 'white'
+                          background: "gray.600",
+                          color: "white"
                         }}
                         key={index}
                         value={location}
@@ -185,8 +201,8 @@ export const SecondForm = () => {
                   ) : (
                     <option
                       style={{
-                        background: 'gray.600',
-                        color: 'white'
+                        background: "gray.600",
+                        color: "white"
                       }}
                       selected
                       disabled
