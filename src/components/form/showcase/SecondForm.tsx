@@ -43,7 +43,7 @@ export const SecondForm = () => {
   const [success, setSuccess] = useState(false);
 
   const locationsList = locationsQuery.data?.locations?.map((item) =>
-    item.replaceAll("'", "")
+    item.replace(/'/g, "")
   );
   const toast = useToast();
 
