@@ -9,6 +9,7 @@ import { TRPCClientError } from '@trpc/client';
 import { useState } from 'react'
 import CarouselDetail from './article-list/CarouselDetail';
 import type { PostOrPage } from '@tryghost/content-api';
+import { LoadingSuspense } from './Loading';
 
 const BlogDetailPage = () => {
   const router = useRouter()
@@ -85,7 +86,7 @@ const BlogDetailPage = () => {
 
   return (
     <Layout title='Blog Detail'>
-      {blogDetail ? (
+      {blogDetail && !blogDetailQuery.isLoading ? (
         <Flex
           minH='100dvh'
           width='100%'
@@ -209,7 +210,7 @@ const BlogDetailPage = () => {
           </Flex>
         </Flex>
       ) : (
-        null
+        <LoadingSuspense />
       )}
     </Layout>
   );
