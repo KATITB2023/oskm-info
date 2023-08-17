@@ -183,6 +183,27 @@ export const showcaseRouter = createTRPCRouter({
         }
       });
 
+      const bookedLocation = await ctx.prisma.bookedLocation.findMany(
+        {
+          select: {
+            location: true
+          }
+        }
+      );
+
+      const filtered = location?.locations.filter((loc) => {
+        let isBooked = false;
+        bookedLocation.forEach((booked) => {
+          if (booked.location.includes(loc)) {
+            isBooked = true;
+          }
+        });
+
+        return !isBooked;
+      })
+
+      location!.locations = filtered ?? [];
+
       if (!location) {
         return undefined;
       }
