@@ -1,7 +1,8 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
-import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import { Lembaga } from '~/utils/file';
+import { TRPCError } from "@trpc/server";
+import { connect } from "http2";
+import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { Lembaga } from "~/utils/file";
 
 export const showcaseRouter = createTRPCRouter({
   getGotTalentTime: publicProcedure.query(async ({ ctx }) => {
@@ -37,8 +38,8 @@ export const showcaseRouter = createTRPCRouter({
 
       if (!schedule) {
         throw new TRPCError({
-          code: 'NOT_FOUND',
-          message: 'Schedule already taken'
+          code: "NOT_FOUND",
+          message: "Schedule already taken"
         });
       }
 
@@ -61,7 +62,7 @@ export const showcaseRouter = createTRPCRouter({
       });
 
       return {
-        message: 'Booking success'
+        message: "Booking success"
       };
     }),
 
@@ -83,7 +84,7 @@ export const showcaseRouter = createTRPCRouter({
       });
 
       return {
-        message: 'Added token'
+        message: "Added token"
       };
     }),
 
@@ -125,18 +126,18 @@ export const showcaseRouter = createTRPCRouter({
 
       if (registered) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'This NIM has already been registered'
+          code: "BAD_REQUEST",
+          message: "This NIM has already been registered"
         });
       }
 
       const pastDeadline =
-        new Date('Aug 10, 2023 23:59:59 GMT+0700').getTime() <
+        new Date("Aug 10, 2023 23:59:59 GMT+0700").getTime() <
         new Date().getTime();
       if (pastDeadline) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Registration deadline has passed'
+          code: "BAD_REQUEST",
+          message: "Registration deadline has passed"
         });
       }
 
@@ -165,7 +166,7 @@ export const showcaseRouter = createTRPCRouter({
       });
 
       return {
-        message: 'Register success'
+        message: "Register success"
       };
     }),
 
@@ -199,14 +200,21 @@ export const showcaseRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const bookedLocation = await ctx.prisma.bookedLocation.findFirst({
         where: {
-          token: input.token
+          OR: [
+            {
+              token: input.token
+            },
+            {
+              location: input.location
+            }
+          ]
         }
       });
 
       if (bookedLocation) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Token has been used'
+          code: "BAD_REQUEST",
+          message: "Token or Location has been booked"
         });
       }
 
@@ -219,12 +227,12 @@ export const showcaseRouter = createTRPCRouter({
         });
 
         return {
-          message: 'Location successfully booked'
+          message: "Location successfully booked"
         };
       } catch (e) {
         throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'Location have been booked, please select different location'
+          code: "BAD_REQUEST",
+          message: "Location have been booked, please select different location"
         });
       }
     })
