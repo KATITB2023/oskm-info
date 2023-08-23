@@ -1,11 +1,14 @@
+import { loadEnvConfig } from "@next/env";
 import { Server } from "socket.io";
-import { env } from "~/env.cjs";
 import parser from "socket.io-msgpack-parser";
-import type { SocketServer } from "~/server/socket/setup";
-import { setupSocket } from "~/server/socket/setup";
+import { type SocketServer, setupSocket } from "~/server/socket/setup";
+import { env } from "~/env.cjs";
+
+// Load environment variables from .env before doing anything else
+loadEnvConfig(process.cwd());
 
 void (() => {
-  const port = parseInt(process.env.PORT || "3001", 10);
+  const port = env.WS_PORT;
 
   const io: SocketServer = new Server(port, {
     cors: {
@@ -17,7 +20,8 @@ void (() => {
   });
 
   io.on("connection", (socket) => {
-    console.log(`Connection (${io.engine.clientsCount}) with id ${socket.id}`);
+    console.log(`Connection (${io.engine.clientsCount})`);
+
     socket.once("disconnect", () => {
       console.log(`Connection (${io.engine.clientsCount})`);
     });
@@ -27,9 +31,13 @@ void (() => {
 
   console.log(`WebSocket Server listening on ws://localhost:${port}`);
 
+  // Start Schedule if Exist
+
   // On SIGTERM
   process.on("SIGTERM", () => {
     console.log("SIGTERM");
+
+    // Stop Schedule if Exist
 
     // Close WebSocket Server
     io.close();

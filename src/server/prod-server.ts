@@ -1,17 +1,17 @@
 import { loadEnvConfig } from "@next/env";
+import http from "http";
+import { parse } from "url";
+import next from "next";
+import { Server } from "socket.io";
+import parser from "socket.io-msgpack-parser";
+import { setupSocket, type SocketServer } from "~/server/socket/setup";
+import { env } from "~/env.cjs";
 
 // Load environment variables from .env before doing anything else
 loadEnvConfig(process.cwd());
 
-import http from "http";
-import next from "next";
-import { Server } from "socket.io";
-import { parse } from "url";
-import parser from "socket.io-msgpack-parser";
-import { setupSocket, type SocketServer } from "~/server/socket/setup";
-
-const port = parseInt(process.env.PORT || "3000", 10);
-const dev = process.env.NODE_ENV !== "production";
+const port = env.PORT;
+const dev = env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
@@ -38,21 +38,27 @@ void app.prepare().then(() => {
     void handle(req, res, parsedUrl);
   });
 
-  const io: SocketServer = new Server(server, {
+  const io: SocketServer = new Server({
     parser,
     transports: ["websocket"]
   });
 
   setupSocket(io);
 
+  io.listen(env.WS_PORT);
+
+  // Start Schedule if Exist
+
   console.log(
     `Server listening at http://localhost:${port} as ${
-      dev ? "development" : process.env.NODE_ENV
+      dev ? "development" : env.NODE_ENV
     }`
   );
 
   process.on("SIGTERM", () => {
     console.log("SIGTERM");
+
+    // Stop Schedule if Exist
   });
 
   server.listen(port);
