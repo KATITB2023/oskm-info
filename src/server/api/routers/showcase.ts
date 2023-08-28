@@ -154,15 +154,11 @@ export const showcaseRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const location = await ctx.prisma.locationBooking.findFirst({
+      const location = await ctx.prisma.locationBooking.findUnique({
         where: {
           token: input.token
         }
       });
-
-      if (!location) {
-        return undefined;
-      }
 
       return location;
     }),

@@ -1,13 +1,13 @@
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
-import { createTRPCRouter, publicProcedure } from '~/server/api/trpc';
-import GhostContentAPI from '@tryghost/content-api';
-import { env } from '~/env.cjs';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import GhostContentAPI from "@tryghost/content-api";
+import { env } from "~/env.cjs";
 
 const contentApi = new GhostContentAPI({
-  url: 'https://blog.oskmitb.com',
+  url: "https://blog.oskmitb.com",
   key: env.GHOST_CONTENT_API,
-  version: 'v5.0'
+  version: "v5.0"
 });
 
 export const cmsRouter = createTRPCRouter({
@@ -25,16 +25,16 @@ export const cmsRouter = createTRPCRouter({
         limit: input.limitPerPage,
         page: input.currentPage,
         fields: [
-          'id',
-          'slug',
-          'title',
-          'html',
-          'reading_time',
-          'feature_image'
+          "id",
+          "slug",
+          "title",
+          "html",
+          "reading_time",
+          "feature_image"
         ],
         filter: input.searchQuery ? `title:~'${input.searchQuery}'` : undefined,
         order: input.sortBy,
-        formats: ['html', 'plaintext']
+        formats: ["html", "plaintext"]
       });
 
       return { data, meta: data.meta };
@@ -47,12 +47,12 @@ export const cmsRouter = createTRPCRouter({
         { slug: input.slug },
         {
           fields: [
-            'id',
-            'slug',
-            'title',
-            'html',
-            'feature_image',
-            'reading_time'
+            "id",
+            "slug",
+            "title",
+            "html",
+            "feature_image",
+            "reading_time"
           ]
         }
       );
@@ -68,7 +68,7 @@ export const cmsRouter = createTRPCRouter({
         }
       });
 
-      const metadata = await ctx.prisma.article.findFirst({
+      const metadata = await ctx.prisma.article.findUnique({
         where: {
           id: content.id
         }
@@ -96,8 +96,8 @@ export const cmsRouter = createTRPCRouter({
         });
       } catch (error) {
         throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to add like'
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to add like"
         });
       }
     }),
@@ -118,8 +118,8 @@ export const cmsRouter = createTRPCRouter({
         });
       } catch (error) {
         throw new TRPCError({
-          code: 'INTERNAL_SERVER_ERROR',
-          message: 'Failed to add like'
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to add like"
         });
       }
     })
