@@ -51,7 +51,7 @@ const ShowcaseMap = () => {
       }}
       onMove={(e) => setViewState(e.viewState)}
       {...viewState}
-      maxBounds={[-1240e-3, -1754e-3, 1240e-3, 1754e-3]}
+      maxBounds={[-1754e-3, -1240e-3, 1754e-3, 1240e-3]}
       pitchWithRotate={false}
     >
       <FullscreenControl
