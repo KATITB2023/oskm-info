@@ -1,44 +1,43 @@
 import mapboxgl from "mapbox-gl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Map,
   type ViewState,
+  type ImageSource,
+  type RasterLayer,
   FullscreenControl,
   NavigationControl,
-  GeolocateControl,
-  ScaleControl,
   Layer,
-  useMap,
   Source
 } from "react-map-gl";
 import { env } from "~/env.cjs";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const ShowcaseMapImage = () => {
-  const { current: map } = useMap();
+const imageSource: ImageSource = {
+  type: "image",
+  url: "/images/showcase/190_LAYOUT-FESTIVAL-A4.png",
+  coordinates: [
+    [-1754e-3, 1240e-3],
+    [1754e-3, 1240e-3],
+    [1754e-3, -1240e-3],
+    [-1754e-3, -1240e-3]
+  ]
+};
 
-  useEffect(() => {
-    if (!map) return;
-
-    map.loadImage(
-      "https://docs.mapbox.com/mapbox-gl-js/assets/cat.png",
-      (error, image) => {
-        if (error) throw error;
-        if (!map.hasImage("map-pin") && image) map.addImage("map-pin", image);
-      }
-    );
-  }, [map]);
-
-  return null;
+const rasterLayer: RasterLayer = {
+  id: "map-layer",
+  type: "raster",
+  source: "map-source",
+  paint: {
+    "raster-fade-duration": 0
+  }
 };
 
 const ShowcaseMap = () => {
   const [viewState, setViewState] = useState<Partial<ViewState>>({
-    longitude: -77.4144,
-    latitude: 25.0759,
-    zoom: 18,
-    pitch: 0,
-    bearing: 0
+    longitude: 0,
+    latitude: 0,
+    zoom: 9
   });
 
   return (
@@ -52,6 +51,8 @@ const ShowcaseMap = () => {
       }}
       onMove={(e) => setViewState(e.viewState)}
       {...viewState}
+      maxBounds={[-1240e-3, -1754e-3, 1240e-3, 1754e-3]}
+      pitchWithRotate={false}
     >
       <FullscreenControl
         style={{
@@ -63,38 +64,8 @@ const ShowcaseMap = () => {
       <NavigationControl
         style={{ position: "relative", top: "100px", right: "20px" }}
       />
-      <GeolocateControl
-        showUserHeading
-        trackUserLocation
-        style={{ position: "relative", top: "100px", right: "20px" }}
-      />
-      <ScaleControl />
-      <ShowcaseMapImage />
-      <Source
-        id='point'
-        type='geojson'
-        data={{
-          type: "FeatureCollection",
-          features: [
-            {
-              type: "Feature",
-              geometry: {
-                type: "Point",
-                coordinates: [-77.4144, 25.0759]
-              }
-            }
-          ]
-        }}
-      >
-        <Layer
-          id='peta'
-          type='symbol'
-          source='point'
-          layout={{
-            "icon-image": "map-pin",
-            "icon-size": 0.25
-          }}
-        />
+      <Source id='map-source' {...imageSource}>
+        <Layer {...rasterLayer} />
       </Source>
     </Map>
   );
