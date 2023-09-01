@@ -1,5 +1,4 @@
-import mapboxgl from "mapbox-gl";
-import { type Dispatch, type SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState, useEffect } from "react";
 import {
   Map,
   type ViewState,
@@ -12,6 +11,7 @@ import {
   useMap,
   Marker
 } from "react-map-gl";
+import mapboxgl from "mapbox-gl";
 import { type MapLocation, type MapPhoto } from "@prisma/client";
 import MapModalBackground from "~/components/background/MapModalBackground";
 import {
@@ -33,8 +33,8 @@ import {
 import Slider from "react-slick";
 import { api } from "~/utils/api";
 import { env } from "~/env.cjs";
+import { Dots } from "~/components/about-us/Dots";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { Dots } from "./about-us/Dots";
 
 const imageSource: ImageSource = {
   type: "image",
@@ -119,7 +119,55 @@ const FestivalMarker = ({
   );
 };
 
-const FestivalMap = () => {
+const FestivalLocator = ({
+  inputSelectedLocationName,
+  setSelectedLocation,
+  onOpen
+}: {
+  inputSelectedLocationName: string;
+  setSelectedLocation: Dispatch<
+    SetStateAction<
+      | (MapLocation & {
+          MapPhoto: MapPhoto[];
+        })
+      | undefined
+    >
+  >;
+  onOpen: () => void;
+}) => {
+  const { current: map } = useMap();
+
+  const getLocationInfoQuery = api.interactiveMap.getLocationInfo.useQuery({
+    title: inputSelectedLocationName
+  });
+
+  useEffect(() => {
+    if (!getLocationInfoQuery.data || !map) return;
+
+    // Fly to selected location
+    map.flyTo({
+      center: [
+        getLocationInfoQuery.data.baseLongitude.toNumber(),
+        getLocationInfoQuery.data.baseLatitude.toNumber()
+      ],
+      zoom: 18
+    });
+
+    // Set selected location
+    setSelectedLocation(getLocationInfoQuery.data);
+
+    // Open Modal
+    onOpen();
+  }, [map, getLocationInfoQuery.data, onOpen, setSelectedLocation]);
+
+  return null;
+};
+
+const FestivalMap = ({
+  inputSelectedLocationName
+}: {
+  inputSelectedLocationName?: string;
+}) => {
   const [viewState, setViewState] = useState<Partial<ViewState>>({
     longitude: 0,
     latitude: 0,
@@ -192,6 +240,13 @@ const FestivalMap = () => {
           onOpen={onOpen}
         />
       ))}
+      {inputSelectedLocationName && (
+        <FestivalLocator
+          inputSelectedLocationName={inputSelectedLocationName}
+          setSelectedLocation={setSelectedLocation}
+          onOpen={onOpen}
+        />
+      )}
       <Modal isOpen={isOpen} onClose={onClose} size='2xl'>
         <ModalOverlay />
         <ModalContent
