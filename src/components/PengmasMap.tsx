@@ -39,7 +39,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 const imageSource: ImageSource = {
   type: "image",
-  url: "/images/showcase/190_LAYOUT-FESTIVAL-A4.png",
+  url: "/images/showcase/190_LAYOUT-PENGMAS-A4.png",
   coordinates: [
     [-1754e-3, 1240e-3],
     [1754e-3, 1240e-3],
@@ -57,7 +57,7 @@ const rasterLayer: RasterLayer = {
   }
 };
 
-const FestivalMarker = ({
+const PengmasMarker = ({
   location,
   setSelectedLocation,
   onOpen
@@ -120,7 +120,7 @@ const FestivalMarker = ({
   );
 };
 
-const FestivalLocator = ({
+const PengmasLocator = ({
   inputSelectedLocationName,
   setSelectedLocation,
   onOpen
@@ -163,7 +163,7 @@ const FestivalLocator = ({
   return null;
 };
 
-const FestivalMap = ({
+const PengmasMap = ({
   inputSelectedLocationName
 }: {
   inputSelectedLocationName?: string;
@@ -184,7 +184,7 @@ const FestivalMap = ({
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const getLocationsQuery = api.interactiveMap.getLocations.useQuery({
-    campus: "Festival"
+    campus: "Pengmas"
   });
 
   const isLg = useBreakpointValue({ base: false, lg: true });
@@ -212,7 +212,7 @@ const FestivalMap = ({
     void navigator.clipboard
       .writeText(
         encodeURI(
-          `${env.NEXT_PUBLIC_API_URL}/showcase-map/festival?locationName=${selectedLocation.title}`
+          `${env.NEXT_PUBLIC_API_URL}/showcase-map/pengmas?locationName=${selectedLocation.title}`
         )
       )
       .then(() =>
@@ -255,7 +255,7 @@ const FestivalMap = ({
         <Layer {...rasterLayer} />
       </Source>
       {getLocationsQuery.data?.map((location) => (
-        <FestivalMarker
+        <PengmasMarker
           key={location.id}
           location={location}
           setSelectedLocation={setSelectedLocation}
@@ -263,7 +263,7 @@ const FestivalMap = ({
         />
       ))}
       {inputSelectedLocationName && (
-        <FestivalLocator
+        <PengmasLocator
           inputSelectedLocationName={inputSelectedLocationName}
           setSelectedLocation={setSelectedLocation}
           onOpen={onOpen}
@@ -404,4 +404,4 @@ const FestivalMap = ({
   );
 };
 
-export default FestivalMap;
+export default PengmasMap;
