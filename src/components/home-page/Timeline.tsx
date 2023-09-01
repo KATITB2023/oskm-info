@@ -108,9 +108,9 @@ export default function Timeline() {
                         );
                         const year = splitted[2] as string;
                         const time = new Date(
-                          `${year}-${month + 1}-${
-                            parseInt(day)
-                          } 00:00:00 GMT+0700`
+                          `${year}-${month + 1}-${parseInt(
+                            day
+                          )} 00:00:00 GMT+0700`
                         ).getTime();
                         if (time >= now && title === "") {
                           title = detail.time;
@@ -120,7 +120,9 @@ export default function Timeline() {
                       const index = data.detail.findIndex(
                         (detail) => detail.time === title
                       );
-                      const detail = data.detail.slice(0, index);
+
+                      let detail = data.detail;
+                      if (index !== -1) detail = data.detail.slice(0, index);
                       if (detail.length === 0) {
                         toast({
                           status: "info",

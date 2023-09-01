@@ -76,8 +76,14 @@ export const timelineData = [
   },
   {
     event: "Showcase",
-    date: "September",
+    date: "2 September",
     image: "/images/timeline/bulan.png",
-    detail: []
+    detail: [
+      { event: "Parade", time: "08:35", type: "detail" },
+      { event: "ISHOMA", time: "11:49", type: "detail" },
+      { event: "Concert", time: "12:30 - 16:30", type: "detail" },
+      { event: "Festival", time: "12:30 - 17:00", type: "detail" },
+      { event: "ISHOMA", time: "14:55 - 15:30", type: "detail" }
+    ]
   }
 ];
