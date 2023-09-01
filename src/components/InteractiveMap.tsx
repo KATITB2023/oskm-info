@@ -29,12 +29,12 @@ import {
   Marker
 } from "react-map-gl";
 import { type MapLocation, type MapPhoto } from "@prisma/client";
+import Slider from "react-slick";
+import { Dots } from "~/components/about-us/Dots";
+import MapModalBackground from "~/components/background/MapModalBackground";
 import { api } from "~/utils/api";
 import { env } from "~/env.cjs";
 import "mapbox-gl/dist/mapbox-gl.css";
-import Slider from "react-slick";
-import { Dots } from "./about-us/Dots";
-import MapModalBackground from "./background/MapModalBackground";
 
 const InteractiveSelect = ({
   placeholder,
@@ -153,7 +153,7 @@ const InteractiveMarker = ({
       }}
     >
       <Image
-        src='/images/misc/spark3.png'
+        src={location.logo ?? "/images/misc/spark3.png"}
         alt='marker'
         w='125px'
         draggable='false'
@@ -243,9 +243,9 @@ const InteractiveMap = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  // const getLocationsQuery = api.interactiveMap.getLocations.useQuery({
-  //   campus: selectedCampus
-  // });
+  const getLocationsQuery = api.interactiveMap.getLocations.useQuery({
+    campus: selectedCampus
+  });
 
   const settings = {
     dots: false,
@@ -322,14 +322,14 @@ const InteractiveMap = ({
           onOpen={onOpen}
         />
       )}
-      {/* {getLocationsQuery.data?.map((location) => (
+      {getLocationsQuery.data?.map((location) => (
         <InteractiveMarker
           key={location.id}
           location={location}
           setSelectedLocation={setSelectedLocation}
           onOpen={onOpen}
         />
-      ))} */}
+      ))}
       <Modal isOpen={isOpen} onClose={onClose} size='2xl'>
         <ModalOverlay />
         <ModalContent
@@ -379,6 +379,7 @@ const InteractiveMap = ({
                     {selectedLocation.subtitle}
                   </Text>
                 </VStack>
+                {/* If multiple map photos */}
                 {selectedLocation.MapPhoto.length > 1 && (
                   <>
                     <Slider
@@ -418,6 +419,7 @@ const InteractiveMap = ({
                     />
                   </>
                 )}
+                {/* If single map photo */}
                 {selectedLocation.MapPhoto.length === 1 && (
                   <VStack spacing={1} alignItems='center' w='100%'>
                     <Box
@@ -440,24 +442,6 @@ const InteractiveMap = ({
                     </Text>
                   </VStack>
                 )}
-                <VStack spacing={1} alignItems='center' w='100%'>
-                  <Box
-                    borderRadius='lg'
-                    p={3}
-                    bg='yellow.5'
-                    w={{ base: "200px", lg: "250px" }}
-                  >
-                    <Image
-                      src='/images/misc/spark3.png'
-                      alt=''
-                      w='100%'
-                      draggable='false'
-                      loading='lazy'
-                      borderRadius='lg'
-                    />
-                  </Box>
-                  <Text textAlign='center'>asdasd</Text>
-                </VStack>
                 <Text>{selectedLocation.description}</Text>
                 <HStack
                   alignItems='flex-end'

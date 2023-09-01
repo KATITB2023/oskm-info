@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   IconButton,
@@ -13,13 +13,13 @@ import {
   Fade,
   Image,
   Icon
-} from '@chakra-ui/react';
-import { BiChevronRight, BiChevronLeft } from 'react-icons/bi';
-import Slider from 'react-slick';
-import { useState } from 'react';
-import { colors } from '~/styles/component/colors';
-import { CgClose } from 'react-icons/cg';
-import { Dots } from './Dots';
+} from "@chakra-ui/react";
+import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
+import Slider from "react-slick";
+import { useState } from "react";
+import { colors } from "~/styles/component/colors";
+import { CgClose } from "react-icons/cg";
+import { Dots } from "./Dots";
 
 interface Era {
   title: string;
@@ -29,86 +29,86 @@ interface Era {
 
 const history: Era[] = [
   {
-    title: 'SEBELUM 2000-AN',
+    title: "SEBELUM 2000-AN",
     preview:
-      'Pada era ini, OSKM ITB merupakan ajang kaderisasi terpusat yang kental dengan agenda-agenda pergerakan.',
-    text: 'Pada era ini, OSKM ITB merupakan ajang kaderisasi terpusat yang kental dengan agenda-agenda pergerakan sesuai dengan kondisi ekonomi sosial politik pada zaman itu.'
+      "Pada era ini, OSKM ITB merupakan ajang kaderisasi terpusat yang kental dengan agenda-agenda pergerakan.",
+    text: "Pada era ini, OSKM ITB merupakan ajang kaderisasi terpusat yang kental dengan agenda-agenda pergerakan sesuai dengan kondisi ekonomi sosial politik pada zaman itu."
   },
   {
-    title: 'TAHUN 2000',
+    title: "TAHUN 2000",
     preview:
-      'Muncul permasalahan terkait legalitas OSKM karena adanya pandangan bahwa kaderisasi di OSKM ITB mengandung unsur kekerasan.',
-    text: 'Muncul permasalahan terkait legalitas OSKM karena adanya pandangan bahwa kaderisasi di OSKM ITB mengandung unsur kekerasan. Sehingga, penyelenggaraan OSKM ITB ilegal dan kehadiran peserta sangat minim.'
+      "Muncul permasalahan terkait legalitas OSKM karena adanya pandangan bahwa kaderisasi di OSKM ITB mengandung unsur kekerasan.",
+    text: "Muncul permasalahan terkait legalitas OSKM karena adanya pandangan bahwa kaderisasi di OSKM ITB mengandung unsur kekerasan. Sehingga, penyelenggaraan OSKM ITB ilegal dan kehadiran peserta sangat minim."
   },
   {
-    title: 'TAHUN 2002',
+    title: "TAHUN 2002",
     preview:
-      'Pada tahun ini, OSKM ITB pun akhirnya dilegalkan dengan beberapa perubahan.',
-    text: 'Pada tahun ini, OSKM ITB pun akhirnya dilegalkan dengan beberapa perubahan seperti peniadaan acara swasta dan pendekatan kekerasan yang diganti dengan pendekatan disiplin.'
+      "Pada tahun ini, OSKM ITB pun akhirnya dilegalkan dengan beberapa perubahan.",
+    text: "Pada tahun ini, OSKM ITB pun akhirnya dilegalkan dengan beberapa perubahan seperti peniadaan acara swasta dan pendekatan kekerasan yang diganti dengan pendekatan disiplin."
   },
   {
-    title: 'TAHUN 2005',
-    preview: 'OSKM kembali di bawah bayang-bayang permasalahan legalitas.',
-    text: 'OSKM kembali di bawah bayang-bayang permasalahan legalitas.'
+    title: "TAHUN 2005",
+    preview: "OSKM kembali di bawah bayang-bayang permasalahan legalitas.",
+    text: "OSKM kembali di bawah bayang-bayang permasalahan legalitas."
   },
   {
-    title: 'TAHUN 2006',
+    title: "TAHUN 2006",
     preview:
-      'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Satuan Akademik dan Kemahasiswaan (PSAK) ITB.',
-    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Satuan Akademik dan Kemahasiswaan (PSAK) ITB.\n\nOSKM dilakukan secara ilegal dan hanya diikuti 136 mahasiswa. Ancaman DO pun menghantui Ketua Kabinet pada saat itu, Ketua OSKM, dan peserta yang mengikutinya.'
+      "Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Satuan Akademik dan Kemahasiswaan (PSAK) ITB.",
+    text: "Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Satuan Akademik dan Kemahasiswaan (PSAK) ITB.\n\nOSKM dilakukan secara ilegal dan hanya diikuti 136 mahasiswa. Ancaman DO pun menghantui Ketua Kabinet pada saat itu, Ketua OSKM, dan peserta yang mengikutinya."
   },
   {
-    title: 'TAHUN 2007',
+    title: "TAHUN 2007",
     preview:
-      'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Penerimaan Mahasiswa Baru (PMB) ITB.',
-    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Penerimaan Mahasiswa Baru (PMB) ITB.\n\nOSKM dilegalkan kembali dengan perubahan konsep dan metode karena pertimbangan agar angkatan 2007 dapat berinteraksi dengan seniornya.'
+      "Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Penerimaan Mahasiswa Baru (PMB) ITB.",
+    text: "Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Penerimaan Mahasiswa Baru (PMB) ITB.\n\nOSKM dilegalkan kembali dengan perubahan konsep dan metode karena pertimbangan agar angkatan 2007 dapat berinteraksi dengan seniornya."
   },
   {
-    title: 'TAHUN 2009',
-    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Ruang dan Orientasi KM (PROKM) ITB.'
+    title: "TAHUN 2009",
+    text: "Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Pengenalan Ruang dan Orientasi KM (PROKM) ITB."
   },
   {
-    title: 'TAHUN 2010',
-    text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Inisiasi Keluarga Mahasiswa (INKM) ITB.'
+    title: "TAHUN 2010",
+    text: "Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Inisiasi Keluarga Mahasiswa (INKM) ITB."
   },
   {
-    title: 'TAHUN 2014',
+    title: "TAHUN 2014",
     text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "Simfoni Pergerakan Untuk Indonesia".'
   },
   {
-    title: 'TAHUN 2015',
+    title: "TAHUN 2015",
     text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "OSKM ITB 2015 sebagai penyadaran akan identitas insan akademis masa depan bangsa".'
   },
   {
-    title: 'TAHUN 2016',
+    title: "TAHUN 2016",
     preview:
-      'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Inisiasi Terpusat Keluarga Mahasiswa (INTEGRASI) ITB.',
+      "Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Inisiasi Terpusat Keluarga Mahasiswa (INTEGRASI) ITB.",
     text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Inisiasi Terpusat Keluarga Mahasiswa (INTEGRASI) ITB dengan membawakan visi "KAT ITB 2016 yang melahirkan perintis gerakan berdasarkan empati".'
   },
   {
-    title: 'TAHUN 2017',
+    title: "TAHUN 2017",
     preview:
-      'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Orientasi Studi Keluarga Mahasiswa (OSKM) ITB.',
+      "Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Orientasi Studi Keluarga Mahasiswa (OSKM) ITB.",
     text: 'Pada tahun ini, acara penerimaan mahasiswa baru pada KM ITB diselenggarakan dengan nama Orientasi Studi Keluarga Mahasiswa (OSKM) ITB dengan membawakan visi "Mewujudkan mozaik pergerakan untuk Indonesia".'
   },
   {
-    title: 'TAHUN 2018',
+    title: "TAHUN 2018",
     text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "Sebagai sarana inisiasi pembentuk mahasiswa nirmala pemrakarsa pembangunan bangsa".'
   },
   {
-    title: 'TAHUN 2019',
+    title: "TAHUN 2019",
     text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "OSKM ITB 2019 sebagai sarana inisiasi semangat bermimpi untuk Indonesia".'
   },
   {
-    title: 'TAHUN 2020',
+    title: "TAHUN 2020",
     text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "Terciptanya mahasiswa dengan keunikannya masing-masing senantiasa mendefinisikan perannya dan bertanggung jawab terhadap peran tersebut".'
   },
   {
-    title: 'TAHUN 2021',
+    title: "TAHUN 2021",
     text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "KAT ITB sebagai ruang inspirasi bernavigasi budaya dalam mewujudkan kesadaran berkontribusi untuk Indonesia".'
   },
   {
-    title: 'TAHUN 2022',
+    title: "TAHUN 2022",
     text: 'Pada tahun ini, OSKM ITB diselenggarakan dengan dengan membawakan visi "Sarana Inisiasi Perubahan Progresif sebagai langkah awal membangun bangsa".'
   }
 ];
@@ -130,8 +130,8 @@ export default function HistoryCarousel(props: {
   const [slider, setSlider] = useState<Slider | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const top = useBreakpointValue({ base: '90%', md: '47%' });
-  const side = useBreakpointValue({ base: '30%', md: '17%' });
+  const top = useBreakpointValue({ base: "90%", md: "47%" });
+  const side = useBreakpointValue({ base: "30%", md: "17%" });
 
   const settings = {
     dots: false,
@@ -151,13 +151,13 @@ export default function HistoryCarousel(props: {
     <Box>
       <Flex
         justifyContent='center'
-        pb={props.isPreview ? '55px' : '10px'}
-        pt={{ base: '200px', md: props.isPreview ? '250px' : '200px' }}
+        pb={props.isPreview ? "55px" : "10px"}
+        pt={{ base: "200px", md: props.isPreview ? "250px" : "200px" }}
         px='20%'
       >
         <Fade in={true} transition={{ enter: { duration: 1 } }}>
           <Heading
-            size={{ base: 'xl', md: '3xl' }}
+            size={{ base: "xl", md: "3xl" }}
             color='yellow.5'
             textShadow={`0px 0px 10px ${colors.green[3]}`}
             textAlign='center'
@@ -185,7 +185,7 @@ export default function HistoryCarousel(props: {
               position='absolute'
               left={side}
               top={top}
-              transform={'translate(0%, -50%)'}
+              transform={"translate(0%, -50%)"}
               zIndex={2}
               onClick={() => slider?.slickPrev()}
               borderRadius='full'
@@ -201,7 +201,7 @@ export default function HistoryCarousel(props: {
               position='absolute'
               right={side}
               top={top}
-              transform={'translate(0%, -50%)'}
+              transform={"translate(0%, -50%)"}
               zIndex={2}
               onClick={() => slider?.slickNext()}
               borderRadius='full'
@@ -224,7 +224,7 @@ export default function HistoryCarousel(props: {
                 <Show above='md'>
                   <Box
                     opacity='70%'
-                    pb={props.isPreview ? 0 : '50px'}
+                    pb={props.isPreview ? 0 : "50px"}
                     // bg='pink'
                     w='25%'
                     minW='25%'
@@ -247,14 +247,14 @@ export default function HistoryCarousel(props: {
                     justifyContent='center'
                     alignItems='center'
                     pb='30px'
-                    px={{ base: '12%', md: '0' }}
+                    px={{ base: "12%", md: "0" }}
                     // bg='red'
-                    w={{ base: '100%', md: '50%' }}
-                    maxW={{ base: '100%', md: '50%' }}
-                    minW={{ base: '100%', md: '50%' }}
+                    w={{ base: "100%", md: "50%" }}
+                    maxW={{ base: "100%", md: "50%" }}
+                    minW={{ base: "100%", md: "50%" }}
                   >
                     <Heading
-                      fontSize={{ base: '2xl', md: '4xl' }}
+                      fontSize={{ base: "2xl", md: "4xl" }}
                       textAlign='center'
                       color='yellow.5'
                       textShadow={`0px 2.8px 2.8px ${colors.green[1]}`}
@@ -264,7 +264,7 @@ export default function HistoryCarousel(props: {
                     </Heading>
                     <Box w='100%'>
                       <Text
-                        fontSize={{ base: 'md', lg: 'lg' }}
+                        fontSize={{ base: "md", lg: "lg" }}
                         textAlign='center'
                         color='white'
                         textShadow={`0px 0px 10px ${colors.yellow[5]}`}
@@ -288,29 +288,29 @@ export default function HistoryCarousel(props: {
                 ) : (
                   <Box
                     w='50%'
-                    maxW={{ base: '100%', md: '50%' }}
-                    minW={{ base: '100%', md: '50%' }}
+                    maxW={{ base: "100%", md: "50%" }}
+                    minW={{ base: "100%", md: "50%" }}
                   >
                     <Fade in={true} transition={{ enter: { duration: 1 } }}>
                       <Box
                         justifyContent='center'
                         bgGradient={{
-                          base: 'linear(to-br, rgba(255,255,255,0.1), rgba(255,255,255,0.5))',
-                          md: 'linear(to-br, rgba(255,255,255,0.5), rgba(255,255,255,0.1))'
+                          base: "linear(to-br, rgba(255,255,255,0.1), rgba(255,255,255,0.5))",
+                          md: "linear(to-br, rgba(255,255,255,0.5), rgba(255,255,255,0.1))"
                         }}
                         pb='90px'
                         pt='70px'
                         px='60px'
                         mt='20px'
-                        mb={{ base: '30px', md: '60px' }}
-                        mx={{ base: '10%', md: '0' }}
+                        mb={{ base: "30px", md: "60px" }}
+                        mx={{ base: "10%", md: "0" }}
                         borderRadius='10px'
                         boxShadow={`0px 0px 10px ${colors.yellow[5]}`}
                         outline={`1px solid ${colors.yellow[5]}`}
                         position='relative'
                       >
                         <Heading
-                          fontSize={{ base: '2xl', md: '4xl' }}
+                          fontSize={{ base: "2xl", md: "4xl" }}
                           textAlign='center'
                           color='yellow.5'
                           textShadow={`0px 2.8px 2.8px ${colors.green[1]}`}
@@ -333,8 +333,8 @@ export default function HistoryCarousel(props: {
                           bg='transparent'
                           opacity='0.5'
                           _hover={{
-                            bg: 'transparent',
-                            opacity: '0.8'
+                            bg: "transparent",
+                            opacity: "0.8"
                           }}
                           onClick={() => props.setIsPreview(true)}
                           borderRadius='full'
@@ -351,18 +351,19 @@ export default function HistoryCarousel(props: {
                         <Image
                           src='/images/about-us/spark-edge.png'
                           top={{
-                            base: 'calc(100% - 100px)',
-                            md: 'calc(100% - 125px)'
+                            base: "calc(100% - 100px)",
+                            md: "calc(100% - 125px)"
                           }}
                           left={{
-                            base: 'calc(100% - 100px)',
-                            md: 'calc(100% - 125px)'
+                            base: "calc(100% - 100px)",
+                            md: "calc(100% - 125px)"
                           }}
                           zIndex='2'
-                          width={{ base: '200px', md: '250px' }}
+                          width={{ base: "200px", md: "250px" }}
                           position='absolute'
                           draggable='false'
                           loading='lazy'
+                          alt=''
                         />
                       </Box>
                     </Fade>
@@ -375,7 +376,7 @@ export default function HistoryCarousel(props: {
                     w='25%'
                     minW='25%'
                     maxW='25%'
-                    pb={props.isPreview ? 0 : '50px'}
+                    pb={props.isPreview ? 0 : "50px"}
                     // bg='pink'
                   >
                     <Heading

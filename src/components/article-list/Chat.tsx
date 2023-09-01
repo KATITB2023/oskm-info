@@ -103,7 +103,9 @@ const Chat = () => {
     setSocketMessage(data);
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
+  const onSubmit: SubmitHandler<FormValues> = (data: FormValues, event) => {
+    event?.preventDefault();
+
     setMessages([
       ...messages,
       { id: uuidv4(), sender: QuestionRole.USER, message: data.text }
@@ -270,7 +272,8 @@ const Chat = () => {
                     boxShadow={"0px 4px 11px 0px rgba(0, 0, 0, 0.25)"}
                     textAlign={"center"}
                   >
-                    Welcome to OSKM Interactive Bot. Ask me any questions
+                    Welcome to OSKM Interactive Bot. Ask me any questions. You
+                    can only chat with me 5 times each day.
                   </Text>
                 </Flex>
                 <Flex direction={"column"} h={"full"} paddingY={"1rem"}>
@@ -359,7 +362,6 @@ const Chat = () => {
               <form onSubmit={(e) => void handleSubmit(onSubmit)(e)}>
                 <Flex
                   bgColor={"rgba(29, 2, 99, 0.25)"}
-                  as={"form"}
                   w={"full"}
                   columnGap={"1rem"}
                   p={"0.5rem 2rem"}
@@ -375,7 +377,9 @@ const Chat = () => {
                     autoFocus
                     onKeyDown={onKeyDownCustom}
                     disabled={!canAsk}
-                    {...register("text")}
+                    {...register("text", {
+                      required: true
+                    })}
                   />
                   <Button
                     type='submit'

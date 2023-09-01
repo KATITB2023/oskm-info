@@ -181,6 +181,8 @@ const Navbar = () => {
             <DeskLiItem href='/about-us' itemName='About Us' />
             <DeskLiItem href='/merch' itemName='Merchandise' />
             <DeskLiItem href='/interactive-map' itemName='Interactive Map' />
+            <DeskLiItem href='/showcase-map/festival' itemName='Festival Map' />
+            <DeskLiItem href='/showcase-map/pengmas' itemName='Pengmas Map' />
             <DeskLiItem href='/blog' itemName='Blog' />
             {isLogin ? (
               <Menu strategy='fixed'>
@@ -281,6 +283,16 @@ const Navbar = () => {
               <MobLiItem
                 href='/interactive-map'
                 itemName='Interactive Map'
+                itemIcon={MdMap}
+              />
+              <MobLiItem
+                href='/showcase-map/festival'
+                itemName='Festival Map'
+                itemIcon={MdMap}
+              />
+              <MobLiItem
+                href='/showcase-map/pengmas'
+                itemName='Pengmas Map'
                 itemIcon={MdMap}
               />
               <MobLiItem href='/blog' itemName='Blog' itemIcon={MdNewspaper} />

@@ -13,10 +13,10 @@ import {
   keyframes,
   Heading,
   Divider
-} from '@chakra-ui/react';
-import { type EventDetail } from './Timeline';
-import React from 'react';
-import TimelineModalBackground from '../background/TimelineModalBackground';
+} from "@chakra-ui/react";
+import { type EventDetail } from "./Timeline";
+import React from "react";
+import TimelineModalBackground from "../background/TimelineModalBackground";
 
 interface Props {
   isOpen: boolean;
@@ -54,7 +54,7 @@ const VerticalDivider = ({
       flex={1}
       alignSelf='stretch'
     >
-      {type === 'title' ? (
+      {type === "title" ? (
         <>
           <Box position='absolute' w='55px' top='-6'>
             <Image
@@ -69,7 +69,7 @@ const VerticalDivider = ({
           </Box>
         </>
       ) : (
-        <Circle size='20px' bg='pink.5' mb={lastEl ? 'auto' : 0} />
+        <Circle size='20px' bg='pink.5' mb={lastEl ? "auto" : 0} />
       )}
       {!lastEl && (
         <Divider
@@ -99,16 +99,16 @@ export const TimelineModal = ({ isOpen, onClose, title, data }: Props) => {
           px: 4
         }}
         sx={{
-          '&::-webkit-scrollbar': {
-            borderRadius: '144px',
-            bg: 'transparent'
+          "&::-webkit-scrollbar": {
+            borderRadius: "144px",
+            bg: "transparent"
           },
-          '&::-webkit-scrollbar-track': {
-            borderRadius: '144px',
-            bg: 'transparent'
+          "&::-webkit-scrollbar-track": {
+            borderRadius: "144px",
+            bg: "transparent"
           },
-          '&::-webkit-scrollbar-thumb': {
-            borderRadius: '144px'
+          "&::-webkit-scrollbar-thumb": {
+            borderRadius: "144px"
           }
         }}
       >
@@ -123,27 +123,27 @@ export const TimelineModal = ({ isOpen, onClose, title, data }: Props) => {
                 spacing={0}
                 alignItems='flex-start'
                 fontFamily={
-                  item.type === 'title' ? 'Bodwars' : 'SomarRounded-Regular'
+                  item.type === "title" ? "Bodwars" : "SomarRounded-Regular"
                 }
                 zIndex='10'
-                mt={item.type === 'title' ? 10 : 0}
+                mt={item.type === "title" ? 10 : 0}
               >
-                <Text w={{ base: '35%', lg: '25%' }}>{item.time}</Text>
+                <Text w={{ base: "35%", lg: "25%" }}>{item.time}</Text>
                 <Spacer />
                 <VerticalDivider
                   type={item.type}
                   lastEl={
                     index === data.length - 1 ||
-                    data[index + 1]?.type === 'title'
+                    data[index + 1]?.type === "title"
                   }
                   index={index}
                 />
                 <Spacer />
                 <Text
                   textAlign='left'
-                  w={{ base: '50%', lg: '60%' }}
+                  w={{ base: "50%", lg: "60%" }}
                   alignItems='flex-start'
-                  fontSize={item.type === 'title' ? 'xl' : 'md'}
+                  fontSize={item.type === "title" ? "xl" : "md"}
                 >
                   {item.event}
                 </Text>

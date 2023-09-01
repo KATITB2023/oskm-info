@@ -9,7 +9,7 @@ export const GotTalentFull = () => (
     px={5}
   >
     <Image
-      src='/images/icon/maintenance-booked-up.png'
+      src='/images/icon/maintenance-booked-up.png.png'
       alt='coming-soon'
       w={{ base: '200px', md: '350px' }}
       draggable='false'

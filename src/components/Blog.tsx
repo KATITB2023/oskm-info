@@ -71,7 +71,7 @@ const ArticleList = () => {
           position={"relative"}
           alignItems={"center"}
         >
-          {/* <Chat /> */}
+          <Chat />
           <Cards currentPage={1} data={paginatedData} />
           <Button w={"fit-content"} mx='auto'>
             <Link href='/blog/article-list'>

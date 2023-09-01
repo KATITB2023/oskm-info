@@ -9,6 +9,12 @@ exports.env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
+    PORT: z.preprocess(
+      // If PORT is not set, set it to 3000
+      (str) => (str ? +str : 3000),
+      // PORT must be a positive integer
+      z.number().int().positive()
+    ),
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     NEXTAUTH_SECRET:
@@ -25,38 +31,44 @@ exports.env = createEnv({
     SESSION_MAXAGE: z.preprocess(
       // If SESSION_MAXAGE is not set, set it to 30 days
       (str) => (str ? +str : 30 * 24 * 60 * 60),
-      z.number().int().positive().min(1)
+      z.number().int().positive()
     ),
     S_MAXAGE: z.preprocess(
       // If S_MAXAGE is not set, set it to 1 second
       (str) => (str ? +str : 1),
       // S_MAXAGE must be a positive integer
-      z.number().int().positive().min(1)
+      z.number().int().positive()
     ),
     STALE_WHILE_REVALIDATE: z.preprocess(
       // If STALE_WHILE_REVALIDATE is not set, set it to 24 hours
       (str) => (str ? +str : 24 * 60 * 60),
       // STALE_WHILE_REVALIDATE must be a positive integer
-      z.number().int().positive().min(1)
+      z.number().int().positive()
     ),
     SAMPLER_RATIO: z.preprocess(
       // If SAMPLER_RATIO is not set, set it to 1
       (str) => (str ? +str : 1),
-      // SAMPLER_RATIO must be a positive number
+      // SAMPLER_RATIO must be a positive number (float)
       z.number().positive().min(0).max(1)
     ),
     TYPING_TIMEOUT: z.preprocess(
       // If TYPING_TIMEOUT is not set, set it to 1000 ms
       (str) => (str ? +str : 1000),
       // TYPING_TIMEOUT must be a positive integer
-      z.number().int().positive().min(1)
+      z.number().int().positive()
     ),
     // IF REDIS_URL is not set, will not using redis (memory cache)
     REDIS_URL: z.string().url(),
     GHOST_CONTENT_API: z.string().min(1),
     VECTOR_INDEX_PATH: z.string(),
     OPENAI_API_KEY: z.string(),
-    SESSION_COOKIE_DOMAIN: z.string().default("localhost")
+    SESSION_COOKIE_DOMAIN: z.string().default("localhost"),
+    WS_PORT: z.preprocess(
+      // If PORT is not set, set it to 3001
+      (str) => (str ? +str : 3001),
+      // PORT must be a positive integer
+      z.number().int().positive()
+    )
   },
 
   /**
@@ -76,6 +88,7 @@ exports.env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
+    PORT: process.env.PORT,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
@@ -94,7 +107,8 @@ exports.env = createEnv({
     GHOST_CONTENT_API: process.env.GHOST_CONTENT_API,
     VECTOR_INDEX_PATH: process.env.VECTOR_INDEX_PATH,
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-    SESSION_COOKIE_DOMAIN: process.env.SESSION_COOKIE_DOMAIN
+    SESSION_COOKIE_DOMAIN: process.env.SESSION_COOKIE_DOMAIN,
+    WS_PORT: process.env.WS_PORT
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

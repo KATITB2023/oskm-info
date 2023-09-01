@@ -1,9 +1,8 @@
-import { createTRPCRouter } from '~/server/api/trpc';
-import { messageRouter } from '~/server/api/routers/message';
-import { showcaseRouter } from '~/server/api/routers/showcase';
-import { interactiveMapRouter } from '~/server/api/routers/interactive-map';
-import { cmsRouter } from '~/server/api/routers/cms';
-import { chatbotRouter } from '~/server/api/routers/chatbot';
+import { createTRPCRouter } from "~/server/api/trpc";
+import { showcaseRouter } from "~/server/api/routers/showcase";
+import { interactiveMapRouter } from "~/server/api/routers/interactive-map";
+import { cmsRouter } from "~/server/api/routers/cms";
+import { chatbotRouter } from "~/server/api/routers/chatbot";
 
 /**
  * This is the primary router for your server.
@@ -12,7 +11,6 @@ import { chatbotRouter } from '~/server/api/routers/chatbot';
  */
 export const appRouter = createTRPCRouter({
   chatbot: chatbotRouter,
-  message: messageRouter,
   showcase: showcaseRouter,
   interactiveMap: interactiveMapRouter,
   cms: cmsRouter

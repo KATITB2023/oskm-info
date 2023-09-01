@@ -14,7 +14,7 @@ export const ShowCaseSubmitted = ({ firstForm, location }: Props) => (
     px={5}
   >
     <Image
-      src='/images/icon/maintenance-submitted.png'
+      src='/images/icon/maintenance-submitted.png.png'
       alt='coming-soon'
       w={{ base: '150px', md: '250px' }}
       draggable='false'

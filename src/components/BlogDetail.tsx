@@ -9,6 +9,7 @@ import { TRPCClientError } from '@trpc/client';
 import { useState } from 'react'
 import CarouselDetail from './article-list/CarouselDetail';
 import type { PostOrPage } from '@tryghost/content-api';
+import { LoadingSuspense } from './Loading';
 
 const BlogDetailPage = () => {
   const router = useRouter()
@@ -85,7 +86,7 @@ const BlogDetailPage = () => {
 
   return (
     <Layout title='Blog Detail'>
-      {blogDetail ? (
+      {blogDetail && !blogDetailQuery.isLoading ? (
         <Flex
           minH='100dvh'
           width='100%'
@@ -112,10 +113,10 @@ const BlogDetailPage = () => {
           <Flex
             backgroundColor='rgba(54, 8, 192, 0.4)'
             padding='10'
-            paddingInline={{ base: '10', lg: '24'}}
+            paddingInline={{ base: '0', lg: '24'}}
             alignItems='center'
             flexDirection='column'
-            width='80%'
+            width={{ base: '95%', lg: '80%'}}
             zIndex='3'
             color='white'
           >
@@ -164,6 +165,7 @@ const BlogDetailPage = () => {
             <Box
               textAlign='justify'
               sx={{ '& img': { display:'block', margin: '20px auto', loading: 'lazy' }}}
+              paddingInline={{ base: '7' }}
             >
               {ReactHtmlParser(blogDetail.content.html ? blogDetail.content.html : '')}
             </Box>
@@ -208,7 +210,7 @@ const BlogDetailPage = () => {
           </Flex>
         </Flex>
       ) : (
-        null
+        <LoadingSuspense />
       )}
     </Layout>
   );

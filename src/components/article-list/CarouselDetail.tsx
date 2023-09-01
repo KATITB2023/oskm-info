@@ -58,7 +58,7 @@ const CarouselDetail = ({ data }: Props) => {
           position='absolute'
           height='100%'
           alignItems='center'
-          left='-40px'
+          left={{ md: '-15px', lg: '-40px'}}
         >
           <IconButton
             aria-label='left-arrow'
@@ -73,7 +73,7 @@ const CarouselDetail = ({ data }: Props) => {
           </IconButton>
         </Flex>
       </Show>
-      <Box paddingInline='2em'>
+      <Box paddingInline={{ base: '0', md: '1.7em', lg: '2em'}}>
         <link
           rel='stylesheet'
           type='text/css'
@@ -99,7 +99,7 @@ const CarouselDetail = ({ data }: Props) => {
       <Show above='md'>
         <Flex
           position='absolute'
-          right='-40px'
+          right={{ md: '-15px', lg: '-40px'}}
           top='0'
           height='100%'
           alignItems='center'

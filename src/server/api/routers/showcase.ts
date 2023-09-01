@@ -1,5 +1,4 @@
 import { TRPCError } from "@trpc/server";
-import { connect } from "http2";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { Lembaga } from "~/utils/file";
@@ -65,28 +64,6 @@ export const showcaseRouter = createTRPCRouter({
         message: "Booking success"
       };
     }),
-
-  // addTokenToShowcase: publicProcedure
-  //   .input(
-  //     z.object({
-  //       showcaseId: z.string().uuid(),
-  //       token: z.string()
-  //     })
-  //   )
-  //   .mutation(async ({ ctx, input }) => {
-  //     await ctx.prisma.showcaseBooking.update({
-  //       where: {
-  //         id: input.showcaseId
-  //       },
-  //       data: {
-  //         token: input.token
-  //       }
-  //     });
-  //
-  //     return {
-  //       message: "Added token"
-  //     };
-  //   }),
 
   registerUnit: publicProcedure
     .input(
@@ -177,36 +154,11 @@ export const showcaseRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      const location = await ctx.prisma.locationBooking.findFirst({
+      const location = await ctx.prisma.locationBooking.findUnique({
         where: {
           token: input.token
         }
       });
-
-      const bookedLocation = await ctx.prisma.bookedLocation.findMany(
-        {
-          select: {
-            location: true
-          }
-        }
-      );
-
-      const filtered = location?.locations.filter((loc) => {
-        let isBooked = false;
-        bookedLocation.forEach((booked) => {
-          if (booked.location.includes(loc)) {
-            isBooked = true;
-          }
-        });
-
-        return !isBooked;
-      })
-
-      location!.locations = filtered ?? [];
-
-      if (!location) {
-        return undefined;
-      }
 
       return location;
     }),
@@ -221,21 +173,14 @@ export const showcaseRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const bookedLocation = await ctx.prisma.bookedLocation.findFirst({
         where: {
-          OR: [
-            {
-              token: input.token
-            },
-            {
-              location: input.location
-            }
-          ]
+          token: input.token
         }
       });
 
       if (bookedLocation) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Token or Location has been booked"
+          message: "Token has been used"
         });
       }
 
