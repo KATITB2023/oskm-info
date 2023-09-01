@@ -105,7 +105,7 @@ const FestivalMarker = ({
       }}
     >
       <Image
-        src='/images/misc/spark3.png'
+        src={location.logo ?? "/images/misc/spark3.png"}
         alt='marker'
         w='125px'
         draggable='false'
