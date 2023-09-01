@@ -4,6 +4,7 @@ import {
   type ViewState,
   type ImageSource,
   type RasterLayer,
+  type LngLat,
   FullscreenControl,
   NavigationControl,
   Layer,
@@ -173,6 +174,10 @@ const PengmasMap = ({
     latitude: 0,
     zoom: 9
   });
+  // const [mouseLngLat, setMouseLngLat] = useState<LngLat>({
+  //   lng: 0,
+  //   lat: 0
+  // });
 
   const [selectedLocation, setSelectedLocation] = useState<
     | (MapLocation & {
@@ -237,9 +242,11 @@ const PengmasMap = ({
         height: "100vh"
       }}
       onMove={(e) => setViewState(e.viewState)}
-      {...viewState}
+      // onMouseMove={(e) => setMouseLngLat(e.lngLat)}
       maxBounds={[-1754e-3, -1240e-3, 1754e-3, 1240e-3]}
       pitchWithRotate={false}
+      dragRotate={false}
+      {...viewState}
     >
       <FullscreenControl
         style={{
@@ -251,6 +258,18 @@ const PengmasMap = ({
       <NavigationControl
         style={{ position: "relative", top: "100px", right: "20px" }}
       />
+      {/* <Box position='absolute' top='125px' left='25px' bgColor='white'>
+        <Text
+          fontFamily='SomarRounded-Bold'
+          textColor='black'
+          fontSize='16px'
+          fontWeight='700'
+          fontStyle='normal'
+          lineHeight='150%'
+        >
+          {mouseLngLat.lng} {mouseLngLat.lat}
+        </Text>
+      </Box> */}
       <Source id='map-source' {...imageSource}>
         <Layer {...rasterLayer} />
       </Source>
