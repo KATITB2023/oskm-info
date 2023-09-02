@@ -23,7 +23,7 @@
   },
   "prisma": {
     "schema": "./node_modules/@katitb2023/database/schema.prisma",
-    "seed": "tsx prisma/seed-festival"
+    "seed": "tsx prisma/seed-pengmas.ts"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.0",
